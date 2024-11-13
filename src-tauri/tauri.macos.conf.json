@@ -1,0 +1,38 @@
+{
+  "$schema": "../node_modules/@tauri-apps/cli/config.schema.json",
+  "bundle": {
+    "targets": ["app", "dmg"],
+    "macOS": {
+      "frameworks": [],
+      "minimumSystemVersion": "10.15",
+      "exceptionDomain": "",
+      "signingIdentity": null,
+      "entitlements": null,
+      "dmg": {
+        "background": "images/background.png",
+        "appPosition": {
+          "x": 180,
+          "y": 170
+        },
+        "applicationFolderPosition": {
+          "x": 480,
+          "y": 170
+        },
+        "windowSize": {
+          "height": 400,
+          "width": 660
+        },
+        "windowPosition": {
+          "x": 200,
+          "y": 180
+        }
+      }
+    }
+  },
+  "app": {
+    "trayIcon": {
+      "iconPath": "icons/tray-icon-mono.ico",
+      "iconAsTemplate": true
+    }
+  }
+}
