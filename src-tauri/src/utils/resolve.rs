@@ -127,7 +127,7 @@ pub fn create_window(app_handle: &AppHandle) {
         "main".to_string(),
         tauri::WebviewUrl::App("index.html".into()),
     )
-    .title("Clash Verge")
+    .title("Moon")
     .visible(false)
     .fullscreen(false)
     .min_inner_size(600.0, 520.0);
@@ -250,7 +250,7 @@ pub async fn resolve_scheme(param: String) -> Result<()> {
                 app_handle
                     .notification()
                     .builder()
-                    .title("Clash Verge")
+                    .title("Moon")
                     .body("Import profile success")
                     .show()
                     .unwrap();
@@ -259,7 +259,7 @@ pub async fn resolve_scheme(param: String) -> Result<()> {
                 app_handle
                     .notification()
                     .builder()
-                    .title("Clash Verge")
+                    .title("Moon")
                     .body(format!("Import profile failed: {e}"))
                     .show()
                     .unwrap();

@@ -3,6 +3,8 @@ import { BaseErrorBoundary } from "@/components/base";
 import ProxiesPage from "./proxies";
 
 import BorderAllIcon from "@mui/icons-material/BorderAll";
+import RuleIcon from "@mui/icons-material/Rule";
+import RulesPage from "./rules";
 
 export const routers = [
   {
@@ -10,6 +12,12 @@ export const routers = [
     path: "/",
     icon: <BorderAllIcon />,
     element: <ProxiesPage />,
+  },
+  {
+    label: "规则",
+    path: "/rules",
+    icon: <RuleIcon />,
+    element: <RulesPage />,
   },
 ].map(router => ({
   ...router,

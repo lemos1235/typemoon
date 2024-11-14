@@ -520,7 +520,7 @@ FunctionEnd
     ${If} $0 == 0
       Push $0
       ${If} $1 == 0
-            DetailPrint "Restart Clash Verge Service..."
+            DetailPrint "Restart Moon Service..."
             SimpleSC::StartService "clash_verge_service" "" 30
       ${EndIf}
     ${ElseIf} $0 != 0
@@ -546,20 +546,20 @@ FunctionEnd
     ${If} $0 == 0
       Push $0
       ${If} $1 == 1
-        DetailPrint "Stop Clash Verge Service..."
+        DetailPrint "Stop Moon Service..."
         SimpleSC::StopService "clash_verge_service" 1 30
         Pop $0 ; returns an errorcode (<>0) otherwise success (0)
         ${If} $0 == 0
-              DetailPrint "Removing Clash Verge Service..."
+              DetailPrint "Removing Moon Service..."
               SimpleSC::RemoveService "clash_verge_service"
         ${ElseIf} $0 != 0
                   Push $0
                   SimpleSC::GetErrorMessage
                   Pop $0
-                  MessageBox MB_OK|MB_ICONSTOP "Clash Verge Service Stop Error ($0)"
+                  MessageBox MB_OK|MB_ICONSTOP "Moon Service Stop Error ($0)"
         ${EndIf}
   ${ElseIf} $1 == 0
-        DetailPrint "Removing Clash Verge Service..."
+        DetailPrint "Removing Moon Service..."
         SimpleSC::RemoveService "clash_verge_service"
   ${EndIf}
     ${ElseIf} $0 != 0
