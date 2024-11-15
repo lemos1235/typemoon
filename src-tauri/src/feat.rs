@@ -256,6 +256,26 @@ pub async fn patch_verge(patch: IVerge) -> Result<()> {
     }
 }
 
+/// 修改moon配置
+/// 一般都是一个个的修改
+pub async fn patch_moon(patch: IMoon) -> Result<()> {
+    Config::moon().draft().patch_config(patch.clone());
+    let res = {
+        <Result<()>>::Ok(())
+    };
+    match res {
+        Ok(()) => {
+            Config::moon().apply();
+            Config::moon().data().save_file()?;
+            Ok(())
+        }
+        Err(err) => {
+            Config::moon().discard();
+            Err(err)
+        }
+    }
+}
+
 /// 更新某个profile
 /// 如果更新当前订阅就激活订阅
 pub async fn update_profile(uid: String, option: Option<PrfOption>) -> Result<()> {

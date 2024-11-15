@@ -1,4 +1,4 @@
-use super::{IClashTemp, IProfiles, IRuntime, IVerge};
+use super::{IClashTemp, IMoon, IProfiles, IRuntime, IVerge};
 use parking_lot::{MappedMutexGuard, Mutex, MutexGuard};
 use std::sync::Arc;
 
@@ -69,6 +69,7 @@ draft_define!(IClashTemp);
 draft_define!(IProfiles);
 draft_define!(IRuntime);
 draft_define!(IVerge);
+draft_define!(IMoon);
 
 #[test]
 fn test_draft() {

@@ -122,6 +122,14 @@ export async function patchVergeConfig(payload: IVergeConfig) {
   return invoke<void>("patch_verge_config", { payload });
 }
 
+export async function getMoonConfig() {
+  return invoke<IMoonConfig>("get_moon_config");
+}
+
+export async function patchMooneConfig(payload: IMoonConfig) {
+  return invoke<void>("patch_moon_config", { payload });
+}
+
 export async function getSystemProxy() {
   return invoke<{
     enable: boolean;

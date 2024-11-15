@@ -1,4 +1,4 @@
-use super::{Draft, IClashTemp, IProfiles, IRuntime, IVerge};
+use super::{Draft, IClashTemp, IMoon, IProfiles, IRuntime, IVerge};
 use crate::{
     config::PrfItem,
     enhance,
@@ -14,6 +14,7 @@ pub const CHECK_CONFIG: &str = "clash-verge-check.yaml";
 pub struct Config {
     clash_config: Draft<IClashTemp>,
     verge_config: Draft<IVerge>,
+    moon_config: Draft<IMoon>,
     profiles_config: Draft<IProfiles>,
     runtime_config: Draft<IRuntime>,
 }
@@ -25,6 +26,7 @@ impl Config {
         CONFIG.get_or_init(|| Config {
             clash_config: Draft::from(IClashTemp::new()),
             verge_config: Draft::from(IVerge::new()),
+            moon_config: Draft::from(IMoon::new()),
             profiles_config: Draft::from(IProfiles::new()),
             runtime_config: Draft::from(IRuntime::new()),
         })
@@ -36,6 +38,10 @@ impl Config {
 
     pub fn verge() -> Draft<IVerge> {
         Self::global().verge_config.clone()
+    }
+
+    pub fn moon() -> Draft<IMoon> {
+        Self::global().moon_config.clone()
     }
 
     pub fn profiles() -> Draft<IProfiles> {

@@ -13,6 +13,7 @@ pub static PORTABLE_FLAG: OnceCell<bool> = OnceCell::new();
 
 static CLASH_CONFIG: &str = "config.yaml";
 static VERGE_CONFIG: &str = "verge.yaml";
+static MOON_CONFIG: &str = "moon.yaml";
 static PROFILE_YAML: &str = "profiles.yaml";
 
 /// init portable flag
@@ -96,6 +97,10 @@ pub fn clash_path() -> Result<PathBuf> {
 
 pub fn verge_path() -> Result<PathBuf> {
     Ok(app_home_dir()?.join(VERGE_CONFIG))
+}
+
+pub fn moon_path() -> Result<PathBuf> {
+    Ok(app_home_dir()?.join(MOON_CONFIG))
 }
 
 pub fn profiles_path() -> Result<PathBuf> {

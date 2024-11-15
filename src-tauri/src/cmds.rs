@@ -178,6 +178,16 @@ pub async fn patch_verge_config(payload: IVerge) -> CmdResult {
 }
 
 #[tauri::command]
+pub fn get_moon_config() -> CmdResult<IMoon> {
+    Ok(Config::moon().data().clone())
+}
+
+#[tauri::command]
+pub async fn patch_moon_config(payload: IMoon) -> CmdResult {
+    wrap_err!(feat::patch_moon(payload).await)
+}
+
+#[tauri::command]
 pub async fn change_clash_core(clash_core: Option<String>) -> CmdResult {
     wrap_err!(CoreManager::global().change_core(clash_core).await)
 }

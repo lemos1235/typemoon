@@ -103,6 +103,15 @@ const Layout = () => {
     //     ? `${setting.font_family}, ${dt.font_family}`
     //     : dt.font_family,
     // },
+    components: {
+      MuiDivider: {
+        styleOverrides: {
+          root: {
+            borderColor: "#EEEEEE",
+          },
+        }
+      }
+    }
   });
 
   return (

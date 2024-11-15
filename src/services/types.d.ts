@@ -744,3 +744,29 @@ interface IVergeConfig {
   proxy_layout_column?: number;
   test_list?: IVergeTestItem[];
 }
+
+interface IMoonProxy {
+  uid: string;
+  name?: string;
+  scheme?: string;
+  host?: string;
+  port?: number;
+  username?: string;
+  password?: string;
+  remark?: string;
+}
+
+interface IMoonProxyGroup {
+  uid: string;
+  name?: string;
+  url?: string;
+  interval?: number;
+  remark?: string;
+  proxy_list?: IMoonProxy[];
+}
+
+interface IMoonConfig {
+  current_group_id?: string;
+  current_proxy_id?: string;
+  proxy_group_list?: IMoonProxyGroup[];
+}
