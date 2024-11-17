@@ -649,38 +649,38 @@ interface IProxySnellConfig extends IProxyBaseConfig {
 }
 interface IProxyConfig
   extends IProxyBaseConfig,
-    IProxyDirectConfig,
-    IProxyDnsConfig,
-    IProxyHttpConfig,
-    IProxySocks5Config,
-    IProxySshConfig,
-    IProxyTrojanConfig,
-    IProxyTuicConfig,
-    IProxyVlessConfig,
-    IProxyVmessConfig,
-    IProxyWireguardConfig,
-    IProxyHysteriaConfig,
-    IProxyHysteria2Config,
-    IProxyShadowsocksConfig,
-    IProxyshadowsocksRConfig,
-    IProxySmuxConfig,
-    IProxySnellConfig {
+  IProxyDirectConfig,
+  IProxyDnsConfig,
+  IProxyHttpConfig,
+  IProxySocks5Config,
+  IProxySshConfig,
+  IProxyTrojanConfig,
+  IProxyTuicConfig,
+  IProxyVlessConfig,
+  IProxyVmessConfig,
+  IProxyWireguardConfig,
+  IProxyHysteriaConfig,
+  IProxyHysteria2Config,
+  IProxyShadowsocksConfig,
+  IProxyshadowsocksRConfig,
+  IProxySmuxConfig,
+  IProxySnellConfig {
   type:
-    | "ss"
-    | "ssr"
-    | "direct"
-    | "dns"
-    | "snell"
-    | "http"
-    | "trojan"
-    | "hysteria"
-    | "hysteria2"
-    | "tuic"
-    | "wireguard"
-    | "ssh"
-    | "socks5"
-    | "vmess"
-    | "vless";
+  | "ss"
+  | "ssr"
+  | "direct"
+  | "dns"
+  | "snell"
+  | "http"
+  | "trojan"
+  | "hysteria"
+  | "hysteria2"
+  | "tuic"
+  | "wireguard"
+  | "ssh"
+  | "socks5"
+  | "vmess"
+  | "vless";
 }
 
 interface IVergeConfig {
@@ -747,6 +747,7 @@ interface IVergeConfig {
 
 interface IMoonProxy {
   uid: string;
+  group_uid?: string;
   name?: string;
   scheme?: string;
   host?: string;

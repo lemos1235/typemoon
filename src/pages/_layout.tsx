@@ -1,8 +1,10 @@
-import iconDark from "@/assets/image/icon_dark.svg?react";
 import iconLight from "@/assets/image/icon_light.svg?react";
 import { Notice } from "@/components/base";
+import { LayoutControl } from "@/components/layout/layout-control";
+import { LayoutItem } from "@/components/layout/layout-item";
 import { getAxios } from "@/services/api";
 import { getPortableFlag } from "@/services/cmds";
+import { useSetThemeMode, useThemeMode } from "@/services/states";
 import getSystem from "@/utils/get-system";
 import {
   createTheme,
@@ -12,13 +14,11 @@ import { listen } from "@tauri-apps/api/event";
 import { getCurrentWebviewWindow } from "@tauri-apps/api/webviewWindow";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo } from "react";
 import { useLocation, useRoutes } from "react-router-dom";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 import { mutate, SWRConfig } from "swr";
 import { routers } from "./_routers";
-import { LayoutItem } from "@/components/layout/layout-item";
-import { LayoutControl } from "@/components/layout/layout-control";
 
 const appWindow = getCurrentWebviewWindow();
 export let portableFlag = false;
@@ -29,6 +29,11 @@ const OS = getSystem();
 
 
 const Layout = () => {
+  const mode = useThemeMode();
+  const setMode = useSetThemeMode();
+  //直接固定为 light
+  setMode("light");
+  
   const location = useLocation();
   const routersEles = useRoutes(routers);
   if (!routersEles) return null;
@@ -76,43 +81,26 @@ const Layout = () => {
     }, 50);
   }, []);
 
-  const theme = createTheme({
-    breakpoints: {
-      values: { xs: 0, sm: 650, md: 900, lg: 1200, xl: 1536 },
-    },
-    palette: {
-      mode: 'light',
-      primary: { main: "#81C784" },
-      // secondary: { main: setting.secondary_color || dt.secondary_color },
-      // info: { main: setting.info_color || dt.info_color },
-      // error: { main: setting.error_color || dt.error_color },
-      // warning: { main: setting.warning_color || dt.warning_color },
-      // success: { main: setting.success_color || dt.success_color },
-      // text: {
-      //   primary: setting.primary_text || dt.primary_text,
-      //   secondary: setting.secondary_text || dt.secondary_text,
-      // },
-      // background: {
-      //   paper: dt.background_color,
-      // },
-    },
-    // shadows: Array(25).fill("none") as Shadows,
-    // typography: {
-    //   // todo
-    //   fontFamily: setting.font_family
-    //     ? `${setting.font_family}, ${dt.font_family}`
-    //     : dt.font_family,
-    // },
-    components: {
-      MuiDivider: {
-        styleOverrides: {
-          root: {
-            borderColor: "#EEEEEE",
-          },
+  const theme = useMemo(() => {
+    return createTheme({
+      breakpoints: {
+        values: { xs: 0, sm: 650, md: 900, lg: 1200, xl: 1536 },
+      },
+      palette: {
+        mode: mode,
+        primary: { main: "#81C784" },
+      },
+      components: {
+        MuiDivider: {
+          styleOverrides: {
+            root: {
+              borderColor: "#EEEEEE",
+            },
+          }
         }
       }
-    }
-  });
+    });
+  }, []);
 
   return (
     <SWRConfig value={{ errorRetryCount: 3 }}>

@@ -11,7 +11,7 @@ import {
 import { LoadingButton } from "@mui/lab";
 
 interface Props {
-  title: ReactNode;
+  title?: ReactNode;
   open: boolean;
   okBtn?: ReactNode;
   cancelBtn?: ReactNode;
@@ -47,7 +47,7 @@ export const BaseDialog: React.FC<Props> = props => {
 
   return (
     <Dialog open={open} onClose={props.onClose}>
-      <DialogTitle>{title}</DialogTitle>
+      {title && <DialogTitle>{title}</DialogTitle>}
 
       <DialogContent sx={contentSx}>{children}</DialogContent>
 

@@ -259,6 +259,7 @@ pub async fn patch_verge(patch: IVerge) -> Result<()> {
 /// 修改moon配置
 /// 一般都是一个个的修改
 pub async fn patch_moon(patch: IMoon) -> Result<()> {
+    println!("patch moon: {:?}", patch);
     Config::moon().draft().patch_config(patch.clone());
     let res = {
         <Result<()>>::Ok(())

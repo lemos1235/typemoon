@@ -3,7 +3,7 @@ import { Edit3, Trash2 } from 'lucide-react';
 import { ShadowCard } from '../base/base-card';
 
 interface Props {
-  current: string,
+  current?: string,
   node: IMoonProxy
 }
 

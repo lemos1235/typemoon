@@ -25,6 +25,7 @@ pub struct IProxyGroup {
 #[derive(Default, Debug, Clone, Deserialize, Serialize)]
 pub struct IProxy {
     pub uid: Option<String>,
+    pub group_uid: Option<String>,
     pub name: Option<String>,
     pub scheme: Option<String>,
     pub host: Option<String>,
@@ -56,7 +57,7 @@ impl IMoon {
 
     /// Save IMoon Config
     pub fn save_file(&self) -> Result<()> {
-        help::save_yaml(&dirs::verge_path()?, &self, Some("# Moon Config"))
+        help::save_yaml(&dirs::moon_path()?, &self, Some("# Moon Config"))
     }
 
     /// patch moon config

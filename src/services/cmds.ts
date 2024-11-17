@@ -126,7 +126,7 @@ export async function getMoonConfig() {
   return invoke<IMoonConfig>("get_moon_config");
 }
 
-export async function patchMooneConfig(payload: IMoonConfig) {
+export async function patchMoonConfig(payload: IMoonConfig) {
   return invoke<void>("patch_moon_config", { payload });
 }
 

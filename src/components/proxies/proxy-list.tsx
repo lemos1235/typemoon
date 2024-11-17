@@ -2,7 +2,7 @@ import { List, ListItem } from "@mui/material";
 import ProxyItem from "./proxy-item";
 
 interface Props {
-  current: string,
+  current?: string,
   nodeList: IMoonProxy[],
 }
 

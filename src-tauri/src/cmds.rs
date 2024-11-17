@@ -179,11 +179,13 @@ pub async fn patch_verge_config(payload: IVerge) -> CmdResult {
 
 #[tauri::command]
 pub fn get_moon_config() -> CmdResult<IMoon> {
+    println!("get moon config");
     Ok(Config::moon().data().clone())
 }
 
 #[tauri::command]
 pub async fn patch_moon_config(payload: IMoon) -> CmdResult {
+    println!("patch moon config");
     wrap_err!(feat::patch_moon(payload).await)
 }
 

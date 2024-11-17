@@ -81,6 +81,9 @@ fn main() -> std::io::Result<()> {
             cmds::open_devtools,
             cmds::exit_app,
             cmds::get_network_interfaces_info,
+            // moon
+            cmds::get_moon_config,
+            cmds::patch_moon_config,
             // cmds::update_hotkeys,
             // profile
             cmds::get_profiles,
