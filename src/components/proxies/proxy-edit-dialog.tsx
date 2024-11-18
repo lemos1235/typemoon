@@ -36,7 +36,6 @@ export const ProxyEditDialog = forwardRef<ProxyEditDialogRef, Props>((props, ref
 
   useImperativeHandle(ref, () => ({
     create: () => {
-      console.log('create');
       setOpenType("new");
       setOpen(true);
     },

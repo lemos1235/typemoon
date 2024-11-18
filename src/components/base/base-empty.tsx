@@ -1,5 +1,6 @@
 import { alpha, Box, Typography } from "@mui/material";
 import { InboxRounded } from "@mui/icons-material";
+import { ShadowCard } from "@/components/base/base-card";
 
 interface Props {
   text?: React.ReactNode;
@@ -18,11 +19,10 @@ export const BaseEmpty = (props: Props) => {
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
+        boxShadow: "0px 0px 5px #EEEEEE",
         color: alpha(palette.text.secondary, 0.75),
-      })}
-    >
-      <InboxRounded sx={{ fontSize: "4em" }} />
-      <Typography sx={{ fontSize: "1.25em" }}>{`${text}`}</Typography>
+      })} >
+      <Typography sx={{ fontSize: "1em" }}>{`${text}`}</Typography>
       {extra}
     </Box>
   );

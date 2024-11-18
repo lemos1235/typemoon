@@ -11,15 +11,19 @@ interface Props {
 const ProxyList = (props: Props) => {
   const { current, nodeList } = props;
   return (
-    <Box sx={{ height: "calc(100% - 44px)" }}>
-      {nodeList.length > 0 ?
-        <Virtuoso
-          data={nodeList}
-          totalCount={nodeList.length}
-          itemContent={(index, node) => <Box sx={{ padding: "7px 10px" }}><ProxyItem current={current} node={node} /></Box>}
-        />
-        :
-        <BaseEmpty />}
+    <Box sx={{ overflowY: "auto" }}>
+      {
+        nodeList.length > 0 ?
+          <List>
+            {nodeList.map((node, index) => <ListItem key={index} sx={{ padding: "7px 10px", }}><ProxyItem current={current} node={node} /></ListItem>)}
+          </List>
+          :
+          <List>
+            <ListItem sx={{ padding: "7px 10px", }}>
+              <BaseEmpty />
+            </ListItem>
+          </List>
+      }
     </Box>
   )
 }

@@ -27,18 +27,18 @@ const ProxyItem = (props: Props) => {
 
   const adpativeStyles = node.uid === current && { fontWeight: "500", color: "var(--text-primary)" };
   return (
-    <ShadowCard sx={{ padding: "15px 10px", fontSize: "16px", ...adpativeStyles }} >
+    <ShadowCard sx={{ width: "100%", padding: "15px 10px", fontSize: "16px", ...adpativeStyles }} >
       <Stack>
         <Stack direction="row" justifyContent="space-between" alignItems="center" >
           <Box style={{ fontSize: "20px" }}>
             {node.name}
           </Box>
           <Box>
-            <IconButton>
-              <Trash2 size={16} onClick={() => setDeleteOpen(true)} />
+            <IconButton onClick={() => setDeleteOpen(true)}>
+              <Trash2 size={16} />
             </IconButton>
-            <IconButton>
-              <Edit3 size={16} onClick={() => proxyEditDialogRef.current?.edit(node)} />
+            <IconButton onClick={() => proxyEditDialogRef.current?.edit(node)} >
+              <Edit3 size={16} />
             </IconButton>
           </Box>
         </Stack>
