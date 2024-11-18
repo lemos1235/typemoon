@@ -749,12 +749,12 @@ interface IMoonProxy {
   uid: string;
   group_uid?: string;
   name?: string;
+  label?: string;
   scheme?: string;
   host?: string;
   port?: number;
   username?: string;
   password?: string;
-  remark?: string;
 }
 
 interface IMoonProxyGroup {

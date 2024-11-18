@@ -1,4 +1,6 @@
-import { List, ListItem } from "@mui/material";
+import { Box, List, ListItem } from "@mui/material";
+import { Virtuoso } from "react-virtuoso";
+import { BaseEmpty } from "@/components/base";
 import ProxyItem from "./proxy-item";
 
 interface Props {
@@ -9,13 +11,16 @@ interface Props {
 const ProxyList = (props: Props) => {
   const { current, nodeList } = props;
   return (
-    <List>
-      {nodeList.map((node) => (
-        <ListItem key={node.uid} sx={{ padding: "7px 2px" }}>
-          <ProxyItem current={current} node={node} />
-        </ListItem>
-      ))}
-    </List>
+    <Box sx={{ height: "calc(100% - 44px)" }}>
+      {nodeList.length > 0 ?
+        <Virtuoso
+          data={nodeList}
+          totalCount={nodeList.length}
+          itemContent={(index, node) => <Box sx={{ padding: "7px 10px" }}><ProxyItem current={current} node={node} /></Box>}
+        />
+        :
+        <BaseEmpty />}
+    </Box>
   )
 }
 

@@ -8,7 +8,7 @@ import { useMoon } from "@/hooks/use-moon";
 //本地节点
 export const LocalProxies = () => {
 
-  const viewerRef = useRef<ProxyEditDialogRef>(null);
+  const proxyEditDialogRef = useRef<ProxyEditDialogRef>(null);
 
   const { moon } = useMoon();
 
@@ -28,26 +28,26 @@ export const LocalProxies = () => {
     return (
       <Box sx={{ display: "flex", alignItems: "center", justifyContent: "center", height: "100%" }}>
         <Box sx={{
-          color: "var(--text-primary)", cursor: "pointer", marginTop: "-80px",
+          color: "var(--text-primary)", cursor: "pointer", marginTop: "-25px",
           display: "flex", alignItems: "center", justifyContent: "center",
-        }} onClick={() => viewerRef.current?.create()}>
-          <Plus size={36} /><span style={{ fontSize: "18px", marginLeft: "5px" }}>新增节点</span>
+        }} onClick={() => proxyEditDialogRef.current?.create()}>
+          <Plus size={36} /><span style={{ fontSize: "18px", marginLeft: "8px" }}>本地节点</span>
         </Box>
-        <ProxyEditDialog ref={viewerRef} />
+        <ProxyEditDialog ref={proxyEditDialogRef} />
       </Box>
     )
   }
 
   return (
-    <Box>
+    <Box height={"100%"}>
       <Box sx={{
         color: "var(--text-primary)", cursor: "pointer",
-        textAlign: "right", marginBottom: "-10px", marginRight: "15px",
-      }} onClick={() => viewerRef.current?.create()}>
+        textAlign: "right",  padding: "8px 22px 0 0"
+      }} onClick={() => proxyEditDialogRef.current?.create()}>
         <Plus />
       </Box>
       <ProxyList current={current} nodeList={nodeList} />
-      <ProxyEditDialog ref={viewerRef} />
+      <ProxyEditDialog ref={proxyEditDialogRef} />
     </Box>
   )
 }

@@ -1,10 +1,10 @@
-import { Dialog, DialogContent, DialogTitle, List, ListItem, ListItemText, TextField } from '@mui/material'
-import React, { forwardRef, useImperativeHandle, useState } from 'react'
-import { Controller, useForm } from "react-hook-form";
 import { BaseDialog } from '@/components/base/base-dialog';
-import { useLockFn } from "ahooks";
 import { useMoon } from '@/hooks/use-moon';
+import { TextField } from '@mui/material';
+import { useLockFn } from "ahooks";
 import { nanoid } from "nanoid";
+import { forwardRef, useImperativeHandle, useState } from 'react';
+import { Controller, useForm } from "react-hook-form";
 
 interface Props {
 
@@ -20,7 +20,7 @@ export const ProxyEditDialog = forwardRef<ProxyEditDialogRef, Props>((props, ref
   const [openType, setOpenType] = useState<"new" | "edit">("new");
   const { saveProxy } = useMoon();
 
-  const { control, watch, register, ...formIns } = useForm<IMoonProxy>({
+  const { control, watch, register, formState: { errors }, ...formIns } = useForm<IMoonProxy>({
     defaultValues: {
       uid: "",
       group_uid: "",
@@ -30,7 +30,7 @@ export const ProxyEditDialog = forwardRef<ProxyEditDialogRef, Props>((props, ref
       port: undefined,
       username: "",
       password: "",
-      remark: "",
+      label: "",
     },
   });
 
@@ -58,6 +58,8 @@ export const ProxyEditDialog = forwardRef<ProxyEditDialogRef, Props>((props, ref
         data.uid = nanoid();
         data.group_uid = "0";
         data.name = data.host?.split(".").pop() || "-";
+      } else {
+        data.name = data.label || data.host?.split(".").pop() || "-";
       }
       data.port = Number(data.port);
       await saveProxy(data);
@@ -94,15 +96,35 @@ export const ProxyEditDialog = forwardRef<ProxyEditDialogRef, Props>((props, ref
       <Controller
         name="host"
         control={control}
+        rules={{
+          required: "地址是必填项",
+          pattern: {
+            value: /^(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])(\.(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])){3}$/,
+            message: "请输入有效的IP地址",
+          },
+        }}
         render={({ field }) => (
-          <TextField {...text} {...field} label={"地址"} placeholder='必填，请输入节点的IP地址' />
+          <TextField {...text} {...field} label={"地址"} placeholder='必填，请输入节点的IP地址'
+            error={!!errors.host} helperText={errors.host?.message} />
         )}
       />
       <Controller
         name="port"
         control={control}
+        rules={{
+          required: "端口是必填项",
+          min: {
+            value: 1,
+            message: "端口范围为1-65535",
+          },
+          max: {
+            value: 65535,
+            message: "端口范围为1-65535",
+          },
+        }}
         render={({ field }) => (
-          <TextField {...text} type="number" {...field} label={"端口"} placeholder='必填，1-65535' />
+          <TextField {...text} type="number" {...field} label={"端口"} placeholder='必填，1-65535'
+            error={!!errors.port} helperText={errors.port?.message} />
         )}
       />
       <Controller

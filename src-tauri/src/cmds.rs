@@ -179,13 +179,11 @@ pub async fn patch_verge_config(payload: IVerge) -> CmdResult {
 
 #[tauri::command]
 pub fn get_moon_config() -> CmdResult<IMoon> {
-    println!("get moon config");
     Ok(Config::moon().data().clone())
 }
 
 #[tauri::command]
 pub async fn patch_moon_config(payload: IMoon) -> CmdResult {
-    println!("patch moon config");
     wrap_err!(feat::patch_moon(payload).await)
 }
 
@@ -314,6 +312,7 @@ pub async fn download_icon_cache(url: String, name: String) -> CmdResult<String>
     }
     Ok(icon_path.to_string_lossy().to_string())
 }
+
 #[tauri::command]
 pub fn copy_icon_file(path: String, name: String) -> CmdResult<String> {
     let file_path = std::path::Path::new(&path);

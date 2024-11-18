@@ -20,7 +20,7 @@ const ProxiesPage = () => {
     <BasePage full contentStyle={{ height: "100%" }} >
       <Box sx={{ display: "flex", height: "100%" }}>
         <MenuSidebar menus={menus} current={menuIndex} onSelected={(index) => setMenuIndex(index)} />
-        <Box sx={{ flex: 1, padding: "8px", background: '#fff', height: "100%" }}>
+        <Box sx={{ flex: 1,  background: '#fff', height: "100%" }}>
           {menuIndex === 'local' && <LocalProxies />}
           {menuIndex === 'subscription' && <SubscriptionProxies />}
         </Box>
