@@ -5,9 +5,9 @@ use std::path::PathBuf;
 use tauri::Manager;
 
 #[cfg(not(feature = "verge-dev"))]
-pub static APP_ID: &str = "io.github.clash-verge-rev.clash-verge-rev";
+pub static APP_ID: &str = "club.lemos.typemoon";
 #[cfg(feature = "verge-dev")]
-pub static APP_ID: &str = "io.github.clash-verge-rev.clash-verge-rev.dev";
+pub static APP_ID: &str = "club.lemos.typemoon.dev";
 
 pub static PORTABLE_FLAG: OnceCell<bool> = OnceCell::new();
 

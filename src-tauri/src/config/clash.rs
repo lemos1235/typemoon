@@ -43,7 +43,7 @@ impl IClashTemp {
         map.insert("redir-port".into(), 7895.into());
         #[cfg(target_os = "linux")]
         map.insert("tproxy-port".into(), 7896.into());
-        map.insert("mixed-port".into(), 7897.into());
+        map.insert("mixed-port".into(), 7490.into());
         map.insert("socks-port".into(), 7898.into());
         map.insert("port".into(), 7899.into());
         map.insert("log-level".into(), "info".into());
@@ -160,9 +160,9 @@ impl IClashTemp {
                 Value::Number(val_num) => val_num.as_u64().map(|u| u as u16),
                 _ => None,
             })
-            .unwrap_or(7897);
+            .unwrap_or(7490);
         if port == 0 {
-            port = 7897;
+            port = 7490;
         }
         port
     }
@@ -266,10 +266,10 @@ fn test_clash_info() {
 
     assert_eq!(
         IClashTemp(IClashTemp::guard(Mapping::new())).get_client_info(),
-        get_result(7897, "127.0.0.1:9097")
+        get_result(7490, "127.0.0.1:9097")
     );
 
-    assert_eq!(get_case("", ""), get_result(7897, "127.0.0.1:9097"));
+    assert_eq!(get_case("", ""), get_result(7490, "127.0.0.1:9097"));
 
     assert_eq!(get_case(65537, ""), get_result(1, "127.0.0.1:9097"));
 
