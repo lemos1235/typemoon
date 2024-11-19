@@ -8,12 +8,11 @@ import useLockFn from 'ahooks/lib/useLockFn';
 import { ProxyEditDialog, ProxyEditDialogRef } from './proxy-edit-dialog';
 
 interface Props {
-  current?: string,
   node: IMoonProxy
 }
 
 const ProxyItem = (props: Props) => {
-  const { current, node } = props;
+  const { node } = props;
 
   const proxyEditDialogRef = useRef<ProxyEditDialogRef>(null);
 
@@ -25,9 +24,8 @@ const ProxyItem = (props: Props) => {
     setDeleteOpen(false);
   })
 
-  const adpativeStyles = node.uid === current && { fontWeight: "500", color: "var(--text-primary)" };
   return (
-    <ShadowCard sx={{ width: "100%", padding: "15px 10px", fontSize: "16px", ...adpativeStyles }} >
+    <ShadowCard sx={{ width: "100%", padding: "15px 10px", fontSize: "16px" }} >
       <Stack>
         <Stack direction="row" justifyContent="space-between" alignItems="center" >
           <Box style={{ fontSize: "20px" }}>

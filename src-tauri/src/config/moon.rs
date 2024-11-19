@@ -5,11 +5,8 @@ use serde::{Deserialize, Serialize};
 /// ### `moon.yaml` schema
 #[derive(Default, Debug, Clone, Deserialize, Serialize)]
 pub struct IMoon {
-    pub current_group_id: Option<String>,
-
-    pub current_proxy_id: Option<String>,
-
     pub proxy_group_list: Option<Vec<IProxyGroup>>,
+    pub rule_list: Option<Vec<IRule>>,
 }
 
 #[derive(Default, Debug, Clone, Deserialize, Serialize)]
@@ -35,6 +32,15 @@ pub struct IProxy {
     pub label: Option<String>,
 }
 
+#[derive(Default, Debug, Clone, Deserialize, Serialize)]
+pub struct IRule {
+    pub uid: Option<String>,
+    pub name: Option<String>,
+    pub process: Option<String>,
+    pub action: Option<String>,
+    pub enabled: Option<bool>,
+}
+
 impl IMoon {
     pub fn new() -> Self {
         match dirs::moon_path().and_then(|path| help::read_yaml::<IMoon>(&path)) {
@@ -48,8 +54,6 @@ impl IMoon {
 
     pub fn template() -> Self {
         Self {
-            current_group_id: None,
-            current_proxy_id: None,
             proxy_group_list: Some(Vec::new()),
             ..Self::default()
         }
@@ -71,8 +75,7 @@ impl IMoon {
             };
         }
 
-        patch!(current_group_id);
-        patch!(current_proxy_id);
         patch!(proxy_group_list);
+        patch!(rule_list);
     }
 }

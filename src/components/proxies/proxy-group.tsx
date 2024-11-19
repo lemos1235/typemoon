@@ -16,18 +16,11 @@ export const LocalProxies = () => {
 
   const { moon } = useMoon();
 
-  let currentNodeId: string | undefined;
-
-  let nodeList: IMoonProxy[] = [];
-
   //群组ID为"0"的是本地节点
   const localGroup = moon?.proxy_group_list?.find((e) => {
     return e.uid = "0";
   })
-  if (localGroup?.proxy_list) {
-    nodeList = localGroup.proxy_list;
-    currentNodeId = moon?.current_proxy_id;
-  }
+  const nodeList: IMoonProxy[] = localGroup?.proxy_list || [];
 
   if (nodeList.length === 0) {
     return (
@@ -53,7 +46,7 @@ export const LocalProxies = () => {
       }} onClick={() => proxyEditDialogRef.current?.create()}>
         <Plus />
       </Box>
-      <ProxyList current={currentNodeId} nodeList={nodeList} />
+      <ProxyList nodeList={nodeList} />
       <ProxyEditDialog ref={proxyEditDialogRef} />
     </Box>
   )
@@ -180,10 +173,8 @@ const SubscriptionContent = (props: SubscriptionContentProps) => {
 export const SubscriptionProxies = () => {
 
   const proxyGroupEditDialogRef = useRef<ProxyGroupEditDialogRef>(null);
-  const [deleteOpen, setDeleteOpen] = useState(false);
 
-  const { moon, deleteProxyGroup } = useMoon();
-
+  const { moon } = useMoon();
 
   let groups: IMoonProxyGroup[] = moon?.proxy_group_list?.filter((e) => e.uid !== "0") || [];
 

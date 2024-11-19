@@ -33,7 +33,7 @@ const Layout = () => {
   const setMode = useSetThemeMode();
   //直接固定为 light
   setMode("light");
-  
+
   const location = useLocation();
   const routersEles = useRoutes(routers);
   if (!routersEles) return null;
@@ -97,7 +97,26 @@ const Layout = () => {
               borderColor: "#EEEEEE",
             },
           }
-        }
+        },
+        MuiTextField: {
+          defaultProps: {
+            fullWidth: true,
+            size: 'small',
+            variant: 'outlined',
+            margin: "normal",
+            autoComplete: "off",
+            autoCorrect: "off",
+            spellCheck: false,
+          },
+        },
+        MuiFormControl: {
+          defaultProps: {
+            fullWidth: true,
+            size: 'small',
+            variant: 'outlined',
+            margin: "normal",
+          },
+        },
       }
     });
   }, []);

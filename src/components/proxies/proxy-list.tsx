@@ -4,18 +4,17 @@ import { BaseEmpty } from "@/components/base";
 import ProxyItem from "./proxy-item";
 
 interface Props {
-  current?: string,
   nodeList: IMoonProxy[],
 }
 
 const ProxyList = (props: Props) => {
-  const { current, nodeList } = props;
+  const { nodeList } = props;
   return (
     <Box sx={{ overflowY: "auto" }}>
       {
         nodeList.length > 0 ?
           <List>
-            {nodeList.map((node, index) => <ListItem key={index} sx={{ padding: "7px 10px", }}><ProxyItem current={current} node={node} /></ListItem>)}
+            {nodeList.map((node, index) => <ListItem key={index} sx={{ padding: "7px 10px", }}><ProxyItem node={node} /></ListItem>)}
           </List>
           :
           <List>

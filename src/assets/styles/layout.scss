@@ -49,9 +49,11 @@
     -moz-user-select: none;
     -ms-user-select: none;
     overflow: hidden;
-    border-right: 1px solid var(--divider-color);
+    // border-right: 1px solid var(--divider-color);
+    box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.08);
+    z-index: 2;
     // background-color: var(--background-color-alpha);
-
+    // background-color: #f1f5fc;
     // $maxLogo: 100px;
 
     .the-logo {

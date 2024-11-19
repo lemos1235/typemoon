@@ -4,6 +4,7 @@ import { useLockFn } from 'ahooks';
 import { Controller, useForm } from 'react-hook-form';
 import { TextField } from '@mui/material';
 import { useMoon } from '@/hooks/use-moon';
+import { nanoid } from 'nanoid';
 
 interface Props {
 
@@ -46,6 +47,10 @@ export const ProxyGroupEditDialog = forwardRef<ProxyGroupEditDialogRef, Props>((
   const handleOk = useLockFn(
     formIns.handleSubmit(async form => {
       const data = { ...form };
+      if (!data.uid) {
+        data.uid = nanoid();
+      }
+      data.url = data.url?.trim();
       data.interval = Number(data.interval);
       //TODO get node list from url
       data.proxy_list = [];
@@ -59,17 +64,6 @@ export const ProxyGroupEditDialog = forwardRef<ProxyGroupEditDialogRef, Props>((
     setOpen(false);
     setTimeout(() => formIns.reset(), 500);
   };
-
-  const text = {
-    fullWidth: true,
-    size: "small",
-    margin: "normal",
-    variant: "outlined",
-    autoComplete: "off",
-    autoCorrect: "off",
-    autoCaptialize: "off",
-    spellCheck: false,
-  } as const;
 
   return <BaseDialog
     open={open}
@@ -90,7 +84,7 @@ export const ProxyGroupEditDialog = forwardRef<ProxyGroupEditDialogRef, Props>((
           },
         }}        
         render={({ field }) => (
-          <TextField {...text} {...field} label={"订阅地址"} placeholder='请输入订阅地址'
+          <TextField {...field} label={"订阅地址"} placeholder='请输入订阅地址'
             error={!!errors.url} helperText={errors.url?.message} />
         )}
       />
@@ -108,7 +102,7 @@ export const ProxyGroupEditDialog = forwardRef<ProxyGroupEditDialogRef, Props>((
           },
         }}
         render={({ field }) => (
-          <TextField {...text} type="number" {...field} label={"自动刷新"} placeholder='选填，单位秒'
+          <TextField type="number" {...field} label={"自动刷新"} placeholder='选填，单位秒'
             error={!!errors.interval} helperText={errors.interval?.message} />
         )}
       />
@@ -122,7 +116,7 @@ export const ProxyGroupEditDialog = forwardRef<ProxyGroupEditDialogRef, Props>((
           },
         }}
         render={({ field }) => (
-          <TextField {...text} {...field} label={"备注"} placeholder='选填'
+          <TextField {...field} label={"备注"} placeholder='选填'
           error={!!errors.remark} helperText={errors.remark?.message} />
         )}
       />

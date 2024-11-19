@@ -745,6 +745,15 @@ interface IVergeConfig {
   test_list?: IVergeTestItem[];
 }
 
+interface IMoonProxyGroup {
+  uid: string;
+  name?: string;
+  url?: string;
+  interval?: number;
+  remark?: string;
+  proxy_list?: IMoonProxy[];
+}
+
 interface IMoonProxy {
   uid: string;
   group_uid?: string;
@@ -757,17 +766,15 @@ interface IMoonProxy {
   password?: string;
 }
 
-interface IMoonProxyGroup {
+interface IMoonRule {
   uid: string;
   name?: string;
-  url?: string;
-  interval?: number;
-  remark?: string;
-  proxy_list?: IMoonProxy[];
+  process?: string;
+  action?: string;
+  enabled?: boolean;
 }
 
 interface IMoonConfig {
-  current_group_id?: string;
-  current_proxy_id?: string;
   proxy_group_list?: IMoonProxyGroup[];
+  rule_list?: IMoonRule[];
 }

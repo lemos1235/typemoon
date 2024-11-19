@@ -72,17 +72,6 @@ export const ProxyEditDialog = forwardRef<ProxyEditDialogRef, Props>((props, ref
     setTimeout(() => formIns.reset(), 500);
   };
 
-  const text = {
-    fullWidth: true,
-    size: "small",
-    margin: "normal",
-    variant: "outlined",
-    autoComplete: "off",
-    autoCorrect: "off",
-    autoCaptialize: "off",
-    spellCheck: false,
-  } as const;
-
   return (
     <BaseDialog
       open={open}
@@ -103,7 +92,7 @@ export const ProxyEditDialog = forwardRef<ProxyEditDialogRef, Props>((props, ref
           },
         }}
         render={({ field }) => (
-          <TextField {...text} {...field} label={"地址"} placeholder='必填，请输入节点的IP地址'
+          <TextField {...field} label={"地址"} placeholder='必填，请输入节点的IP地址'
             error={!!errors.host} helperText={errors.host?.message} />
         )}
       />
@@ -122,7 +111,7 @@ export const ProxyEditDialog = forwardRef<ProxyEditDialogRef, Props>((props, ref
           },
         }}
         render={({ field }) => (
-          <TextField {...text} type="number" {...field} label={"端口"} placeholder='必填，1-65535'
+          <TextField type="number" {...field} label={"端口"} placeholder='必填，1-65535'
             error={!!errors.port} helperText={errors.port?.message} />
         )}
       />
@@ -130,14 +119,14 @@ export const ProxyEditDialog = forwardRef<ProxyEditDialogRef, Props>((props, ref
         name="username"
         control={control}
         render={({ field }) => (
-          <TextField {...text} {...field} label={"用户名"} placeholder='选填' />
+          <TextField {...field} label={"用户名"} placeholder='选填' />
         )}
       />
       <Controller
         name="password"
         control={control}
         render={({ field }) => (
-          <TextField {...text} {...field} label={"密码"} placeholder='选填' />
+          <TextField {...field} label={"密码"} placeholder='选填' />
         )}
       />
     </BaseDialog>
