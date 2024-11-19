@@ -143,17 +143,17 @@ pub fn create_window(app_handle: &AppHandle) {
         _ => {
             #[cfg(target_os = "windows")]
             {
-                builder = builder.inner_size(800.0, 636.0).center();
+                builder = builder.inner_size(800.0, 520.0).center();
             }
 
             #[cfg(target_os = "macos")]
             {
-                builder = builder.inner_size(800.0, 642.0).center();
+                builder = builder.inner_size(800.0, 526.0).center();
             }
 
             #[cfg(target_os = "linux")]
             {
-                builder = builder.inner_size(800.0, 642.0).center();
+                builder = builder.inner_size(800.0, 526.0).center();
             }
         }
     };
