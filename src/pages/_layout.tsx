@@ -2,6 +2,7 @@ import iconLight from "@/assets/image/icon_light.svg?react";
 import { Notice } from "@/components/base";
 import { LayoutControl } from "@/components/layout/layout-control";
 import { LayoutItem } from "@/components/layout/layout-item";
+import VpnButton from "@/components/vpn/vpn-button";
 import { getAxios } from "@/services/api";
 import { getPortableFlag } from "@/services/cmds";
 import { useSetThemeMode, useThemeMode } from "@/services/states";
@@ -63,7 +64,8 @@ const Layout = () => {
       const [status, msg] = payload as [string, string];
       switch (status) {
         case "set_config::ok":
-          Notice.success("配置更新成功");
+          // Notice.success("配置更新成功");
+          console.log('配置更新成功');
           break;
         case "set_config::error":
           Notice.error(msg);
@@ -210,6 +212,9 @@ const Layout = () => {
                   {React.cloneElement(routersEles, { key: location.pathname })}
                 </CSSTransition>
               </TransitionGroup>
+            </div>
+            <div className="layout__fab">
+              <VpnButton />
             </div>
           </div>
         </Paper>

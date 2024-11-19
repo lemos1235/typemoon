@@ -29,6 +29,7 @@
   &__main {
     display: flex;
     flex: 1;
+    position: relative;
   }
 
   &__left {
@@ -127,6 +128,12 @@
       right: 2px;
       bottom: 0px;
     }
+  }
+
+  &__fab {
+    position: absolute;
+    right: 20px;
+    bottom: 50px;
   }
 }
 
