@@ -61,9 +61,9 @@ export const ProxyEditDialog = forwardRef<ProxyEditDialogRef, Props>(
         if (openType === "new") {
           data.uid = nanoid();
           data.group_uid = "0";
-          data.name = data.host?.split(".").pop() || "-";
+          data.name = data.host?.split(".").pop() || data.uid;
         } else {
-          data.name = data.label || data.host?.split(".").pop() || "-";
+          data.name = data.host?.split(".").pop() || data.uid;
         }
         data.port = Number(data.port);
         await saveProxy(data);

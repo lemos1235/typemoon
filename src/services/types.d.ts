@@ -780,3 +780,22 @@ interface IMoonConfig {
   proxy_group_list?: IMoonProxyGroup[];
   rule_list?: IMoonRule[];
 }
+
+interface ISubProxyInfo {
+  id: string;
+  groupId: string;
+  host: string;
+  port: number;
+  scheme: string;
+  username: string;
+  password: string;
+  label?: string;
+}
+
+interface ISubroupInfo {
+  id: string;
+  groupName: string;
+  url: string;
+  refreshInterval: number;
+  proxyList: ISubProxyInfo[];
+}

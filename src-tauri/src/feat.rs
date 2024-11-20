@@ -119,7 +119,12 @@ pub async fn patch_clash(patch: Mapping) -> Result<()> {
             log_err!(handle::Handle::update_systray_part());
         }
 
-        Config::runtime().latest().patch_config(patch);
+        Config::runtime().latest().patch_config(patch.to_owned());
+
+        // 更新订阅
+        if patch.get("proxies").is_some() || patch.get("rules").is_some() {
+            update_core_config().await?;
+        }
 
         <Result<()>>::Ok(())
     };
@@ -260,9 +265,7 @@ pub async fn patch_verge(patch: IVerge) -> Result<()> {
 /// 一般都是一个个的修改
 pub async fn patch_moon(patch: IMoon) -> Result<()> {
     Config::moon().draft().patch_config(patch.clone());
-    let res = {
-        <Result<()>>::Ok(())
-    };
+    let res = { <Result<()>>::Ok(()) };
     match res {
         Ok(()) => {
             Config::moon().apply();
