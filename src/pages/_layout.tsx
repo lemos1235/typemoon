@@ -2,7 +2,6 @@ import iconLight from "@/assets/image/icon_light.svg?react";
 import { Notice } from "@/components/base";
 import { LayoutControl } from "@/components/layout/layout-control";
 import { LayoutItem } from "@/components/layout/layout-item";
-import VpnButton from "@/components/vpn/vpn-button";
 import { getAxios } from "@/services/api";
 import { getPortableFlag } from "@/services/cmds";
 import { useSetThemeMode, useThemeMode } from "@/services/states";
@@ -221,9 +220,6 @@ const Layout = () => {
                   {React.cloneElement(routersEles, { key: location.pathname })}
                 </CSSTransition>
               </TransitionGroup>
-            </div>
-            <div className="layout__fab">
-              <VpnButton />
             </div>
           </div>
         </Paper>

@@ -1,21 +1,20 @@
-import { checkService, installService, uninstallService } from "@/services/cmds";
+import iconTran from "@/assets/image/icon_tran.svg?react";
+import { useVerge } from "@/hooks/use-verge";
+import {
+  checkService,
+  installService,
+  uninstallService,
+} from "@/services/cmds";
 import getSystem from "@/utils/get-system";
-import { Fab } from "@mui/material"
-import { useLockFn } from "ahooks"
-import { MoonIcon } from "lucide-react"
+import { Box, CircularProgress, SvgIcon } from "@mui/material";
+import { useLockFn } from "ahooks";
 import { useState } from "react";
 import useSWR from "swr";
 import { Notice } from "../base";
-import { useVerge } from "@/hooks/use-verge";
 
-interface Props {
-
-}
+interface Props {}
 
 const VpnButton = (props: Props) => {
-
-
-
   // service mode
   const { data: serviceStatus, mutate: mutateServiceStatus } = useSWR(
     "checkService",
@@ -24,7 +23,7 @@ const VpnButton = (props: Props) => {
       revalidateIfStale: false,
       shouldRetryOnError: false,
       focusThrottleInterval: 36e5, // 1 hour
-    },
+    }
   );
 
   const isWindows = getSystem() === "windows";
@@ -92,11 +91,15 @@ const VpnButton = (props: Props) => {
     try {
       // enable or disable service
       await patchVerge({ enable_service_mode: enable });
-      mutateVerge({
-        ...verge, ...{
-          enable_service_mode: enable
-        }
-      }, false);
+      mutateVerge(
+        {
+          ...verge,
+          ...{
+            enable_service_mode: enable,
+          },
+        },
+        false
+      );
       await mutateServiceStatus();
       setTimeout(() => {
         mutateServiceStatus();
@@ -119,7 +122,7 @@ const VpnButton = (props: Props) => {
   });
 
   const handleClick = useLockFn(async () => {
-    console.log('serviceStatus:', serviceStatus);
+    console.log("serviceStatus:", serviceStatus);
     //检查是否安装服务,如果未安装，则安装并启用服务
     if (serviceStatus === "uninstall" || serviceStatus === "unknown") {
       onInstallService();
@@ -130,14 +133,43 @@ const VpnButton = (props: Props) => {
       patchVerge({ enable_tun_mode: false });
     } else {
       patchVerge({ enable_tun_mode: true });
+      console.log("已启用");
+      setTimeout(() => {
+        Notice.success("已启用");
+      }, 500);
     }
-  })
+  });
 
   return (
-    <Fab color={enable_tun_mode ? "success" : "default"} onClick={handleClick}>
-      <MoonIcon />
-    </Fab>
-  )
-}
+    <Box
+      sx={{
+        padding: "8px 8px 0 0",
+        cursor: "pointer",
+        position: "relative",
+      }}
+      onClick={handleClick}
+    >
+      {enable_tun_mode ? (
+        <CircularProgress
+          disableShrink
+          sx={{
+            position: "absolute",
+            bottom: "8px",
+            right: "8px",
+            color: "var(--text-primary)",
+          }}
+          size={18}
+          thickness={4}
+        />
+      ) : (
+        <SvgIcon
+          component={iconTran}
+          color={enable_tun_mode ? "success" : "primary"}
+          inheritViewBox
+        />
+      )}
+    </Box>
+  );
+};
 
-export default VpnButton
+export default VpnButton;
