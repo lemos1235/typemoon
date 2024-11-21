@@ -17,7 +17,10 @@ export const ProxyEditDialog = forwardRef<ProxyEditDialogRef, Props>(
   (props, ref) => {
     const [open, setOpen] = useState(false);
     const [openType, setOpenType] = useState<"new" | "edit">("new");
-    const { saveProxy } = useMoon();
+    const { moon, saveProxy } = useMoon();
+
+    const localProxyList =
+      moon?.proxy_group_list?.find((g) => g.uid === "0")?.proxy_list ?? [];
 
     const {
       control,
@@ -61,11 +64,13 @@ export const ProxyEditDialog = forwardRef<ProxyEditDialogRef, Props>(
         if (openType === "new") {
           data.uid = nanoid();
           data.group_uid = "0";
-          data.name = data.host?.split(".").pop() || data.uid;
-        } else {
-          data.name = data.host?.split(".").pop() || data.uid;
         }
         data.port = Number(data.port);
+        data.name = data.host?.split(".").pop() || data.uid;
+        if (data.group_uid === "0") {
+          const lastProxy = localProxyList[localProxyList.length - 1];
+          data.label = "" + (parseInt(lastProxy?.label || "0") + 1);
+        }
         await saveProxy(data);
         setOpen(false);
         setTimeout(() => formIns.reset(), 500);

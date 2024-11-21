@@ -30,8 +30,8 @@ export const refreshSubscription = async (data: IMoonProxyGroup) => {
     return {
       uid: p.id,
       group_uid: p.groupId,
-      label: p.label,
       name: p.host?.split(".").pop() || p.id,
+      label: p.label || "" + p.id,
       scheme: p.scheme === "socks" ? "socks5" : p.scheme,
       host: p.host,
       port: p.port,

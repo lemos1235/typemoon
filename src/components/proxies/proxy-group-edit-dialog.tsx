@@ -1,11 +1,11 @@
-import React, { forwardRef, useImperativeHandle, useState } from "react";
-import { BaseDialog, Notice } from "../base";
-import { useLockFn } from "ahooks";
-import { Controller, useForm } from "react-hook-form";
-import { TextField } from "@mui/material";
 import { useMoon } from "@/hooks/use-moon";
+import { refreshSubscription } from "@/services/sub";
+import { TextField } from "@mui/material";
+import { useLockFn } from "ahooks";
 import { nanoid } from "nanoid";
-import { getSubscription, refreshSubscription } from "@/services/sub";
+import { forwardRef, useImperativeHandle, useState } from "react";
+import { Controller, useForm } from "react-hook-form";
+import { BaseDialog, Notice } from "../base";
 
 interface Props {}
 
@@ -65,14 +65,14 @@ export const ProxyGroupEditDialog = forwardRef<ProxyGroupEditDialogRef, Props>(
         } else {
           try {
             data = await refreshSubscription(data);
+            await saveProxyGroup(data);
+            setOpen(false);
+            setTimeout(() => formIns.reset(), 500);
           } catch (err: any) {
             console.error(err);
-            Notice.error(err.message || err.toString());
+            Notice.error("获取订阅失败");
           }
         }
-        await saveProxyGroup(data);
-        setOpen(false);
-        setTimeout(() => formIns.reset(), 500);
       })
     );
 

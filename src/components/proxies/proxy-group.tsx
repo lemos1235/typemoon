@@ -176,7 +176,7 @@ const SubscriptionTitle = (props: SubscriptionTitleProps) => {
       await saveProxyGroup(newGroup);
     } catch (err: any) {
       console.error(err);
-      Notice.error(err.message || err.toString());
+      Notice.error("获取订阅失败");
     }
   });
 
