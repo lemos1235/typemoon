@@ -8,6 +8,7 @@ import {
 import getSystem from "@/utils/get-system";
 import { Box, CircularProgress, SvgIcon } from "@mui/material";
 import { useLockFn } from "ahooks";
+import { debounce } from "lodash-es";
 import { useState } from "react";
 import useSWR from "swr";
 import { Notice } from "../base";
@@ -35,6 +36,10 @@ const VpnButton = (props: Props) => {
   const [openInstall, setOpenInstall] = useState(false);
   const [openUninstall, setOpenUninstall] = useState(false);
   const { verge, mutateVerge, patchVerge } = useVerge();
+
+  let msgOk = debounce(() => {
+    Notice.success("已启用");
+  }, 2000);
 
   const { enable_tun_mode } = verge ?? {};
 
@@ -134,9 +139,7 @@ const VpnButton = (props: Props) => {
     } else {
       patchVerge({ enable_tun_mode: true });
       console.log("已启用");
-      setTimeout(() => {
-        Notice.success("已启用");
-      }, 500);
+      msgOk();
     }
   });
 

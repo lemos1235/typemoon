@@ -191,23 +191,23 @@ fn create_tray_menu(
     let use_zh = { Config::verge().latest().language == Some("zh".into()) };
     let version = VERSION.get().unwrap();
 
-    let rule_mode_text = if mode == "rule" {
-        "✓ 规则模式"
-    } else {
-        "规则模式"
-    };
+    // let rule_mode_text = if mode == "rule" {
+    //     "✓ 规则模式"
+    // } else {
+    //     "规则模式"
+    // };
 
-    let global_mode_text = if mode == "global" {
-        "✓ 全局模式"
-    } else {
-        "全局模式"
-    };
+    // let global_mode_text = if mode == "global" {
+    //     "✓ 全局模式"
+    // } else {
+    //     "全局模式"
+    // };
 
-    let direct_mode_text = if mode == "direct" {
-        "✓ 直连模式"
-    } else {
-        "直连模式"
-    };
+    // let direct_mode_text = if mode == "direct" {
+    //     "✓ 直连模式"
+    // } else {
+    //     "直连模式"
+    // };
 
     let system_proxy_text = if system_proxy_enabled {
         "✓ 系统代理"
@@ -224,7 +224,7 @@ fn create_tray_menu(
     let restart_clash = &MenuItem::with_id(
         app_handle,
         "restart_clash",
-        t!("Restart App", "重启 Clash", use_zh),
+        t!("Restart Core", "重启内核", use_zh),
         true,
         None::<&str>,
     )
@@ -260,37 +260,37 @@ fn create_tray_menu(
             .unwrap(),
         )
         .item(&PredefinedMenuItem::separator(app_handle).unwrap())
-        .item(
-            &MenuItem::with_id(
-                app_handle,
-                "rule_mode",
-                t!("Rule Mode", rule_mode_text, use_zh),
-                true,
-                None::<&str>,
-            )
-            .unwrap(),
-        )
-        .item(
-            &MenuItem::with_id(
-                app_handle,
-                "global_mode",
-                t!("Global Mode", global_mode_text, use_zh),
-                true,
-                None::<&str>,
-            )
-            .unwrap(),
-        )
-        .item(
-            &MenuItem::with_id(
-                app_handle,
-                "direct_mode",
-                t!("Direct Mode", direct_mode_text, use_zh),
-                true,
-                None::<&str>,
-            )
-            .unwrap(),
-        )
-        .item(&PredefinedMenuItem::separator(app_handle).unwrap())
+        // .item(
+        //     &MenuItem::with_id(
+        //         app_handle,
+        //         "rule_mode",
+        //         t!("Rule Mode", rule_mode_text, use_zh),
+        //         true,
+        //         None::<&str>,
+        //     )
+        //     .unwrap(),
+        // )
+        // .item(
+        //     &MenuItem::with_id(
+        //         app_handle,
+        //         "global_mode",
+        //         t!("Global Mode", global_mode_text, use_zh),
+        //         true,
+        //         None::<&str>,
+        //     )
+        //     .unwrap(),
+        // )
+        // .item(
+        //     &MenuItem::with_id(
+        //         app_handle,
+        //         "direct_mode",
+        //         t!("Direct Mode", direct_mode_text, use_zh),
+        //         true,
+        //         None::<&str>,
+        //     )
+        //     .unwrap(),
+        // )
+        // .item(&PredefinedMenuItem::separator(app_handle).unwrap())
         .item(
             &MenuItem::with_id(
                 app_handle,
@@ -301,26 +301,26 @@ fn create_tray_menu(
             )
             .unwrap(),
         )
-        .item(
-            &MenuItem::with_id(
-                app_handle,
-                "tun_mode",
-                t!("TUN Mode", tun_mode_text, use_zh),
-                true,
-                None::<&str>,
-            )
-            .unwrap(),
-        )
-        .item(
-            &MenuItem::with_id(
-                app_handle,
-                "copy_env",
-                t!("Copy Env", "复制环境变量", use_zh),
-                true,
-                None::<&str>,
-            )
-            .unwrap(),
-        )
+        // .item(
+        //     &MenuItem::with_id(
+        //         app_handle,
+        //         "tun_mode",
+        //         t!("TUN Mode", tun_mode_text, use_zh),
+        //         true,
+        //         None::<&str>,
+        //     )
+        //     .unwrap(),
+        // )
+        // .item(
+        //     &MenuItem::with_id(
+        //         app_handle,
+        //         "copy_env",
+        //         t!("Copy Env", "复制环境变量", use_zh),
+        //         true,
+        //         None::<&str>,
+        //     )
+        //     .unwrap(),
+        // )
         .item(
             &MenuItem::with_id(
                 app_handle,

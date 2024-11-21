@@ -2,7 +2,8 @@
   "$schema": "../node_modules/@tauri-apps/cli/config.schema.json",
   "bundle": {
     "active": true,
-    "longDescription": "A Clash Meta GUI based on tauri.",
+    "shortDescription": "Moon",
+    "longDescription": "Moon",
     "icon": [
       "icons/32x32.png",
       "icons/128x128.png",
@@ -11,12 +12,10 @@
       "icons/icon.ico"
     ],
     "resources": ["resources"],
-    "publisher": "Clash Verge Rev",
-    "externalBin": ["sidecar/verge-mihomo", "sidecar/verge-mihomo-alpha"],
+    "publisher": "lg",
+    "externalBin": ["sidecar/verge-mihomo"],
     "copyright": "GNU General Public License v3.0",
-    "category": "DeveloperTool",
-    "shortDescription": "A Clash Meta GUI based on tauri.",
-    "createUpdaterArtifacts": "v1Compatible"
+    "category": "DeveloperTool"
   },
   "build": {
     "beforeBuildCommand": "pnpm run web:build",
@@ -24,18 +23,9 @@
     "beforeDevCommand": "pnpm run web:dev",
     "devUrl": "http://localhost:3000/"
   },
-  "productName": "Clash Verge",
+  "productName": "Moon",
   "version": "2.0.0",
   "identifier": "club.lemos.typemoon",
-  "plugins": {
-    "updater": {
-      "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IEQyOEMyRjBCQkVGOUJEREYKUldUZnZmbStDeStNMHU5Mmo1N24xQXZwSVRYbXA2NUpzZE5oVzlqeS9Bc0t6RVV4MmtwVjBZaHgK",
-      "endpoints": [
-        "https://download.clashverge.dev/https://github.com/clash-verge-rev/clash-verge-rev/releases/download/updater/update-proxy.json",
-        "https://github.com/clash-verge-rev/clash-verge-rev/releases/download/updater/update.json"
-      ]
-    }
-  },
   "app": {
     "security": {
       "capabilities": ["desktop-capability", "migrated"],
