@@ -9,7 +9,10 @@ import { useSetThemeMode, useThemeMode } from "@/services/states";
 import getSystem from "@/utils/get-system";
 import {
   createTheme,
-  List, Paper, SvgIcon, ThemeProvider
+  List,
+  Paper,
+  SvgIcon,
+  ThemeProvider,
 } from "@mui/material";
 import { listen } from "@tauri-apps/api/event";
 import { getCurrentWebviewWindow } from "@tauri-apps/api/webviewWindow";
@@ -28,7 +31,6 @@ dayjs.extend(relativeTime);
 
 const OS = getSystem();
 
-
 const Layout = () => {
   const mode = useThemeMode();
   const setMode = useSetThemeMode();
@@ -40,7 +42,7 @@ const Layout = () => {
   if (!routersEles) return null;
 
   useEffect(() => {
-    window.addEventListener("keydown", e => {
+    window.addEventListener("keydown", (e) => {
       // macOS有cmd+w
       if (e.key === "Escape" && OS !== "macos") {
         appWindow.close();
@@ -65,7 +67,7 @@ const Layout = () => {
       switch (status) {
         case "set_config::ok":
           // Notice.success("配置更新成功");
-          console.log('配置更新成功');
+          console.log("配置更新成功");
           break;
         case "set_config::error":
           Notice.error(msg);
@@ -98,28 +100,30 @@ const Layout = () => {
             root: {
               borderColor: "#EEEEEE",
             },
-          }
+          },
         },
         MuiTextField: {
           defaultProps: {
             fullWidth: true,
-            size: 'small',
-            variant: 'outlined',
+            size: "small",
+            variant: "outlined",
             margin: "normal",
             autoComplete: "off",
             autoCorrect: "off",
+            autoCapitalize: "off",
+            autoFocus: false,
             spellCheck: false,
           },
         },
         MuiFormControl: {
           defaultProps: {
             fullWidth: true,
-            size: 'small',
-            variant: 'outlined',
+            size: "small",
+            variant: "outlined",
             margin: "normal",
           },
         },
-      }
+      },
     });
   }, []);
 
@@ -130,7 +134,7 @@ const Layout = () => {
           square
           elevation={0}
           className={`${OS} layout`}
-          onContextMenu={e => {
+          onContextMenu={(e) => {
             // only prevent it on Windows
             const validList = ["input", "textarea"];
             const target = e.currentTarget;
@@ -150,20 +154,22 @@ const Layout = () => {
             }),
             OS === "linux"
               ? {
-                borderRadius: "8px",
-                border: "2px solid var(--divider-color)",
-                width: "calc(100vw - 4px)",
-                height: "calc(100vh - 4px)",
-              }
+                  borderRadius: "8px",
+                  border: "2px solid var(--divider-color)",
+                  width: "calc(100vw - 4px)",
+                  height: "calc(100vh - 4px)",
+                }
               : {},
-          ]}>
+          ]}
+        >
           <div className="layout__top" style={{ backgroundColor: "#ebebeb" }}>
             {
               <div className="the-bar">
                 <div
                   className="the-dragbar"
                   data-tauri-drag-region="true"
-                  style={{ width: "100%" }}></div>
+                  style={{ width: "100%" }}
+                ></div>
                 {OS !== "macos" && <LayoutControl />}
               </div>
             }
@@ -176,7 +182,8 @@ const Layout = () => {
                     height: "27px",
                     display: "flex",
                     justifyContent: "center",
-                  }}>
+                  }}
+                >
                   <SvgIcon
                     component={iconLight}
                     style={{
@@ -192,23 +199,25 @@ const Layout = () => {
               </div>
 
               <List className="the-menu">
-                {routers.map(router => (
+                {routers.map((router) => (
                   <LayoutItem
                     key={router.label}
                     to={router.path}
-                    icon={router.icon}>
+                    icon={router.icon}
+                  >
                     {router.label}
                   </LayoutItem>
                 ))}
               </List>
             </div>
 
-            <div className="layout__right" >
+            <div className="layout__right">
               <TransitionGroup className="the-content">
                 <CSSTransition
                   key={location.pathname}
                   timeout={300}
-                  classNames="page">
+                  classNames="page"
+                >
                   {React.cloneElement(routersEles, { key: location.pathname })}
                 </CSSTransition>
               </TransitionGroup>

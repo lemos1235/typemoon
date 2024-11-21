@@ -55,6 +55,15 @@ impl IMoon {
     pub fn template() -> Self {
         Self {
             proxy_group_list: Some(Vec::new()),
+            rule_list: Some(vec![
+                IRule {
+                    uid: Some(help::get_uid("r")),
+                    name: Some("Default".to_string()),
+                    process: Some("MATCH".to_string()),
+                    action: Some("DIRECT".to_string()),
+                    enabled: Some(true),
+                },
+            ]),
             ..Self::default()
         }
     }

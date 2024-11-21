@@ -29,8 +29,26 @@ const RuleItem = (props: Props) => {
       [] as IMoonProxy[]
     ) ?? [];
 
-  const ruleAction =
-    proxyList.find((p) => p.uid === rule.action)?.name || rule.action;
+  let ruleName = rule.name;
+
+  let ruleProcess = rule.process;
+  if (ruleProcess === "MATCH") {
+    ruleProcess = "默认";
+  }
+
+  let ruleAction = proxyList.find((p) => p.uid === rule.action)?.name;
+  if (!ruleAction) {
+    switch (rule.action) {
+      case "DIRECT":
+        ruleAction = "直连";
+        break;
+      case "REJECT":
+        ruleAction = "拒绝";
+        break;
+      default:
+        ruleAction = rule.action;
+    }
+  }
 
   return (
     <ShadowCard sx={{ width: "100%", padding: "15px 10px", fontSize: "16px" }}>
@@ -40,9 +58,12 @@ const RuleItem = (props: Props) => {
           justifyContent="space-between"
           alignItems="center"
         >
-          <Box style={{ fontSize: "20px" }}>{rule.name}</Box>
+          <Box style={{ fontSize: "20px" }}>{ruleName}</Box>
           <Box>
-            <IconButton onClick={() => setDeleteOpen(true)}>
+            <IconButton
+              onClick={() => setDeleteOpen(true)}
+              disabled={rule.process === "MATCH"}
+            >
               <Trash2 size={16} />
             </IconButton>
             <IconButton onClick={() => ruleEditDialogRef.current?.edit(rule)}>
@@ -54,7 +75,7 @@ const RuleItem = (props: Props) => {
         <Grid container rowSpacing={1} columnSpacing={4}>
           <Grid item xs={6}>
             <span>程序：</span>
-            <span>{rule.process}</span>
+            <span>{ruleProcess}</span>
           </Grid>
           <Grid item xs={6}>
             <span>操作：</span>

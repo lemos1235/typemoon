@@ -118,23 +118,35 @@ export const useMoon = () => {
           username: proxy.username,
           password: proxy.password,
         })) ?? [];
-    const ruleList = (newRuleList ?? moon?.rule_list)?.map((rule) => {
-      const payload = rule.process!;
-      let type = "PROCESS-NAME";
-      if (!isNaN(Number(payload))) {
-        type = "PROCESS-PID";
-      } else if (payload.includes(".*")) {
-        if (payload.includes("/") || payload.includes("\\")) {
-          type = "PROCESS-PATH-REGEX";
+    const ruleList = (newRuleList ?? moon?.rule_list)
+      ?.reduce((acc, item) => {
+        if (item.process === "MATCH") {
+          acc.push(item);
         } else {
-          type = "PROCESS-NAME-REGEX";
+          acc.unshift(item);
         }
-      } else if (payload.includes("/") || payload.includes("\\")) {
-        type = "PROCESS-PATH";
-      }
-      let proxy = rule.action!;
-      return `${type},${payload},${proxy}`;
-    });
+        return acc;
+      }, [] as IMoonRule[])
+      ?.map((rule) => {
+        const payload = rule.process!;
+        let proxy = rule.action!;
+        if (payload === "MATCH") {
+          return `${payload},${proxy}`;
+        }
+        let type = "PROCESS-NAME";
+        if (!isNaN(Number(payload))) {
+          type = "PROCESS-PID";
+        } else if (payload.includes(".*")) {
+          if (payload.includes("/") || payload.includes("\\")) {
+            type = "PROCESS-PATH-REGEX";
+          } else {
+            type = "PROCESS-NAME-REGEX";
+          }
+        } else if (payload.includes("/") || payload.includes("\\")) {
+          type = "PROCESS-PATH";
+        }
+        return `${type},${payload},${proxy}`;
+      });
     console.log("ruleList", ruleList);
     await patchClashConfig({
       proxies: proxyList,
