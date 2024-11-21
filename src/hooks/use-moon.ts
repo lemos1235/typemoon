@@ -18,7 +18,7 @@ export const useMoon = () => {
     if (groupIndex === -1) {
       const defaultGroup: IMoonProxyGroup = {
         uid: proxy.group_uid || "0",
-        name: "local",
+        name: "本地节点",
         proxy_list: [proxy],
       };
       newGroupList.push(defaultGroup);
@@ -45,14 +45,21 @@ export const useMoon = () => {
     const newGroupList = [...oldGroupList];
     if (groupIndex !== -1) {
       const oldGroup = oldGroupList[groupIndex];
-      const proxyList = oldGroup.proxy_list
-        ? oldGroup.proxy_list.filter((p) => p.uid !== proxy.uid)
-        : [];
-      newGroupList[groupIndex] = { ...oldGroup, proxy_list: proxyList };
+      const proxyList =
+        oldGroup.proxy_list?.filter((p) => p.uid !== proxy.uid) || [];
+      if (proxyList.length === 0) {
+        newGroupList.splice(groupIndex, 1);
+      } else {
+        newGroupList[groupIndex] = { ...oldGroup, proxy_list: proxyList };
+      }
     }
+    console.log("newGroupList", newGroupList);
     await patchMoonToClash({ proxy_group_list: newGroupList });
     await patchMoonConfig({ proxy_group_list: newGroupList });
     mutateMoon();
+    setTimeout(() => {
+      console.log("moon?.proxy_group_list", moon?.proxy_group_list);
+    }, 2000);
   };
 
   const saveProxyGroup = async (group: IMoonProxyGroup) => {

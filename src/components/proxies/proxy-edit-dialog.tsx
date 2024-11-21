@@ -64,13 +64,11 @@ export const ProxyEditDialog = forwardRef<ProxyEditDialogRef, Props>(
         if (openType === "new") {
           data.uid = nanoid();
           data.group_uid = "0";
-        }
-        data.port = Number(data.port);
-        data.name = data.host?.split(".").pop() || data.uid;
-        if (data.group_uid === "0") {
           const lastProxy = localProxyList[localProxyList.length - 1];
           data.label = "" + (parseInt(lastProxy?.label || "0") + 1);
         }
+        data.port = Number(data.port);
+        data.name = data.host?.split(".").pop() || data.uid;
         await saveProxy(data);
         setOpen(false);
         setTimeout(() => formIns.reset(), 500);

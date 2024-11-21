@@ -24,10 +24,17 @@ const RuleItem = (props: Props) => {
     setDeleteOpen(false);
   });
   const proxyList =
-    moon?.proxy_group_list?.reduce(
-      (acc, g) => (g.proxy_list ? [...acc, ...g.proxy_list] : acc),
-      [] as IMoonProxy[]
-    ) ?? [];
+    moon?.proxy_group_list?.reduce((acc, g) => {
+      if (!g.proxy_list) {
+        return acc;
+      } else {
+        const groupProxyList = g.proxy_list.map((p) => ({
+          ...p,
+          groupName: g.name,
+        }));
+        return [...acc, ...groupProxyList];
+      }
+    }, [] as IMoonProxy[]) ?? [];
 
   let ruleName = rule.name;
 
@@ -36,8 +43,11 @@ const RuleItem = (props: Props) => {
     ruleProcess = "默认";
   }
 
-  let ruleAction = proxyList.find((p) => p.uid === rule.action)?.name;
-  if (!ruleAction) {
+  let ruleAction;
+  let actionProxy = proxyList.find((p) => p.uid === rule.action);
+  if (actionProxy) {
+    ruleAction = (actionProxy as any).groupName + " - " + actionProxy.label;
+  } else {
     switch (rule.action) {
       case "DIRECT":
         ruleAction = "直连";

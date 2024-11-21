@@ -29,9 +29,7 @@ export const LocalProxies = () => {
   const { moon } = useMoon();
 
   //群组ID为"0"的是本地节点
-  const localGroup = moon?.proxy_group_list?.find((e) => {
-    return (e.uid = "0");
-  });
+  const localGroup = moon?.proxy_group_list?.find((e) => e.uid === "0");
   const nodeList: IMoonProxy[] = localGroup?.proxy_list || [];
 
   if (nodeList.length === 0) {
@@ -185,7 +183,6 @@ const SubscriptionTitle = (props: SubscriptionTitleProps) => {
       <Stack direction="row" justifyContent="space-between">
         <Stack direction="row" alignItems={"center"}>
           <span>{group.remark || group.name}</span>
-          <SubscriptionStatus isActived={false} />
         </Stack>
         <Stack direction="row" alignItems={"center"}>
           {group.url && (

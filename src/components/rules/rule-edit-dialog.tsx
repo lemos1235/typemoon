@@ -1,9 +1,4 @@
 import { useMoon } from "@/hooks/use-moon";
-import { useLockFn } from "ahooks";
-import { nanoid } from "nanoid";
-import { forwardRef, useImperativeHandle, useState } from "react";
-import { Controller, useForm } from "react-hook-form";
-import { BaseDialog } from "../base";
 import {
   FormControl,
   InputLabel,
@@ -12,6 +7,11 @@ import {
   Select,
   TextField,
 } from "@mui/material";
+import { useLockFn } from "ahooks";
+import { nanoid } from "nanoid";
+import { forwardRef, useImperativeHandle, useState } from "react";
+import { Controller, useForm } from "react-hook-form";
+import { BaseDialog } from "../base";
 
 interface Props {}
 
@@ -26,15 +26,26 @@ export const RuleEditDialog = forwardRef<RuleEditDialogRef, Props>(
     const [openType, setOpenType] = useState<"new" | "edit">("new");
     const { moon, saveRule } = useMoon();
 
+    const localGroup = moon?.proxy_group_list?.find((g) => g.uid === "0");
     const localProxyList =
-      moon?.proxy_group_list?.find((g) => g.uid === "0")?.proxy_list ?? [];
+      localGroup?.proxy_list?.map((p) => ({
+        ...p,
+        groupName: localGroup.name,
+      })) ?? [];
     const subscriptionProxyList =
       moon?.proxy_group_list
         ?.filter((g) => g.uid !== "0")
-        ?.reduce(
-          (acc, g) => (g.proxy_list ? [...acc, ...g.proxy_list] : acc),
-          [] as IMoonProxy[]
-        ) ?? [];
+        ?.reduce((acc, g) => {
+          if (!g.proxy_list) {
+            return acc;
+          } else {
+            const groupProxyList = g.proxy_list.map((p) => ({
+              ...p,
+              groupName: g.name,
+            }));
+            return [...acc, ...groupProxyList];
+          }
+        }, [] as IMoonProxy[]) ?? [];
 
     const {
       control,
@@ -160,7 +171,7 @@ export const RuleEditDialog = forwardRef<RuleEditDialogRef, Props>(
                 )}
                 {localProxyList.map((p) => (
                   <MenuItem key={p.name} value={p.uid}>
-                    {p.name}
+                    {(p as any).groupName + " - " + p.label}
                   </MenuItem>
                 ))}
                 {subscriptionProxyList.length > 0 && (
@@ -168,7 +179,7 @@ export const RuleEditDialog = forwardRef<RuleEditDialogRef, Props>(
                 )}
                 {subscriptionProxyList.map((p) => (
                   <MenuItem key={p.name} value={p.uid}>
-                    {p.name}
+                    {(p as any).groupName + " - " + p.label}
                   </MenuItem>
                 ))}
               </Select>
