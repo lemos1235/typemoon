@@ -1,3 +1,5 @@
+#![allow(unused)]
+
 use crate::{
     cmds,
     config::Config,
@@ -168,15 +170,15 @@ impl Tray {
             };
         };
 
-        let _ = tray.set_tooltip(Some(&format!(
-            "Clash Verge {version}\n{}: {}\n{}: {}\n{}: {}",
-            t!("SysProxy", "系统代理", use_zh),
-            switch_map[system_proxy],
-            t!("TUN", "Tun模式", use_zh),
-            switch_map[tun_mode],
-            t!("Profile", "当前订阅", use_zh),
-            current_profile_name
-        )));
+        // let _ = tray.set_tooltip(Some(&format!(
+        //     "Clash Verge {version}\n{}: {}\n{}: {}\n{}: {}",
+        //     t!("SysProxy", "系统代理", use_zh),
+        //     switch_map[system_proxy],
+        //     t!("TUN", "Tun模式", use_zh),
+        //     switch_map[tun_mode],
+        //     t!("Profile", "当前订阅", use_zh),
+        //     current_profile_name
+        // )));
         Ok(())
     }
 }
@@ -348,7 +350,7 @@ fn create_tray_menu(
                 "quit",
                 t!("Quit", "退出", use_zh),
                 true,
-                Some("CmdOrControl+Q"),
+                None::<&str>,
             )
             .unwrap(),
         )

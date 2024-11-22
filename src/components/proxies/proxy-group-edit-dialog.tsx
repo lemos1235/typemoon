@@ -57,7 +57,8 @@ export const ProxyGroupEditDialog = forwardRef<ProxyGroupEditDialogRef, Props>(
           data.uid = nanoid();
         }
         data.url = data.url?.trim();
-        data.interval = Number(data.interval);
+        data.interval =
+          (data.interval as any) === "" ? undefined : Number(data.interval);
         // get node list from url
         if (!data.url) {
           data.name = data.remark?.trim();

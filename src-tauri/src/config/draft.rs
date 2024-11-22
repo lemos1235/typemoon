@@ -15,6 +15,7 @@ macro_rules! draft_define {
                 MutexGuard::map(self.inner.lock(), |guard| &mut guard.0)
             }
 
+            #[allow(unused)]
             pub fn latest(&self) -> MappedMutexGuard<$id> {
                 MutexGuard::map(self.inner.lock(), |inner| {
                     if inner.1.is_none() {

@@ -145,7 +145,7 @@ export const useMoon = () => {
   const patchMoonToClash = async ({
     proxy_group_list: newProxyGroupList,
     rule_list: newRuleList,
-  }: IMoonConfig) => {
+  }: IMoonConfig = {}) => {
     const proxyList: IProxyConfig[] =
       (newProxyGroupList ?? moon?.proxy_group_list)
         ?.reduce(
@@ -204,5 +204,6 @@ export const useMoon = () => {
     deleteProxyGroup,
     saveRule,
     deleteRule,
+    patchMoonToClash,
   };
 };
