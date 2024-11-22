@@ -209,17 +209,17 @@ fn create_tray_menu(
     //     "直连模式"
     // };
 
-    let system_proxy_text = if system_proxy_enabled {
-        "✓ 系统代理"
-    } else {
-        "系统代理"
-    };
+    // let system_proxy_text = if system_proxy_enabled {
+    //     "✓ 系统代理"
+    // } else {
+    //     "系统代理"
+    // };
 
-    let tun_mode_text = if tun_mode_enabled {
-        "✓ Tun 模式"
-    } else {
-        "Tun 模式"
-    };
+    // let tun_mode_text = if tun_mode_enabled {
+    //     "✓ Tun 模式"
+    // } else {
+    //     "Tun 模式"
+    // };
 
     let restart_clash = &MenuItem::with_id(
         app_handle,
@@ -291,16 +291,16 @@ fn create_tray_menu(
         //     .unwrap(),
         // )
         // .item(&PredefinedMenuItem::separator(app_handle).unwrap())
-        .item(
-            &MenuItem::with_id(
-                app_handle,
-                "system_proxy",
-                t!("System Proxy", system_proxy_text, use_zh),
-                true,
-                None::<&str>,
-            )
-            .unwrap(),
-        )
+        // .item(
+        //     &MenuItem::with_id(
+        //         app_handle,
+        //         "system_proxy",
+        //         t!("System Proxy", system_proxy_text, use_zh),
+        //         true,
+        //         None::<&str>,
+        //     )
+        //     .unwrap(),
+        // )
         // .item(
         //     &MenuItem::with_id(
         //         app_handle,

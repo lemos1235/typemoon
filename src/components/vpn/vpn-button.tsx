@@ -6,9 +6,8 @@ import {
   uninstallService,
 } from "@/services/cmds";
 import getSystem from "@/utils/get-system";
-import { Box, CircularProgress, SvgIcon } from "@mui/material";
+import { Box, CircularProgress, Stack, SvgIcon } from "@mui/material";
 import { useLockFn } from "ahooks";
-import { debounce } from "lodash-es";
 import { useState } from "react";
 import useSWR from "swr";
 import { Notice } from "../base";
@@ -29,19 +28,12 @@ const VpnButton = (props: Props) => {
 
   const isWindows = getSystem() === "windows";
 
-  const isActive = serviceStatus === "active";
-
+  const [tunLoading, setTunLoading] = useState(false);
   const [serviceLoading, setServiceLoading] = useState(false);
   const [uninstallServiceLoaing, setUninstallServiceLoading] = useState(false);
   const [openInstall, setOpenInstall] = useState(false);
   const [openUninstall, setOpenUninstall] = useState(false);
   const { verge, mutateVerge, patchVerge } = useVerge();
-
-  let msgOk = debounce(() => {
-    Notice.success("已启用");
-  }, 2000);
-
-  const { enable_tun_mode } = verge ?? {};
 
   async function install(passwd: string) {
     try {
@@ -126,52 +118,82 @@ const VpnButton = (props: Props) => {
     }
   });
 
-  const handleClick = useLockFn(async () => {
+  const startOrStopService = useLockFn(async () => {
+    if (serviceLoading) {
+      return;
+    }
+    if (verge?.enable_tun_mode) {
+      return;
+    }
     console.log("serviceStatus:", serviceStatus);
-    //检查是否安装服务,如果未安装，则安装并启用服务
     if (serviceStatus === "uninstall" || serviceStatus === "unknown") {
+      //安装服务
+      console.log("install service");
       onInstallService();
       onEnableOrDisableService(true);
     }
-    //开启或禁用TUN
-    if (enable_tun_mode) {
-      patchVerge({ enable_tun_mode: false });
+    if (serviceStatus === "active" || serviceStatus === "installed") {
+      //卸载服务
+      console.log("uninstall service");
+      onUninstallService();
+      onEnableOrDisableService(false);
+    }
+  });
+
+  const startOrStopVpn = useLockFn(async () => {
+    if (serviceLoading || tunLoading) {
+      return;
+    }
+    if (serviceStatus !== "active") {
+      return;
+    }
+
+    if (!verge?.enable_tun_mode) {
+      //启动vpn
+      console.log("start vpn");
+      setTunLoading(true);
+      await patchVerge({ enable_tun_mode: true });
+      setTunLoading(false);
     } else {
-      patchVerge({ enable_tun_mode: true });
-      console.log("已启用");
-      msgOk();
+      console.log("stop vpn");
+      //停止vpn
+      setTunLoading(true);
+      await patchVerge({ enable_tun_mode: false });
+      setTunLoading(false);
     }
   });
 
   return (
-    <Box
-      sx={{
-        padding: "8px 8px 0 0",
-        cursor: "pointer",
-        position: "relative",
-      }}
-      onClick={handleClick}
-    >
-      {enable_tun_mode ? (
-        <CircularProgress
-          disableShrink
-          sx={{
-            position: "absolute",
-            bottom: "8px",
-            right: "8px",
-            color: "var(--text-primary)",
-          }}
-          size={18}
-          thickness={4}
-        />
-      ) : (
+    <Stack direction="row">
+      <Box
+        sx={{
+          padding: "8px 8px 0 0",
+          cursor: "pointer",
+          position: "relative",
+        }}
+        onClick={startOrStopService}
+      >
         <SvgIcon
           component={iconTran}
-          color={enable_tun_mode ? "success" : "primary"}
+          color={serviceStatus === "active" ? "warning" : "disabled"}
           inheritViewBox
         />
-      )}
-    </Box>
+      </Box>
+      <Box
+        sx={{
+          padding: "8px 8px 0 0",
+          cursor: "pointer",
+          position: "relative",
+        }}
+        onClick={startOrStopVpn}
+      >
+        <SvgIcon
+          component={iconTran}
+          color={verge?.enable_tun_mode ? "success" : "disabled"}
+          inheritViewBox
+        />
+      </Box>
+    </Stack>
   );
 };
 
