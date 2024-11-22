@@ -22,10 +22,30 @@ export const getSubscription = async (url: string) => {
 export const refreshSubscription = async (data: IMoonProxyGroup) => {
   const newData = { ...data };
   const sub: ISubroupInfo = await getSubscription(data.url!);
-  console.log("sub response:", sub);
+  console.log("refreshSubscription date", new Date());
+  newData.uid = sub.id;
+  newData.proxy_list = sub.proxyList.map((p) => {
+    return {
+      uid: p.id,
+      group_uid: p.groupId,
+      name: p.host?.split(".").pop() || p.id,
+      label: p.label || "" + p.id,
+      scheme: p.scheme === "socks" ? "socks5" : p.scheme,
+      host: p.host,
+      port: p.port,
+      username: p.username,
+      password: p.password,
+    };
+  });
+  return newData;
+};
+
+export const saveSubscription = async (data: IMoonProxyGroup) => {
+  const newData = { ...data };
+  const sub: ISubroupInfo = await getSubscription(data.url!);
   newData.uid = sub.id;
   newData.name = data.remark?.trim() || sub.groupName;
-  newData.interval = data.interval || sub.refreshInterval;
+  newData.interval = data.interval ?? sub.refreshInterval;
   newData.proxy_list = sub.proxyList.map((p) => {
     return {
       uid: p.id,

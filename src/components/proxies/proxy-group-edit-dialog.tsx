@@ -1,5 +1,5 @@
 import { useMoon } from "@/hooks/use-moon";
-import { refreshSubscription } from "@/services/sub";
+import { saveSubscription } from "@/services/sub";
 import { TextField } from "@mui/material";
 import { useLockFn } from "ahooks";
 import { nanoid } from "nanoid";
@@ -64,10 +64,14 @@ export const ProxyGroupEditDialog = forwardRef<ProxyGroupEditDialogRef, Props>(
           data.proxy_list = [];
         } else {
           try {
-            data = await refreshSubscription(data);
-            await saveProxyGroup(data);
-            setOpen(false);
-            setTimeout(() => formIns.reset(), 500);
+            const subData = await saveSubscription(data);
+            const ok = await saveProxyGroup(subData);
+            if (ok) {
+              setOpen(false);
+              setTimeout(() => formIns.reset(), 500);
+            } else {
+              Notice.error("更新订阅失败");
+            }
           } catch (err: any) {
             console.error(err);
             Notice.error("获取订阅失败");
@@ -129,7 +133,7 @@ export const ProxyGroupEditDialog = forwardRef<ProxyGroupEditDialogRef, Props>(
               type="number"
               {...field}
               label={"自动刷新"}
-              placeholder="选填，单位秒"
+              placeholder="选填，单位秒；值为 0 不自动刷新"
               error={!!errors.interval}
               helperText={errors.interval?.message}
             />

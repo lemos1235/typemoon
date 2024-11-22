@@ -1,4 +1,5 @@
 import { useMoon } from "@/hooks/use-moon";
+import { refreshSubscription } from "@/services/sub";
 import { Circle } from "@mui/icons-material";
 import {
   Box,
@@ -11,7 +12,8 @@ import {
 } from "@mui/material";
 import { useLockFn } from "ahooks";
 import { MoreVertical, Plus, RefreshCcw } from "lucide-react";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { Notice } from "../base";
 import { BaseAlertDialog } from "../base/base-alert-dialog";
 import { ProxyEditDialog, ProxyEditDialogRef } from "./proxy-edit-dialog";
 import {
@@ -19,8 +21,6 @@ import {
   ProxyGroupEditDialogRef,
 } from "./proxy-group-edit-dialog";
 import ProxyList from "./proxy-list";
-import { refreshSubscription } from "@/services/sub";
-import { Notice } from "../base";
 
 //本地节点
 export const LocalProxies = () => {
@@ -97,14 +97,22 @@ const SubscriptionStatus = (props: SubscriptionStatusProps) => {
 
 interface SubscriptionRefreshButtonProps {
   onClick: () => void;
+  actived: boolean;
+  loading: boolean;
 }
 
 const SubscriptionRefreshButton = (props: SubscriptionRefreshButtonProps) => {
-  const { onClick } = props;
+  const { onClick, actived, loading } = props;
 
   return (
-    <IconButton onClick={onClick}>
-      <RefreshCcw size={18} />
+    <IconButton color={actived ? "success" : "default"} onClick={onClick}>
+      <RefreshCcw
+        style={{
+          transition: "transform 1s ease",
+          transform: loading ? "rotate(360deg)" : "rotate(0deg)",
+        }}
+        size={18}
+      />
     </IconButton>
   );
 };
@@ -166,15 +174,70 @@ interface SubscriptionTitleProps {
 const SubscriptionTitle = (props: SubscriptionTitleProps) => {
   const { group, onEdit, onDelete } = props;
 
-  const { saveProxyGroup } = useMoon();
+  const [autoRefresh, setAutoRefresh] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const cleanInterval = useRef(0);
+  let autoRefreshTimer = useRef(null as any);
+
+  const { saveGroupProxies } = useMoon();
+
+  useEffect(() => {
+    return () => {
+      console.log("destroy");
+      if (autoRefreshTimer.current) {
+        clearInterval(autoRefreshTimer.current);
+        autoRefreshTimer.current = null;
+      }
+    };
+  }, []);
+
+  useEffect(() => {
+    console.log("title group interval", group.interval);
+    const currInterval = group.interval ?? 0;
+    if (cleanInterval.current !== currInterval) {
+      cleanInterval.current = currInterval;
+      //注：当订阅组的 interval 发生变化，且定时器运行中时，需要更新之前的定时器
+      if (autoRefreshTimer.current) {
+        clearInterval(autoRefreshTimer.current);
+        if (currInterval > 0) {
+          autoRefreshTimer.current = setInterval(
+            () => fetchSubscription(),
+            currInterval * 1000
+          );
+        } else {
+          autoRefreshTimer.current = null;
+        }
+      }
+    }
+  }, [group]);
 
   const fetchSubscription = useLockFn(async () => {
     try {
-      const newGroup = await refreshSubscription(group);
-      await saveProxyGroup(newGroup);
+      setLoading(true);
+      const newGroup = await refreshSubscription({ ...group });
+      await saveGroupProxies(newGroup);
+      setLoading(false);
     } catch (err: any) {
       console.error(err);
       Notice.error("获取订阅失败");
+    }
+  });
+
+  const handleRefresh = useLockFn(async () => {
+    if (group.interval && group.interval > 0) {
+      if (!autoRefresh) {
+        autoRefreshTimer.current = setInterval(
+          () => fetchSubscription(),
+          group.interval * 1000
+        );
+      } else {
+        clearInterval(autoRefreshTimer.current);
+        autoRefreshTimer.current = null;
+      }
+      setAutoRefresh(!autoRefresh);
+    } else {
+      setAutoRefresh(false);
+      fetchSubscription();
     }
   });
 
@@ -186,7 +249,11 @@ const SubscriptionTitle = (props: SubscriptionTitleProps) => {
         </Stack>
         <Stack direction="row" alignItems={"center"}>
           {group.url && (
-            <SubscriptionRefreshButton onClick={fetchSubscription} />
+            <SubscriptionRefreshButton
+              loading={loading}
+              actived={autoRefresh}
+              onClick={handleRefresh}
+            />
           )}
           <SubscriptionPopupMenu onEdit={onEdit} onDelete={onDelete} />
         </Stack>
