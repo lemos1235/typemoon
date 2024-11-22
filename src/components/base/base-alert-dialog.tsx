@@ -11,8 +11,8 @@ interface Props {
   open: boolean;
   title: string;
   message: string;
-  onClose: () => void;
-  onConfirm: () => void;
+  onClose?: () => void;
+  onConfirm?: () => void;
 }
 
 export const BaseAlertDialog = (props: Props) => {
@@ -31,12 +31,16 @@ export const BaseAlertDialog = (props: Props) => {
       </DialogContent>
 
       <DialogActions>
-        <Button onClick={onClose} variant="outlined">
-          {"取消"}
-        </Button>
-        <Button onClick={onConfirm} variant="contained">
-          {"确认"}
-        </Button>
+        {onClose && (
+          <Button onClick={onClose} variant="outlined">
+            {"取消"}
+          </Button>
+        )}
+        {onConfirm && (
+          <Button onClick={onConfirm} variant="contained">
+            {"确认"}
+          </Button>
+        )}
       </DialogActions>
     </Dialog>
   );

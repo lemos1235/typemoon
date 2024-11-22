@@ -17,7 +17,19 @@ const ProxyItem = (props: Props) => {
   const proxyEditDialogRef = useRef<ProxyEditDialogRef>(null);
 
   const [deleteOpen, setDeleteOpen] = useState(false);
-  const { deleteProxy } = useMoon();
+  const [alertOpen, setAlertOpen] = useState(false);
+  const { moon, deleteProxy } = useMoon();
+
+  const openDelete = () => {
+    //检查当前节点是否关联某个规则
+    const isRelated =
+      moon?.rule_list?.some((r) => r.action === node.uid) ?? false;
+    if (isRelated) {
+      setAlertOpen(true);
+    } else {
+      setDeleteOpen(true);
+    }
+  };
 
   const handleDelete = useLockFn(async () => {
     await deleteProxy(node);
@@ -34,7 +46,7 @@ const ProxyItem = (props: Props) => {
         >
           <Box style={{ fontSize: "20px" }}>{node.label}</Box>
           <Box>
-            <IconButton onClick={() => setDeleteOpen(true)}>
+            <IconButton onClick={() => openDelete()}>
               <Trash2 size={16} />
             </IconButton>
             <IconButton onClick={() => proxyEditDialogRef.current?.edit(node)}>
@@ -68,6 +80,12 @@ const ProxyItem = (props: Props) => {
         message="是否删除此节点？"
         onClose={() => setDeleteOpen(false)}
         onConfirm={handleDelete}
+      />
+      <BaseAlertDialog
+        open={alertOpen}
+        title="警告"
+        message="已有规则关联到此节点"
+        onConfirm={() => setAlertOpen(false)}
       />
       <ProxyEditDialog ref={proxyEditDialogRef} />
     </ShadowCard>

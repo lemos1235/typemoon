@@ -205,8 +205,22 @@ const SubscriptionContent = (props: SubscriptionContentProps) => {
   const proxyGroupEditDialogRef = useRef<ProxyGroupEditDialogRef>(null);
 
   const [deleteOpen, setDeleteOpen] = useState(false);
+  const [alertOpen, setAlertOpen] = useState(false);
 
-  const { deleteProxyGroup } = useMoon();
+  const { moon, deleteProxyGroup } = useMoon();
+
+  const openDelete = () => {
+    //检查当前节点是否关联某个规则
+    const isRelated =
+      moon?.rule_list?.some((r) =>
+        group.proxy_list?.some((p) => p.uid === r.action)
+      ) ?? false;
+    if (isRelated) {
+      setAlertOpen(true);
+    } else {
+      setDeleteOpen(true);
+    }
+  };
 
   const handleDelete = useLockFn(async () => {
     await deleteProxyGroup(group);
@@ -218,7 +232,7 @@ const SubscriptionContent = (props: SubscriptionContentProps) => {
       <SubscriptionTitle
         group={group}
         onEdit={() => proxyGroupEditDialogRef.current?.edit(group)}
-        onDelete={() => setDeleteOpen(true)}
+        onDelete={() => openDelete()}
       />
       <ProxyList nodeList={group.proxy_list || []} />
       <BaseAlertDialog
@@ -227,6 +241,12 @@ const SubscriptionContent = (props: SubscriptionContentProps) => {
         message="是否删除此订阅组？"
         onClose={() => setDeleteOpen(false)}
         onConfirm={handleDelete}
+      />
+      <BaseAlertDialog
+        open={alertOpen}
+        title="警告"
+        message="已有规则关联到此订阅组"
+        onConfirm={() => setAlertOpen(false)}
       />
       <ProxyGroupEditDialog ref={proxyGroupEditDialogRef} />
     </Stack>
