@@ -37,8 +37,8 @@ const ProxyItem = (props: Props) => {
   });
 
   return (
-    <ShadowCard sx={{ width: "100%", padding: "15px 10px", fontSize: "16px" }}>
-      <Stack>
+    <ShadowCard sx={{ width: "100%", fontSize: "16px" }}>
+      <Stack spacing={{ padding: "15px 10px" }}>
         <Stack
           direction="row"
           justifyContent="space-between"

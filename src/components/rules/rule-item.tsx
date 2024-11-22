@@ -61,8 +61,8 @@ const RuleItem = (props: Props) => {
   }
 
   return (
-    <ShadowCard sx={{ width: "100%", padding: "15px 10px", fontSize: "16px" }}>
-      <Stack>
+    <ShadowCard sx={{ width: "100%", fontSize: "16px" }}>
+      <Stack sx={{ padding: "15px 10px" }}>
         <Stack
           direction="row"
           justifyContent="space-between"
@@ -84,8 +84,21 @@ const RuleItem = (props: Props) => {
         <Divider flexItem sx={{ marginTop: "10px", marginBottom: "10px" }} />
         <Grid container rowSpacing={1} columnSpacing={4}>
           <Grid item xs={6}>
-            <span>程序：</span>
-            <span>{ruleProcess}</span>
+            <Box sx={{ display: "flex", alignItems: "center" }}>
+              <span>程序：</span>
+              <Box
+                component="span"
+                sx={{
+                  display: "inline-block",
+                  maxWidth: "50%",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                  whiteSpace: "nowrap",
+                }}
+              >
+                {ruleProcess}
+              </Box>
+            </Box>
           </Grid>
           <Grid item xs={6}>
             <span>操作：</span>
