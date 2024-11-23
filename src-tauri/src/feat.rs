@@ -15,7 +15,6 @@ use serde_yaml::{Mapping, Value};
 use std::fs;
 use tauri::Manager;
 use tauri_plugin_clipboard_manager::ClipboardExt;
-use tauri_plugin_window_state::{AppHandleExt, StateFlags};
 
 // 打开面板
 pub fn open_or_close_dashboard() {
@@ -52,7 +51,8 @@ pub fn restart_app() {
         resolve::resolve_reset();
         let app_handle = handle::Handle::global().app_handle().unwrap();
         std::thread::sleep(std::time::Duration::from_secs(1));
-        let _ = app_handle.save_window_state(StateFlags::default());
+        // let _ = app_handle.save_window_state(StateFlags::default());
+        let _ = resolve::save_window_size_position(&app_handle, true);
         tauri::process::restart(&app_handle.env());
     });
 }
@@ -90,7 +90,7 @@ pub fn toggle_system_proxy() {
             enable_system_proxy: Some(!enable),
             ..IVerge::default()
         })
-        .await
+            .await
         {
             Ok(_) => handle::Handle::refresh_verge(),
             Err(err) => log::error!(target: "app", "{err}"),
@@ -108,7 +108,7 @@ pub fn toggle_tun_mode() {
             enable_tun_mode: Some(!enable),
             ..IVerge::default()
         })
-        .await
+            .await
         {
             Ok(_) => handle::Handle::refresh_verge(),
             Err(err) => log::error!(target: "app", "{err}"),
@@ -121,14 +121,15 @@ pub fn quit(code: Option<i32>) {
     handle::Handle::global().set_is_exiting();
     resolve::resolve_reset();
     log_err!(handle::Handle::global().get_window().unwrap().close());
-    match app_handle.save_window_state(StateFlags::all()) {
-        Ok(_) => {
-            log::info!(target: "app", "window state saved successfully");
-        }
-        Err(e) => {
-            log::error!(target: "app", "failed to save window state: {}", e);
-        }
-    };
+    // match app_handle.save_window_state(StateFlags::all()) {
+    //     Ok(_) => {
+    //         log::info!(target: "app", "window state saved successfully");
+    //     }
+    //     Err(e) => {
+    //         log::error!(target: "app", "failed to save window state: {}", e);
+    //     }
+    // };
+    let _ = resolve::save_window_size_position(&app_handle, true);
     app_handle.exit(code.unwrap_or(0));
 }
 
@@ -149,11 +150,6 @@ pub async fn patch_clash(patch: Mapping) -> Result<()> {
 
             Config::runtime().latest().patch_config(patch);
             update_core_config(false).await?;
-
-            // 更新订阅
-           // if patch.get("proxies").is_some() || patch.get("rules").is_some() {
-           //     update_core_config().await?;
-           // }
         }
 
         <Result<()>>::Ok(())

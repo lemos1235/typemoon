@@ -1,3 +1,5 @@
+#![allow(unused)]
+
 use crate::{
     cmds,
     config::Config,
@@ -213,15 +215,15 @@ impl Tray {
             };
         };
 
-        let _ = tray.set_tooltip(Some(&format!(
-            "Clash Verge {version}\n{}: {}\n{}: {}\n{}: {}",
-            t!("SysProxy", "系统代理", use_zh),
-            switch_map[system_proxy],
-            t!("TUN", "Tun模式", use_zh),
-            switch_map[tun_mode],
-            t!("Profile", "当前订阅", use_zh),
-            current_profile_name
-        )));
+        // let _ = tray.set_tooltip(Some(&format!(
+        //     "Clash Verge {version}\n{}: {}\n{}: {}\n{}: {}",
+        //     t!("SysProxy", "系统代理", use_zh),
+        //     switch_map[system_proxy],
+        //     t!("TUN", "Tun模式", use_zh),
+        //     switch_map[tun_mode],
+        //     t!("Profile", "当前订阅", use_zh),
+        //     current_profile_name
+        // )));
         Ok(())
     }
 }
@@ -243,119 +245,127 @@ fn create_tray_menu(
         true,
         None::<&str>,
     )
-    .unwrap();
+        .unwrap();
 
-    let rule_mode = &CheckMenuItem::with_id(
-        app_handle,
-        "rule_mode",
-        t!("Rule Mode", "规则模式", use_zh),
-        true,
-        mode == "rule",
-        None::<&str>,
-    )
-    .unwrap();
+    // let rule_mode = &CheckMenuItem::with_id(
+    //     app_handle,
+    //     "rule_mode",
+    //     t!("Rule Mode", "规则模式", use_zh),
+    //     true,
+    //     mode == "rule",
+    //     None::<&str>,
+    // )
+    // .unwrap();
+    //
+    // let global_mode = &CheckMenuItem::with_id(
+    //     app_handle,
+    //     "global_mode",
+    //     t!("Global Mode", "全局模式", use_zh),
+    //     true,
+    //     mode == "global",
+    //     None::<&str>,
+    // )
+    // .unwrap();
+    //
+    // let direct_mode = &CheckMenuItem::with_id(
+    //     app_handle,
+    //     "direct_mode",
+    //     t!("Direct Mode", "直连模式", use_zh),
+    //     true,
+    //     mode == "direct",
+    //     None::<&str>,
+    // )
+    // .unwrap();
 
-    let global_mode = &CheckMenuItem::with_id(
-        app_handle,
-        "global_mode",
-        t!("Global Mode", "全局模式", use_zh),
-        true,
-        mode == "global",
-        None::<&str>,
-    )
-    .unwrap();
+    // let system_proxy = &CheckMenuItem::with_id(
+    //     app_handle,
+    //     "system_proxy",
+    //     t!("System Proxy", "系统代理", use_zh),
+    //     true,
+    //     system_proxy_enabled,
+    //     None::<&str>,
+    // )
+    // .unwrap();
+    //
+    // let tun_mode = &CheckMenuItem::with_id(
+    //     app_handle,
+    //     "tun_mode",
+    //     t!("TUN Mode", "Tun模式", use_zh),
+    //     true,
+    //     tun_mode_enabled,
+    //     None::<&str>,
+    // )
+    // .unwrap();
+    //
+    // let copy_env = &MenuItem::with_id(
+    //     app_handle,
+    //     "copy_env",
+    //     t!("Copy Env", "复制环境变量", use_zh),
+    //     true,
+    //     None::<&str>,
+    // )
+    // .unwrap();
 
-    let direct_mode = &CheckMenuItem::with_id(
-        app_handle,
-        "direct_mode",
-        t!("Direct Mode", "直连模式", use_zh),
-        true,
-        mode == "direct",
-        None::<&str>,
-    )
-    .unwrap();
-
-    let system_proxy = &CheckMenuItem::with_id(
-        app_handle,
-        "system_proxy",
-        t!("System Proxy", "系统代理", use_zh),
-        true,
-        system_proxy_enabled,
-        None::<&str>,
-    )
-    .unwrap();
-
-    let tun_mode = &CheckMenuItem::with_id(
-        app_handle,
-        "tun_mode",
-        t!("TUN Mode", "Tun模式", use_zh),
-        true,
-        tun_mode_enabled,
-        None::<&str>,
-    )
-    .unwrap();
-
-    let copy_env = &MenuItem::with_id(
-        app_handle,
-        "copy_env",
-        t!("Copy Env", "复制环境变量", use_zh),
-        true,
-        None::<&str>,
-    )
-    .unwrap();
-
+    // let open_app_dir = &MenuItem::with_id(
+    //     app_handle,
+    //     "open_app_dir",
+    //     t!("Conf Dir", "配置目录", use_zh),
+    //     true,
+    //     None::<&str>,
+    // )
+    //     .unwrap();
+    // 
+    // let open_core_dir = &MenuItem::with_id(
+    //     app_handle,
+    //     "open_core_dir",
+    //     t!("Core Dir", "内核目录", use_zh),
+    //     true,
+    //     None::<&str>,
+    // )
+    //     .unwrap();
+    // 
+    // let open_logs_dir = &MenuItem::with_id(
+    //     app_handle,
+    //     "open_logs_dir",
+    //     t!("Logs Dir", "日志目录", use_zh),
+    //     true,
+    //     None::<&str>,
+    // )
+    //     .unwrap();
+    // let open_dir = &Submenu::with_id_and_items(
+    //     app_handle,
+    //     "open_dir",
+    //     t!("Open Dir", "打开目录", use_zh),
+    //     true,
+    //     &[open_app_dir, open_core_dir, open_logs_dir],
+    // )
+    //     .unwrap();
     let open_app_dir = &MenuItem::with_id(
         app_handle,
         "open_app_dir",
-        t!("Conf Dir", "配置目录", use_zh),
+        t!("Conf Dir", "打开目录", use_zh),
         true,
         None::<&str>,
     )
-    .unwrap();
-
-    let open_core_dir = &MenuItem::with_id(
-        app_handle,
-        "open_core_dir",
-        t!("Core Dir", "内核目录", use_zh),
-        true,
-        None::<&str>,
-    )
-    .unwrap();
-
-    let open_logs_dir = &MenuItem::with_id(
-        app_handle,
-        "open_logs_dir",
-        t!("Logs Dir", "日志目录", use_zh),
-        true,
-        None::<&str>,
-    )
-    .unwrap();
-    let open_dir = &Submenu::with_id_and_items(
-        app_handle,
-        "open_dir",
-        t!("Open Dir", "打开目录", use_zh),
-        true,
-        &[open_app_dir, open_core_dir, open_logs_dir],
-    )
-    .unwrap();
+        .unwrap();
 
     let restart_clash = &MenuItem::with_id(
         app_handle,
         "restart_clash",
-        t!("Restart Clash Core", "重启Clash内核", use_zh),
+        t!("Restart Clash Core", "重启内核", use_zh),
         true,
         None::<&str>,
     )
-    .unwrap();
+        .unwrap();
 
     let restart_app = &MenuItem::with_id(
         app_handle,
         "restart_app",
-        t!("Restart App", "重启App", use_zh),
+        t!("Restart App", "重启应用", use_zh),
         true,
         None::<&str>,
     )
-    .unwrap();
+        .unwrap();
 
     let app_version = &MenuItem::with_id(
         app_handle,
@@ -364,7 +374,7 @@ fn create_tray_menu(
         true,
         None::<&str>,
     )
-    .unwrap();
+        .unwrap();
 
     let more = &Submenu::with_id_and_items(
         app_handle,
@@ -373,7 +383,7 @@ fn create_tray_menu(
         true,
         &[restart_clash, restart_app, app_version],
     )
-    .unwrap();
+        .unwrap();
 
     let quit = &MenuItem::with_id(
         app_handle,
@@ -382,7 +392,7 @@ fn create_tray_menu(
         true,
         Some("CmdOrControl+Q"),
     )
-    .unwrap();
+        .unwrap();
 
     let separator = &PredefinedMenuItem::separator(app_handle).unwrap();
 
@@ -390,14 +400,14 @@ fn create_tray_menu(
         .items(&[
             open_window,
             separator,
-            rule_mode,
-            global_mode,
-            direct_mode,
-            separator,
-            system_proxy,
-            tun_mode,
-            copy_env,
-            open_dir,
+            // rule_mode,
+            // global_mode,
+            // direct_mode,
+            // separator,
+            // system_proxy,
+            // tun_mode,
+            // copy_env,
+            open_app_dir,
             more,
             separator,
             quit,

@@ -123,6 +123,10 @@ pub struct IVerge {
     /// 0: 不清理; 1: 7天; 2: 30天; 3: 90天
     pub auto_log_clean: Option<i32>,
 
+    /// window size and position
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub window_size_position: Option<Vec<f64>>,
+
     /// 是否启用随机端口
     pub enable_random_port: Option<bool>,
 

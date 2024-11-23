@@ -57,8 +57,9 @@ export const ProxyGroupEditDialog = forwardRef<ProxyGroupEditDialogRef, Props>(
           data.uid = nanoid();
         }
         data.url = data.url?.trim();
-        data.interval =
-          (data.interval as any) === "" ? undefined : Number(data.interval);
+        data.interval = isNaN(parseInt(data.interval as any))
+          ? undefined
+          : Number(data.interval);
         // get node list from url
         if (!data.url) {
           data.name = data.remark?.trim();
@@ -74,7 +75,7 @@ export const ProxyGroupEditDialog = forwardRef<ProxyGroupEditDialogRef, Props>(
             Notice.error("获取订阅失败");
           }
         }
-      })
+      }),
     );
 
     const handleClose = () => {
@@ -157,5 +158,5 @@ export const ProxyGroupEditDialog = forwardRef<ProxyGroupEditDialogRef, Props>(
         />
       </BaseDialog>
     );
-  }
+  },
 );

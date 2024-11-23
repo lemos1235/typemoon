@@ -81,20 +81,6 @@ export const LocalProxies = () => {
   );
 };
 
-interface SubscriptionStatusProps {
-  isActived: boolean;
-}
-
-const SubscriptionStatus = (props: SubscriptionStatusProps) => {
-  const { isActived } = props;
-  return (
-    <Circle
-      sx={{ fontSize: "8px", marginLeft: "8px" }}
-      color={isActived ? "primary" : "disabled"}
-    />
-  );
-};
-
 interface SubscriptionRefreshButtonProps {
   onClick: () => void;
   actived: boolean;
@@ -202,7 +188,7 @@ const SubscriptionTitle = (props: SubscriptionTitleProps) => {
         if (currInterval > 0) {
           autoRefreshTimer.current = setInterval(
             () => fetchSubscription(),
-            currInterval * 1000
+            currInterval * 1000,
           );
         } else {
           autoRefreshTimer.current = null;
@@ -228,7 +214,7 @@ const SubscriptionTitle = (props: SubscriptionTitleProps) => {
       if (!autoRefresh) {
         autoRefreshTimer.current = setInterval(
           () => fetchSubscription(),
-          group.interval * 1000
+          group.interval * 1000,
         );
       } else {
         clearInterval(autoRefreshTimer.current);
@@ -280,7 +266,7 @@ const SubscriptionContent = (props: SubscriptionContentProps) => {
     //检查当前节点是否关联某个规则
     const isRelated =
       moon?.rule_list?.some((r) =>
-        group.proxy_list?.some((p) => p.uid === r.action)
+        group.proxy_list?.some((p) => p.uid === r.action),
       ) ?? false;
     if (isRelated) {
       setAlertOpen(true);

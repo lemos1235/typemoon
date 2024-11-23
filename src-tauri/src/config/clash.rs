@@ -34,6 +34,7 @@ impl IClashTemp {
         let mut tun = Mapping::new();
         tun.insert("enable".into(), false.into());
         tun.insert("stack".into(), "gvisor".into());
+        tun.insert("device".into(), "Moon".into());
         tun.insert("auto-route".into(), true.into());
         tun.insert("strict-route".into(), false.into());
         tun.insert("auto-detect-interface".into(), true.into());
@@ -48,7 +49,7 @@ impl IClashTemp {
         map.insert("log-level".into(), "info".into());
         map.insert("allow-lan".into(), false.into());
         map.insert("mode".into(), "rule".into());
-        map.insert("external-controller".into(), "127.0.0.1:9097".into());
+        map.insert("external-controller".into(), "127.0.0.1:19097".into());
         let mut cors_map = Mapping::new();
         cors_map.insert("allow-private-network".into(), true.into());
         cors_map.insert("allow-origins".into(), vec!["*"].into());

@@ -12,7 +12,7 @@
       "icons/icon.ico"
     ],
     "resources": ["resources"],
-    "publisher": "lg",
+    "publisher": "lemos",
     "externalBin": ["sidecar/verge-mihomo"],
     "copyright": "GNU General Public License v3.0",
     "category": "DeveloperTool"

@@ -1,6 +1,6 @@
 {
   "$schema": "../node_modules/@tauri-apps/cli/config.schema.json",
-  "identifier": "io.github.clash-verge-rev.clash-verge-rev",
+  "identifier": "club.lemos.typemoon",
   "bundle": {
     "targets": ["nsis"],
     "windows": {
@@ -12,9 +12,9 @@
         "path": "./Microsoft.WebView2.FixedVersionRuntime.109.0.1518.78.arm64/"
       },
       "nsis": {
-        "displayLanguageSelector": true,
+        "displayLanguageSelector": false,
         "installerIcon": "icons/icon.ico",
-        "languages": ["SimpChinese", "English"],
+        "languages": ["SimpChinese"],
         "installMode": "perMachine",
         "template": "./packages/windows/installer.nsi"
       }

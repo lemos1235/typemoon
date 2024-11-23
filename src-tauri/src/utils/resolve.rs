@@ -7,13 +7,12 @@ use once_cell::sync::OnceCell;
 use percent_encoding::percent_decode_str;
 use serde_yaml::Mapping;
 use std::net::TcpListener;
-use tauri::{App, Manager};
-use tauri_plugin_window_state::{StateFlags, WindowExt};
+use tauri::{App, AppHandle, Manager};
 
-use url::Url;
 //#[cfg(not(target_os = "linux"))]
 // use window_shadows::set_shadow;
 use tauri_plugin_notification::NotificationExt;
+use url::Url;
 
 pub static VERSION: OnceCell<String> = OnceCell::new();
 
@@ -128,15 +127,41 @@ pub fn create_window() {
         return;
     }
 
-    let builder = tauri::WebviewWindowBuilder::new(
+    let mut builder = tauri::WebviewWindowBuilder::new(
         &app_handle,
         "main".to_string(),
         tauri::WebviewUrl::App("index.html".into()),
     )
-        .title("Moon")
-        .visible(false)
-        .fullscreen(false)
-        .min_inner_size(600.0, 520.0);
+    .title("Moon")
+    .visible(false)
+    .fullscreen(false)
+    .min_inner_size(600.0, 520.0);
+
+    match Config::verge().latest().window_size_position.clone() {
+        Some(size_pos) if size_pos.len() == 4 => {
+            let size = (size_pos[0], size_pos[1]);
+            let pos = (size_pos[2], size_pos[3]);
+            let w = size.0.clamp(600.0, f64::INFINITY);
+            let h = size.1.clamp(520.0, f64::INFINITY);
+            builder = builder.inner_size(w, h).position(pos.0, pos.1);
+        }
+        _ => {
+            #[cfg(target_os = "windows")]
+            {
+                builder = builder.inner_size(800.0, 520.0).center();
+            }
+
+            #[cfg(target_os = "macos")]
+            {
+                builder = builder.inner_size(800.0, 526.0).center();
+            }
+
+            #[cfg(target_os = "linux")]
+            {
+                builder = builder.inner_size(800.0, 526.0).center();
+            }
+        }
+    };
 
     #[cfg(target_os = "windows")]
     let window = builder
@@ -145,46 +170,98 @@ pub fn create_window() {
         .additional_browser_args("--enable-features=msWebView2EnableDraggableRegions --disable-features=OverscrollHistoryNavigation,msExperimentalScrolling")
         .transparent(true)
         .visible(false)
-        .build().unwrap();
+        .build();
 
     #[cfg(target_os = "macos")]
     let window = builder
         .decorations(true)
         .hidden_title(true)
         .title_bar_style(tauri::TitleBarStyle::Overlay)
-        .build()
-        .unwrap();
+        .build();
 
     #[cfg(target_os = "linux")]
     let window = builder
         .decorations(false)
         .transparent(true)
-        .build()
-        .unwrap();
+        .build();
 
-    match window.restore_state(StateFlags::all()) {
-        Ok(_) => {
-            log::info!(target: "app", "window state restored successfully");
-        }
-        Err(e) => {
-            log::error!(target: "app", "failed to restore window state: {}", e);
-            #[cfg(target_os = "windows")]
-            window
-                .set_size(tauri::Size::Physical(tauri::PhysicalSize {
-                    width: 800,
-                    height: 520,
-                }))
-                .unwrap();
+    match window {
+        Ok(win) => {
+            log::trace!("try to calculate the monitor size");
+            let center = (|| -> Result<bool> {
+                let mut center = false;
+                let monitor = win.current_monitor()?.ok_or(anyhow::anyhow!(""))?;
+                let size = monitor.size();
+                let pos = win.outer_position()?;
 
-            #[cfg(not(target_os = "windows"))]
-            window
-                .set_size(tauri::Size::Physical(tauri::PhysicalSize {
-                    width: 800,
-                    height: 526,
-                }))
-                .unwrap();
+                if pos.x < -400
+                    || pos.x > (size.width - 200) as i32
+                    || pos.y < -200
+                    || pos.y > (size.height - 200) as i32
+                {
+                    center = true;
+                }
+                Ok(center)
+            })();
+            if center.unwrap_or(true) {
+                trace_err!(win.center(), "set win center");
+            }
+
+            // #[cfg(not(target_os = "linux"))]
+            //  trace_err!(set_shadow(&win, true), "set win shadow");
         }
-    };
+        Err(_) => {
+            log::error!("failed to create window");
+        }
+    }
+    // match window.restore_state(StateFlags::all()) {
+    //     Ok(_) => {
+    //         log::info!(target: "app", "window state restored successfully");
+    //     }
+    //     Err(e) => {
+    //         log::error!(target: "app", "failed to restore window state: {}", e);
+    //         #[cfg(target_os = "windows")]
+    //         window
+    //             .set_size(tauri::Size::Physical(tauri::PhysicalSize {
+    //                 width: 800,
+    //                 height: 484,
+    //             }))
+    //             .unwrap();
+    //
+    //         #[cfg(not(target_os = "windows"))]
+    //         window
+    //             .set_size(tauri::Size::Physical(tauri::PhysicalSize {
+    //                 width: 800,
+    //                 height: 526,
+    //             }))
+    //             .unwrap();
+    //     }
+    // };
+}
+
+/// save window size and position
+pub fn save_window_size_position(app_handle: &AppHandle, save_to_file: bool) -> Result<()> {
+    let verge = Config::verge();
+    let mut verge = verge.latest();
+
+    if save_to_file {
+        verge.save_file()?;
+    }
+
+    let win = app_handle
+        .get_webview_window("main")
+        .ok_or(anyhow::anyhow!("failed to get window"))?;
+
+    let scale = win.scale_factor()?;
+    let size = win.inner_size()?;
+    let size = size.to_logical::<f64>(scale);
+    let pos = win.outer_position()?;
+    let pos = pos.to_logical::<f64>(scale);
+    let is_maximized = win.is_maximized()?;
+    if !is_maximized && size.width >= 600.0 && size.height >= 520.0 {
+        verge.window_size_position = Some(vec![size.width, size.height, pos.x, pos.y]);
+    }
+    Ok(())
 }
 
 pub async fn resolve_scheme(param: String) -> Result<()> {
