@@ -127,6 +127,10 @@ pub struct IVerge {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub window_size_position: Option<Vec<f64>>,
 
+    /// window size and position
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub window_is_maximized: Option<bool>,
+
     /// 是否启用随机端口
     pub enable_random_port: Option<bool>,
 
@@ -207,13 +211,11 @@ pub struct IVergeTheme {
 
 impl IVerge {
     pub fn new() -> Self {
-        match dirs::verge_path().and_then(|path| help::read_yaml::<IVerge>(&path)) {
-            Ok(config) => config,
-            Err(err) => {
+        dirs::verge_path().and_then(|path| help::read_yaml::<IVerge>(&path))
+            .unwrap_or_else(|err| {
                 log::error!(target: "app", "{err}");
                 Self::template()
-            }
-        }
+            })
     }
 
     pub fn template() -> Self {

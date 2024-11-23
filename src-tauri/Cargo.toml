@@ -12,6 +12,9 @@ build = "build.rs"
 [build-dependencies]
 tauri-build = { version = "2.0.3", features = [] }
 
+[patch.crates-io]
+tao = { git = "https://github.com/tauri-apps/tao.git", branch = "dev", features = ["serde"] }
+
 [dependencies]
 warp = "0.3"
 anyhow = "1.0"
