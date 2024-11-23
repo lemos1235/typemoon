@@ -66,13 +66,9 @@ export const ProxyGroupEditDialog = forwardRef<ProxyGroupEditDialogRef, Props>(
         } else {
           try {
             const subData = await saveSubscription(data);
-            const ok = await saveProxyGroup(subData);
-            if (ok) {
-              setOpen(false);
-              setTimeout(() => formIns.reset(), 500);
-            } else {
-              Notice.error("更新订阅失败");
-            }
+            await saveProxyGroup(subData);
+            setOpen(false);
+            setTimeout(() => formIns.reset(), 500);
           } catch (err: any) {
             console.error(err);
             Notice.error("获取订阅失败");
