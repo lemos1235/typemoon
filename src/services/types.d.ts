@@ -763,6 +763,12 @@ interface IWebDavFile {
   content_length: number;
   content_type: string;
   tag: string;
+}
+
+interface IWebDavConfig {
+  url: string;
+}
+
 interface IMoonProxyGroup {
   uid: string;
   name?: string;
@@ -792,8 +798,6 @@ interface IMoonRule {
   enabled?: boolean;
 }
 
-interface IWebDavConfig {
-  url: string;
 interface IMoonConfig {
   proxy_group_list?: IMoonProxyGroup[];
   rule_list?: IMoonRule[];

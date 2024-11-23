@@ -18,10 +18,10 @@ pub static BACKUP_DIR: &str = "clash-verge-rev-backup-dev";
 
 pub static PORTABLE_FLAG: OnceCell<bool> = OnceCell::new();
 
-static CLASH_CONFIG: &str = "config.yaml";
-static VERGE_CONFIG: &str = "verge.yaml";
-static MOON_CONFIG: &str = "moon.yaml";
-static PROFILE_YAML: &str = "profiles.yaml";
+pub static CLASH_CONFIG: &str = "config.yaml";
+pub static VERGE_CONFIG: &str = "verge.yaml";
+pub static MOON_CONFIG: &str = "moon.yaml";
+pub static PROFILE_YAML: &str = "profiles.yaml";
 
 /// init portable flag
 pub fn init_portable_flag() -> Result<()> {

@@ -42,7 +42,7 @@ impl IClashTemp {
         map.insert("redir-port".into(), 7895.into());
         #[cfg(target_os = "linux")]
         map.insert("tproxy-port".into(), 7896.into());
-        map.insert("mixed-port".into(), 7897.into());
+        map.insert("mixed-port".into(), 7490.into());
         map.insert("socks-port".into(), 7898.into());
         map.insert("port".into(), 7899.into());
         map.insert("log-level".into(), "info".into());

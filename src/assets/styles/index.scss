@@ -1,3 +1,7 @@
+@use "./layout.scss";
+@use "./page.scss";
+@use "./font.scss";
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
@@ -12,15 +16,15 @@ body {
 }
 
 :root {
-  --primary-main: #81C784;
-  --text-primary: #81C784;
+  --primary-main: #81c784;
+  --text-primary: #81c784;
   --disabled-color: #e1e1e1;
   --selection-color: #f5f5f5;
   --scroller-color: #9093994d;
   --background-color: #f5f5f5;
   --background-color-alpha: rgba(24, 103, 192, 0.1);
   --border-radius: 8px;
-  --divider-color: #EEEEEE;
+  --divider-color: #eeeeee;
 }
 
 ::selection {
@@ -44,10 +48,6 @@ body {
 body {
   overflow: hidden;
 }
-
-@import "./layout.scss";
-@import "./page.scss";
-@import "./font.scss";
 
 // @media (prefers-color-scheme: dark) {
 //   :root {

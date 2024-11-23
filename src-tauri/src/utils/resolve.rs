@@ -172,7 +172,7 @@ pub fn create_window() {
             window
                 .set_size(tauri::Size::Physical(tauri::PhysicalSize {
                     width: 800,
-                    height: 636,
+                    height: 520,
                 }))
                 .unwrap();
 
@@ -180,7 +180,7 @@ pub fn create_window() {
             window
                 .set_size(tauri::Size::Physical(tauri::PhysicalSize {
                     width: 800,
-                    height: 642,
+                    height: 526,
                 }))
                 .unwrap();
         }

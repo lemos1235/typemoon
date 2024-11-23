@@ -7,7 +7,6 @@ use crate::{
 use anyhow::{anyhow, Result};
 use once_cell::sync::OnceCell;
 use std::path::PathBuf;
-use std::{env::temp_dir, path::PathBuf};
 
 pub const RUNTIME_CONFIG: &str = "clash-verge.yaml";
 pub const CHECK_CONFIG: &str = "clash-verge-check.yaml";

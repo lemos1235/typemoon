@@ -2,13 +2,13 @@ use crate::{
     config::*,
     core::*,
     feat,
-    utils::{dirs, help, resolve},
+    utils::{dirs, help},
 };
 use crate::{ret_err, wrap_err};
 use anyhow::{Context, Result};
 use network_interface::NetworkInterface;
 use serde_yaml::Mapping;
-use std::collections::{HashMap, VecDeque};
+use std::collections::{HashMap};
 use sysproxy::{Autoproxy, Sysproxy};
 type CmdResult<T = ()> = Result<T, String>;
 use reqwest_dav::list_cmd::ListFile;

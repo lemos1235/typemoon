@@ -31,8 +31,8 @@ impl WebDavClient {
                 || verge.webdav_password.is_none()
             {
                 let msg =
-                "Unable to create web dav client, please make sure the webdav config is correct"
-                    .to_string();
+                    "Unable to create web dav client, please make sure the webdav config is correct"
+                        .to_string();
                 log::error!(target: "app","{}",msg);
                 return Err(anyhow::Error::msg(msg));
             }
