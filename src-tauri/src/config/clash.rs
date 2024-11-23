@@ -32,27 +32,30 @@ impl IClashTemp {
     pub fn template() -> Self {
         let mut map = Mapping::new();
         let mut tun = Mapping::new();
+        tun.insert("enable".into(), false.into());
         tun.insert("stack".into(), "gvisor".into());
-        tun.insert("device".into(), "Mihomo".into());
         tun.insert("auto-route".into(), true.into());
         tun.insert("strict-route".into(), false.into());
         tun.insert("auto-detect-interface".into(), true.into());
         tun.insert("dns-hijack".into(), vec!["any:53"].into());
-        tun.insert("mtu".into(), 1500.into());
         #[cfg(not(target_os = "windows"))]
         map.insert("redir-port".into(), 7895.into());
         #[cfg(target_os = "linux")]
         map.insert("tproxy-port".into(), 7896.into());
-        map.insert("mixed-port".into(), 7490.into());
+        map.insert("mixed-port".into(), 7897.into());
         map.insert("socks-port".into(), 7898.into());
         map.insert("port".into(), 7899.into());
         map.insert("log-level".into(), "info".into());
         map.insert("allow-lan".into(), false.into());
         map.insert("mode".into(), "rule".into());
-        map.insert("external-controller".into(), "127.0.0.1:19097".into());
+        map.insert("external-controller".into(), "127.0.0.1:9097".into());
+        let mut cors_map = Mapping::new();
+        cors_map.insert("allow-private-network".into(), true.into());
+        cors_map.insert("allow-origins".into(), vec!["*"].into());
         map.insert("secret".into(), "".into());
         map.insert("tun".into(), tun.into());
-
+        map.insert("external-controller-cors".into(), cors_map.into());
+        map.insert("unified-delay".into(), true.into());
         Self(map)
     }
 

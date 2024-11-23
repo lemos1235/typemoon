@@ -41,13 +41,13 @@ const NoticeInner = (props: InnerProps) => {
       return;
     }
 
-    appWindow.theme().then(m => m && setIsDark(m === "dark"));
-    const unlisten = appWindow.onThemeChanged(e =>
+    appWindow.theme().then((m) => m && setIsDark(m === "dark"));
+    const unlisten = appWindow.onThemeChanged((e) =>
       setIsDark(e.payload === "dark"),
     );
 
     return () => {
-      unlisten.then(fn => fn());
+      unlisten.then((fn) => fn());
     };
   }, [theme_mode]);
 
@@ -61,7 +61,8 @@ const NoticeInner = (props: InnerProps) => {
 
         <Typography
           component="span"
-          sx={{ ml: 1, wordWrap: "break-word", width: "calc(100% - 35px)" }}>
+          sx={{ ml: 1, wordWrap: "break-word", width: "calc(100% - 35px)" }}
+        >
           {message}
         </Typography>
       </Box>
@@ -81,7 +82,7 @@ const NoticeInner = (props: InnerProps) => {
           color: isDark ? "#ffffff" : "#000000",
         },
       }}
-      TransitionComponent={p => <Slide {...p} direction="left" />}
+      TransitionComponent={(p) => <Slide {...p} direction="left" />}
       transitionDuration={200}
       action={
         <IconButton size="small" color="inherit" onClick={onBtnClose}>
@@ -103,7 +104,7 @@ interface NoticeInstance {
 let parent: HTMLDivElement = null!;
 
 // @ts-ignore
-export const Notice: NoticeInstance = props => {
+export const Notice: NoticeInstance = (props) => {
   if (!parent) {
     parent = document.createElement("div");
     document.body.appendChild(parent);
@@ -121,7 +122,7 @@ export const Notice: NoticeInstance = props => {
   root.render(<NoticeInner {...props} onClose={onUnmount} />);
 };
 
-(["info", "error", "success"] as const).forEach(type => {
+(["info", "error", "success"] as const).forEach((type) => {
   Notice[type] = (message, duration) => {
     setTimeout(() => Notice({ type, message, duration }), 0);
   };

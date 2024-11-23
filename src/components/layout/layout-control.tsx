@@ -19,17 +19,17 @@ export const LayoutControl = () => {
 
   useEffect(() => {
     const unlistenResized = appWindow.onResized(() => {
-      appWindow.isMaximized().then(maximized => {
+      appWindow.isMaximized().then((maximized) => {
         setIsMaximized(() => maximized);
       });
     });
 
-    appWindow.isMaximized().then(maximized => {
+    appWindow.isMaximized().then((maximized) => {
       setIsMaximized(() => maximized);
     });
 
     return () => {
-      unlistenResized.then(fn => fn());
+      unlistenResized.then((fn) => fn());
     };
   }, []);
 
@@ -43,14 +43,16 @@ export const LayoutControl = () => {
           borderRadius: "0px",
           borderRight: "0px",
         },
-      }}>
+      }}
+    >
       <Button
         size="small"
         sx={{ minWidth, svg: { transform: "scale(0.9)" } }}
         onClick={() => {
           appWindow.setAlwaysOnTop(!isPined);
-          setIsPined(isPined => !isPined);
-        }}>
+          setIsPined((isPined) => !isPined);
+        }}
+      >
         {isPined ? (
           <PushPinRounded fontSize="small" />
         ) : (
@@ -61,7 +63,8 @@ export const LayoutControl = () => {
       <Button
         size="small"
         sx={{ minWidth, svg: { transform: "scale(0.9)" } }}
-        onClick={() => appWindow.minimize()}>
+        onClick={() => appWindow.minimize()}
+      >
         <HorizontalRuleRounded fontSize="small" />
       </Button>
 
@@ -69,9 +72,10 @@ export const LayoutControl = () => {
         size="small"
         sx={{ minWidth, svg: { transform: "scale(0.9)" } }}
         onClick={() => {
-          setIsMaximized(isMaximized => !isMaximized);
+          setIsMaximized((isMaximized) => !isMaximized);
           appWindow.toggleMaximize();
-        }}>
+        }}
+      >
         {isMaximized ? (
           <FilterNoneRounded
             fontSize="small"
@@ -91,7 +95,8 @@ export const LayoutControl = () => {
           svg: { transform: "scale(1.05)" },
           ":hover": { bgcolor: "#ff000090" },
         }}
-        onClick={() => appWindow.close()}>
+        onClick={() => appWindow.close()}
+      >
         <CloseRounded fontSize="small" />
       </Button>
     </ButtonGroup>

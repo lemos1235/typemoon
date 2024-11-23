@@ -1,6 +1,6 @@
 {
   "$schema": "../node_modules/@tauri-apps/cli/config.schema.json",
-  "identifier": "club.lemos.typemoon",
+  "identifier": "io.github.clash-verge-rev.clash-verge-rev",
   "bundle": {
     "targets": ["nsis"],
     "windows": {
@@ -16,7 +16,7 @@
         "installerIcon": "icons/icon.ico",
         "languages": ["SimpChinese", "English"],
         "installMode": "perMachine",
-        "template": "./template/installer.nsi"
+        "template": "./packages/windows/installer.nsi"
       }
     }
   },
@@ -25,7 +25,8 @@
       "active": true,
       "dialog": false,
       "endpoints": [
-        "https://download.clashverge.dev/https://github.com/clash-verge-rev/clash-verge-rev/releases/download/updater/update-fixed-webview2-proxy.json"
+        "https://download.clashverge.dev/https://github.com/clash-verge-rev/clash-verge-rev/releases/download/updater/update-fixed-webview2-proxy.json",
+        "https://github.com/clash-verge-rev/clash-verge-rev/releases/download/updater/update-fixed-webview2.json"
       ],
       "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IEQyOEMyRjBCQkVGOUJEREYKUldUZnZmbStDeStNMHU5Mmo1N24xQXZwSVRYbXA2NUpzZE5oVzlqeS9Bc0t6RVV4MmtwVjBZaHgK"
     }
