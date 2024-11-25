@@ -71,8 +71,7 @@ export const ProxyGroupEditDialog = forwardRef<ProxyGroupEditDialogRef, Props>(
             setOpen(false);
             setTimeout(() => formIns.reset(), 500);
           } catch (err: any) {
-            console.error(err);
-            Notice.error("获取订阅失败");
+            Notice.error("保存订阅失败");
           }
         }
       }),

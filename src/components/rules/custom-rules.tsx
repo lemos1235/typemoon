@@ -1,7 +1,7 @@
 import { useMoon } from "@/hooks/use-moon";
 import { RuleEditDialog, RuleEditDialogRef } from "./rule-edit-dialog";
 import { useRef } from "react";
-import { Box, Stack } from "@mui/material";
+import { Box, IconButton, Stack } from "@mui/material";
 import { Plus } from "lucide-react";
 import RuleList from "./rule-list";
 import VpnButton from "../vpn/vpn-button";
@@ -24,20 +24,14 @@ export const CustomRules = () => {
           height: "100%",
         }}
       >
-        <Box
-          sx={{
-            color: "var(--text-primary)",
-            cursor: "pointer",
-            marginTop: "-25px",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
+        <IconButton
+          color="primary"
+          disableRipple
           onClick={() => ruleEditDialogRef.current?.create()}
         >
           <Plus size={36} />
           <span style={{ fontSize: "18px", marginLeft: "8px" }}>规则</span>
-        </Box>
+        </IconButton>
         <RuleEditDialog ref={ruleEditDialogRef} />
       </Box>
     );
@@ -47,16 +41,12 @@ export const CustomRules = () => {
     <Box sx={{ height: "100%", overflowY: "auto" }}>
       <Stack direction="row" justifyContent="flex-end" marginBottom={"-8px"}>
         <VpnButton />
-        <Box
-          sx={{
-            color: "var(--text-primary)",
-            padding: "8px 8px 0 0",
-            cursor: "pointer",
-          }}
+        <IconButton
+          color="primary"
           onClick={() => ruleEditDialogRef.current?.create()}
         >
           <Plus />
-        </Box>
+        </IconButton>
       </Stack>
       <RuleList ruleList={ruleList} />
       <RuleEditDialog ref={ruleEditDialogRef} />

@@ -1,6 +1,6 @@
 import { useMoon } from "@/hooks/use-moon";
+import { useTimer } from "@/hooks/use-timer";
 import { refreshSubscription } from "@/services/sub";
-import { Circle } from "@mui/icons-material";
 import {
   Box,
   IconButton,
@@ -42,20 +42,14 @@ export const LocalProxies = () => {
           height: "100%",
         }}
       >
-        <Box
-          sx={{
-            color: "var(--text-primary)",
-            cursor: "pointer",
-            marginTop: "-25px",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
+        <IconButton
+          color="primary"
+          disableRipple
           onClick={() => proxyEditDialogRef.current?.create()}
         >
           <Plus size={36} />
           <span style={{ fontSize: "18px", marginLeft: "8px" }}>本地节点</span>
-        </Box>
+        </IconButton>
         <ProxyEditDialog ref={proxyEditDialogRef} />
       </Box>
     );
@@ -63,18 +57,14 @@ export const LocalProxies = () => {
 
   return (
     <Box sx={{ height: "100%", overflowY: "auto" }}>
-      <Box
-        sx={{
-          color: "var(--text-primary)",
-          cursor: "pointer",
-          textAlign: "right",
-          padding: "8px 8px 0 0",
-          marginBottom: "-8px",
-        }}
-        onClick={() => proxyEditDialogRef.current?.create()}
-      >
-        <Plus />
-      </Box>
+      <Stack direction="row" justifyContent="flex-end" marginBottom={"-8px"}>
+        <IconButton
+          color="primary"
+          onClick={() => proxyEditDialogRef.current?.create()}
+        >
+          <Plus />
+        </IconButton>
+      </Stack>
       <ProxyList nodeList={nodeList} />
       <ProxyEditDialog ref={proxyEditDialogRef} />
     </Box>
@@ -91,7 +81,7 @@ const SubscriptionRefreshButton = (props: SubscriptionRefreshButtonProps) => {
   const { onClick, actived, loading } = props;
 
   return (
-    <IconButton color={actived ? "success" : "default"} onClick={onClick}>
+    <IconButton color={actived ? "primary" : "default"} onClick={onClick}>
       <RefreshCcw
         style={{
           transition: "transform 1s ease",
@@ -160,70 +150,53 @@ interface SubscriptionTitleProps {
 const SubscriptionTitle = (props: SubscriptionTitleProps) => {
   const { group, onEdit, onDelete } = props;
 
-  const [autoRefresh, setAutoRefresh] = useState(false);
   const [loading, setLoading] = useState(false);
-  const cleanInterval = useRef(0);
-  let autoRefreshTimer = useRef(null as any);
 
   const { saveGroupProxies } = useMoon();
 
+  const { changeTimer, toggleAutoRefresh, isAutoRefreshOn, refreshings } =
+    useTimer();
+
+  const [autoOn, setAutoOn] = useState(false);
+
   useEffect(() => {
-    return () => {
-      console.log("destroy");
-      if (autoRefreshTimer.current) {
-        clearInterval(autoRefreshTimer.current);
-        autoRefreshTimer.current = null;
-      }
-    };
+    //自动刷新
+    console.log("isAutoRefreshOn(group.uid)", isAutoRefreshOn(group.uid));
+    setAutoOn(isAutoRefreshOn(group.uid));
   }, []);
 
   useEffect(() => {
-    console.log("title group interval", group.interval);
-    const currInterval = group.interval ?? 0;
-    if (cleanInterval.current !== currInterval) {
-      cleanInterval.current = currInterval;
-      //注：当订阅组的 interval 发生变化，且定时器运行中时，需要更新之前的定时器
-      if (autoRefreshTimer.current) {
-        clearInterval(autoRefreshTimer.current);
-        if (currInterval > 0) {
-          autoRefreshTimer.current = setInterval(
-            () => fetchSubscription(),
-            currInterval * 1000,
-          );
-        } else {
-          autoRefreshTimer.current = null;
-        }
-      }
-    }
+    //订阅组信息
+    console.log("group", group);
+    //切换定时器
+    const groupInterval = group.interval ?? 0;
+    console.log("groupInterval", groupInterval);
+    changeTimer(group.uid, groupInterval, fetchSubscription);
+    //切换自动刷新
+    setAutoOn(isAutoRefreshOn(group.uid));
   }, [group]);
 
-  const fetchSubscription = useLockFn(async () => {
-    try {
-      setLoading(true);
-      const newGroup = await refreshSubscription({ ...group });
-      await saveGroupProxies(newGroup);
-      setLoading(false);
-    } catch (err: any) {
-      console.error(err);
-      Notice.error("获取订阅失败");
-    }
-  });
+  useEffect(() => {
+    //切换刷新状态
+    console.log("刷新状态");
+    setLoading(refreshings[group.uid]);
+  }, [refreshings[group.uid]]);
 
   const handleRefresh = useLockFn(async () => {
     if (group.interval && group.interval > 0) {
-      if (!autoRefresh) {
-        autoRefreshTimer.current = setInterval(
-          () => fetchSubscription(),
-          group.interval * 1000,
-        );
-      } else {
-        clearInterval(autoRefreshTimer.current);
-        autoRefreshTimer.current = null;
-      }
-      setAutoRefresh(!autoRefresh);
+      toggleAutoRefresh(group.uid, group.interval, fetchSubscription, !autoOn);
+      setAutoOn(!autoOn);
     } else {
-      setAutoRefresh(false);
       fetchSubscription();
+    }
+  });
+
+  const fetchSubscription = useLockFn(async () => {
+    try {
+      const newGroup = await refreshSubscription({ ...group });
+      await saveGroupProxies(newGroup);
+    } catch (err: any) {
+      Notice.error("更新订阅失败");
     }
   });
 
@@ -237,7 +210,7 @@ const SubscriptionTitle = (props: SubscriptionTitleProps) => {
           {group.url && (
             <SubscriptionRefreshButton
               loading={loading}
-              actived={autoRefresh}
+              actived={autoOn}
               onClick={handleRefresh}
             />
           )}
@@ -325,20 +298,14 @@ export const SubscriptionProxies = () => {
           height: "100%",
         }}
       >
-        <Box
-          sx={{
-            color: "var(--text-primary)",
-            cursor: "pointer",
-            marginTop: "-25px",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
+        <IconButton
+          color="primary"
+          disableRipple
           onClick={() => proxyGroupEditDialogRef.current?.create()}
         >
           <Plus size={36} />
           <span style={{ fontSize: "18px", marginLeft: "8px" }}>订阅节点</span>
-        </Box>
+        </IconButton>
         <ProxyGroupEditDialog ref={proxyGroupEditDialogRef} />
       </Box>
     );
@@ -346,18 +313,14 @@ export const SubscriptionProxies = () => {
 
   return (
     <Box sx={{ height: "100%", overflowY: "auto" }}>
-      <Box
-        sx={{
-          color: "var(--text-primary)",
-          cursor: "pointer",
-          textAlign: "right",
-          padding: "8px 8px 0 0",
-          marginBottom: "-8px",
-        }}
-        onClick={() => proxyGroupEditDialogRef.current?.create()}
-      >
-        <Plus />
-      </Box>
+      <Stack direction="row" justifyContent="flex-end" marginBottom={"-8px"}>
+        <IconButton
+          color="primary"
+          onClick={() => proxyGroupEditDialogRef.current?.create()}
+        >
+          <Plus />
+        </IconButton>
+      </Stack>
       <List>
         {groups.map((group, index) => (
           <ListItem key={index} sx={{ padding: "0" }}>
