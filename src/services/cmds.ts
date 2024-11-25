@@ -1,6 +1,5 @@
-import dayjs from "dayjs";
-import { invoke } from "@tauri-apps/api/core";
 import { Notice } from "@/components/base";
+import { invoke } from "@tauri-apps/api/core";
 
 export async function copyClashEnv() {
   return invoke<void>("copy_clash_env");
@@ -70,7 +69,6 @@ export async function getClashInfo() {
   return invoke<IClashInfo | null>("get_clash_info");
 }
 
-// Get runtime config which controlled by verge
 export async function getRuntimeConfig() {
   return invoke<IConfigData | null>("get_runtime_config");
 }

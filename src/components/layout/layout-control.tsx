@@ -1,5 +1,3 @@
-import { Button, ButtonGroup } from "@mui/material";
-import { getCurrentWebviewWindow } from "@tauri-apps/api/webviewWindow";
 import {
   CloseRounded,
   CropSquareRounded,
@@ -8,6 +6,8 @@ import {
   PushPinOutlined,
   PushPinRounded,
 } from "@mui/icons-material";
+import { Box, Button, ButtonGroup } from "@mui/material";
+import { getCurrentWebviewWindow } from "@tauri-apps/api/webviewWindow";
 import { useEffect, useState } from "react";
 const appWindow = getCurrentWebviewWindow();
 
@@ -34,71 +34,81 @@ export const LayoutControl = () => {
   }, []);
 
   return (
-    <ButtonGroup
-      variant="text"
-      sx={{
-        zIndex: 1000,
-        height: "100%",
-        ".MuiButtonGroup-grouped": {
-          borderRadius: "0px",
-          borderRight: "0px",
-        },
-      }}
-    >
-      <Button
-        size="small"
-        sx={{ minWidth, svg: { transform: "scale(0.9)" } }}
-        onClick={() => {
-          appWindow.setAlwaysOnTop(!isPined);
-          setIsPined((isPined) => !isPined);
-        }}
-      >
-        {isPined ? (
-          <PushPinRounded fontSize="small" />
-        ) : (
-          <PushPinOutlined fontSize="small" />
-        )}
-      </Button>
-
-      <Button
-        size="small"
-        sx={{ minWidth, svg: { transform: "scale(0.9)" } }}
-        onClick={() => appWindow.minimize()}
-      >
-        <HorizontalRuleRounded fontSize="small" />
-      </Button>
-
-      <Button
-        size="small"
-        sx={{ minWidth, svg: { transform: "scale(0.9)" } }}
-        onClick={() => {
-          setIsMaximized((isMaximized) => !isMaximized);
-          appWindow.toggleMaximize();
-        }}
-      >
-        {isMaximized ? (
-          <FilterNoneRounded
-            fontSize="small"
-            style={{
-              transform: "rotate(180deg) scale(0.7)",
-            }}
-          />
-        ) : (
-          <CropSquareRounded fontSize="small" />
-        )}
-      </Button>
-
-      <Button
-        size="small"
+    <Box
+      sx={(theme) => {
+        return {
+          color: "#808080",
+          ...theme.applyStyles("dark", {
+            color: "#fff",
+          }),
+        };
+      }}>
+      <ButtonGroup
+        variant="text"
+        color="inherit"
         sx={{
-          minWidth,
-          svg: { transform: "scale(1.05)" },
-          ":hover": { bgcolor: "#ff000090" },
-        }}
-        onClick={() => appWindow.close()}
-      >
-        <CloseRounded fontSize="small" />
-      </Button>
-    </ButtonGroup>
+          zIndex: 1000,
+          height: "100%",
+          ".MuiButtonGroup-grouped": {
+            borderRadius: "0px",
+            borderRight: "0px",
+          },
+        }}>
+        <Button
+          disableTouchRipple
+          size="small"
+          sx={{ minWidth, svg: { transform: "scale(0.8)" } }}
+          onClick={() => {
+            appWindow.setAlwaysOnTop(!isPined);
+            setIsPined((isPined) => !isPined);
+          }}>
+          {isPined ? (
+            <PushPinRounded fontSize="small" />
+          ) : (
+            <PushPinOutlined fontSize="small" />
+          )}
+        </Button>
+
+        <Button
+          disableTouchRipple
+          size="small"
+          sx={{ minWidth, svg: { transform: "scale(0.8)" } }}
+          onClick={() => appWindow.minimize()}>
+          <HorizontalRuleRounded fontSize="small" />
+        </Button>
+
+        <Button
+          disableTouchRipple
+          size="small"
+          sx={{ minWidth, svg: { transform: "scale(0.8)" } }}
+          onClick={() => {
+            setIsMaximized((isMaximized) => !isMaximized);
+            appWindow.toggleMaximize();
+          }}>
+          {isMaximized ? (
+            <FilterNoneRounded
+              fontSize="small"
+              style={{
+                transform: "rotate(180deg) scale(0.7)",
+              }}
+            />
+          ) : (
+            <CropSquareRounded fontSize="small" />
+          )}
+        </Button>
+
+        <Button
+          disableTouchRipple
+          size="small"
+          sx={{
+            minWidth,
+            svg: { transform: "scale(0.8)" },
+            ":hover": { bgcolor: "#ff000090" },
+          }}
+          onClick={() => appWindow.close()}>
+          <CloseRounded fontSize="small" />
+        </Button>
+      </ButtonGroup>
+    </Box>
   );
 };

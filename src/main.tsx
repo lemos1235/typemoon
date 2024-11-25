@@ -7,24 +7,19 @@ if (!window.ResizeObserver) {
   window.ResizeObserver = ResizeObserver;
 }
 
-import { ComposeContextProvider } from "foxact/compose-context-provider";
 import React from "react";
 import { createRoot } from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
 import { BaseErrorBoundary } from "./components/base";
-import Layout from "./pages/_layout";
-import {
-  LoadingCacheProvider,
-  ThemeModeProvider,
-  UpdateStateProvider,
-} from "./services/states";
+import ToggleThemeLayout from "./pages/_theme";
+import { MoonProvider } from "./provider/moon";
 
 const mainElementId = "root";
 const container = document.getElementById(mainElementId);
 
 if (!container) {
   throw new Error(
-    `No container '${mainElementId}' found to render application`
+    `No container '${mainElementId}' found to render application`,
   );
 }
 
@@ -35,25 +30,19 @@ document.addEventListener("keydown", (event) => {
     (event.altKey && ["ArrowLeft", "ArrowRight"].includes(event.key)) ||
     ((event.ctrlKey || event.metaKey) &&
       ["F", "G", "H", "J", "P", "Q", "R", "U"].includes(
-        event.key.toUpperCase()
+        event.key.toUpperCase(),
       ));
   disabledShortcuts && event.preventDefault();
 });
 
-const contexts = [
-  <ThemeModeProvider />,
-  <LoadingCacheProvider />,
-  <UpdateStateProvider />,
-];
-
 createRoot(container).render(
   <React.StrictMode>
-    <ComposeContextProvider contexts={contexts}>
+    <MoonProvider>
       <BaseErrorBoundary>
         <BrowserRouter>
-          <Layout />
+          <ToggleThemeLayout />
         </BrowserRouter>
       </BaseErrorBoundary>
-    </ComposeContextProvider>
-  </React.StrictMode>
+    </MoonProvider>
+  </React.StrictMode>,
 );

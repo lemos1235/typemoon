@@ -1,5 +1,6 @@
 ; This file is copied from https://github.com/tauri-apps/tauri/blob/tauri-v1.5/tooling/bundler/src/bundle/windows/templates/installer.nsi
 ; and edit to fit the needs of the project. the latest tauri 2.x has a different base nsi script.
+RequestExecutionLevel admin
 
 Unicode true
 ; Set the compression algorithm. Default is LZMA.
@@ -16,6 +17,8 @@ Unicode true
 !include "StrFunc.nsh"
 !include "Win\COM.nsh"
 !include "Win\Propkey.nsh"
+!include "WinVer.nsh"
+!include "LogicLib.nsh"
 !addplugindir "$%AppData%\Local\NSIS\"
 ${StrCase}
 ${StrLoc}
@@ -520,7 +523,7 @@ FunctionEnd
     ${If} $0 == 0
       Push $0
       ${If} $1 == 0
-            DetailPrint "Restart Moon Service..."
+            DetailPrint "Restart Clash Verge Service..."
             SimpleSC::StartService "clash_verge_service" "" 30
       ${EndIf}
     ${ElseIf} $0 != 0
@@ -546,20 +549,20 @@ FunctionEnd
     ${If} $0 == 0
       Push $0
       ${If} $1 == 1
-        DetailPrint "Stop Moon Service..."
+        DetailPrint "Stop Clash Verge Service..."
         SimpleSC::StopService "clash_verge_service" 1 30
         Pop $0 ; returns an errorcode (<>0) otherwise success (0)
         ${If} $0 == 0
-              DetailPrint "Removing Moon Service..."
+              DetailPrint "Removing Clash Verge Service..."
               SimpleSC::RemoveService "clash_verge_service"
         ${ElseIf} $0 != 0
                   Push $0
                   SimpleSC::GetErrorMessage
                   Pop $0
-                  MessageBox MB_OK|MB_ICONSTOP "Moon Service Stop Error ($0)"
+                  MessageBox MB_OK|MB_ICONSTOP "Clash Verge Service Stop Error ($0)"
         ${EndIf}
   ${ElseIf} $1 == 0
-        DetailPrint "Removing Moon Service..."
+        DetailPrint "Removing Clash Verge Service..."
         SimpleSC::RemoveService "clash_verge_service"
   ${EndIf}
     ${ElseIf} $0 != 0
@@ -688,11 +691,86 @@ SectionEnd
   app_check_done:
 !macroend
 
+
+
+Var VC_REDIST_URL
+Var VC_REDIST_EXE
+
+Section CheckAndInstallVSRuntime
+    ; 检查是否已安装 Visual C++ Redistributable
+    ${If} ${IsNativeARM64}
+        StrCpy $VC_REDIST_URL "https://aka.ms/vs/17/release/vc_redist.arm64.exe"
+        StrCpy $VC_REDIST_EXE "vc_redist.arm64.exe"
+        
+        ; 检查关键DLL
+        IfFileExists "$SYSDIR\vcruntime140.dll" 0 checkInstall
+        IfFileExists "$SYSDIR\msvcp140.dll" Done checkInstall
+        
+    ${ElseIf} ${RunningX64}
+        StrCpy $VC_REDIST_URL "https://aka.ms/vs/17/release/vc_redist.x64.exe"
+        StrCpy $VC_REDIST_EXE "vc_redist.x64.exe"
+        
+        ; 检查关键DLL
+        IfFileExists "$SYSDIR\vcruntime140.dll" 0 checkInstall
+        IfFileExists "$SYSDIR\msvcp140.dll" Done checkInstall
+        
+    ${Else}
+        StrCpy $VC_REDIST_URL "https://aka.ms/vs/17/release/vc_redist.x86.exe"
+        StrCpy $VC_REDIST_EXE "vc_redist.x86.exe"
+        
+        ; 检查关键DLL
+        IfFileExists "$SYSDIR\vcruntime140.dll" 0 checkInstall  
+        IfFileExists "$SYSDIR\msvcp140.dll" Done checkInstall
+    ${EndIf}
+
+    checkInstall:
+    ; 检查注册表
+    ${If} ${RunningX64}
+        SetRegView 64
+        ReadRegDword $R0 HKLM "SOFTWARE\Microsoft\VisualStudio\14.0\VC\Runtimes\${ARCH}" "Installed"
+        ${If} $R0 == "1"
+            Goto Done
+        ${EndIf}
+    ${Else}
+        ReadRegDword $R0 HKLM "SOFTWARE\Microsoft\VisualStudio\14.0\VC\Runtimes\x86" "Installed"
+        ${If} $R0 == "1"
+            Goto Done
+        ${EndIf}
+    ${EndIf}
+
+    ; 如果没有安装,则下载并安装
+    DetailPrint "正在下载 Visual C++ Redistributable..."
+    nsisdl::download "$VC_REDIST_URL" "$TEMP\$VC_REDIST_EXE"
+    Pop $0
+    ${If} $0 == "success"
+        DetailPrint "正在安装 Visual C++ Redistributable..."
+        ExecWait '"$TEMP\$VC_REDIST_EXE" /quiet /norestart' $0
+        ${If} $0 == 0
+            DetailPrint "Visual C++ Redistributable 安装成功"
+        ${Else}
+            DetailPrint "Visual C++ Redistributable 安装失败"
+        ${EndIf}
+        Delete "$TEMP\$VC_REDIST_EXE"
+    ${Else}
+        DetailPrint "Visual C++ Redistributable 下载失败"
+    ${EndIf}
+    
+    Done:
+SectionEnd
+
+
+
 Section Install
   SetOutPath $INSTDIR
-
+  nsExec::Exec 'netsh int tcp res'
   !insertmacro CheckIfAppIsRunning
   !insertmacro CheckAllVergeProcesses
+
+  ; Delete old files before installation
+    ; Delete clash-verge.desktop
+  IfFileExists "$INSTDIR\Moon.exe" 0 +2
+    Delete "$INSTDIR\Moon.exe"
+  
   ; Copy main executable
   File "${MAINBINARYSRCPATH}"
 
@@ -826,6 +904,10 @@ Section Uninstall
   {{#each binaries}}
     Delete "$INSTDIR\\{{this}}"
   {{/each}}
+
+  ; Delete clash-verge.desktop
+  IfFileExists "$INSTDIR\Moon.exe" 0 +2
+    Delete "$INSTDIR\Moon.exe"
 
   ; Delete uninstaller
   Delete "$INSTDIR\uninstall.exe"

@@ -1,11 +1,11 @@
 [package]
-name = "clash-verge"
+name = "Moon"
 version = "2.0.0"
-description = "clash verge"
+description = "moon"
 authors = ["zzzgydi", "wonfen", "MystiPanda"]
 license = "GPL-3.0-only"
-repository = "https://github.com/clash-verge-rev/clash-verge-rev.git"
-default-run = "clash-verge"
+repository = "https://github.com/lemos1235/typemoon"
+default-run = "Moon"
 edition = "2021"
 build = "build.rs"
 

@@ -1,4 +1,3 @@
-
 import { BaseErrorBoundary } from "@/components/base";
 import ProxiesPage from "./proxies";
 
@@ -19,7 +18,7 @@ export const routers = [
     icon: <RuleIcon />,
     element: <RulesPage />,
   },
-].map(router => ({
+].map((router) => ({
   ...router,
   element: (
     <BaseErrorBoundary key={router.label}>{router.element}</BaseErrorBoundary>

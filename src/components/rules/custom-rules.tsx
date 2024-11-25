@@ -1,10 +1,9 @@
-import { useMoon } from "@/hooks/use-moon";
-import { RuleEditDialog, RuleEditDialogRef } from "./rule-edit-dialog";
-import { useRef } from "react";
-import { Box, Stack } from "@mui/material";
+import { useMoon } from "@/provider/moon";
+import { Box, IconButton, Stack } from "@mui/material";
 import { Plus } from "lucide-react";
+import { useRef } from "react";
+import { RuleEditDialog, RuleEditDialogRef } from "./rule-edit-dialog";
 import RuleList from "./rule-list";
-import VpnButton from "../vpn/vpn-button";
 
 // 自定义规则
 export const CustomRules = () => {
@@ -22,22 +21,15 @@ export const CustomRules = () => {
           alignItems: "center",
           justifyContent: "center",
           height: "100%",
-        }}
-      >
-        <Box
-          sx={{
-            color: "var(--text-primary)",
-            cursor: "pointer",
-            marginTop: "-25px",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-          onClick={() => ruleEditDialogRef.current?.create()}
-        >
+        }}>
+        <IconButton
+          color="primary"
+          disableRipple
+          sx={{ marginTop: "-30px" }}
+          onClick={() => ruleEditDialogRef.current?.create()}>
           <Plus size={36} />
-          <span style={{ fontSize: "18px", marginLeft: "8px" }}>规则</span>
-        </Box>
+          <span style={{ fontSize: "20px", marginLeft: "8px" }}>规则</span>
+        </IconButton>
         <RuleEditDialog ref={ruleEditDialogRef} />
       </Box>
     );
@@ -46,17 +38,11 @@ export const CustomRules = () => {
   return (
     <Box sx={{ height: "100%", overflowY: "auto" }}>
       <Stack direction="row" justifyContent="flex-end" marginBottom={"-8px"}>
-        <VpnButton />
-        <Box
-          sx={{
-            color: "var(--text-primary)",
-            padding: "8px 8px 0 0",
-            cursor: "pointer",
-          }}
-          onClick={() => ruleEditDialogRef.current?.create()}
-        >
+        <IconButton
+          color="primary"
+          onClick={() => ruleEditDialogRef.current?.create()}>
           <Plus />
-        </Box>
+        </IconButton>
       </Stack>
       <RuleList ruleList={ruleList} />
       <RuleEditDialog ref={ruleEditDialogRef} />

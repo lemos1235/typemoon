@@ -1,6 +1,6 @@
-import { useMoon } from "@/hooks/use-moon";
 import {
   FormControl,
+  FormHelperText,
   InputLabel,
   ListSubheader,
   MenuItem,
@@ -12,6 +12,7 @@ import { nanoid } from "nanoid";
 import { forwardRef, useImperativeHandle, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { BaseDialog } from "../base";
+import { useMoon } from "@/provider/moon";
 
 interface Props {}
 
@@ -89,7 +90,7 @@ export const RuleEditDialog = forwardRef<RuleEditDialogRef, Props>(
         await saveRule(data);
         setOpen(false);
         setTimeout(() => formIns.reset(), 500);
-      })
+      }),
     );
 
     const handleClose = () => {
@@ -105,8 +106,7 @@ export const RuleEditDialog = forwardRef<RuleEditDialogRef, Props>(
         cancelBtn={"取消"}
         onClose={handleClose}
         onCancel={handleClose}
-        onOk={handleOk}
-      >
+        onOk={handleOk}>
         <Controller
           name="name"
           control={control}
@@ -138,7 +138,7 @@ export const RuleEditDialog = forwardRef<RuleEditDialogRef, Props>(
           render={({ field }) => {
             if (field.value === "MATCH") {
               return (
-                <TextField {...field} value={"默认"} label={"程序"} disabled />
+                <TextField {...field} value={"全部"} label={"程序"} disabled />
               );
             } else {
               return (
@@ -160,9 +160,9 @@ export const RuleEditDialog = forwardRef<RuleEditDialogRef, Props>(
             required: "操作是必选项",
           }}
           render={({ field }) => (
-            <FormControl>
+            <FormControl error={!!errors.action}>
               <InputLabel>操作</InputLabel>
-              <Select {...field} label="操作" placeholder="请选择操作">
+              <Select {...field} label="操作">
                 <ListSubheader>通用</ListSubheader>
                 <MenuItem value={"DIRECT"}>直连</MenuItem>
                 <MenuItem value={"REJECT"}>拒绝</MenuItem>
@@ -170,23 +170,18 @@ export const RuleEditDialog = forwardRef<RuleEditDialogRef, Props>(
                   <ListSubheader>本地节点</ListSubheader>
                 )}
                 {localProxyList.map((p) => (
-                  <MenuItem key={p.name} value={p.uid}>
-                    {(p as any).groupName + " - " + p.label}
-                  </MenuItem>
-                ))}
-                {subscriptionProxyList.length > 0 && (
-                  <ListSubheader>订阅节点</ListSubheader>
-                )}
-                {subscriptionProxyList.map((p) => (
-                  <MenuItem key={p.name} value={p.uid}>
-                    {(p as any).groupName + " - " + p.label}
+                  <MenuItem
+                    key={p.group_uid + ":" + p.uid}
+                    value={p.group_uid + ":" + p.uid}>
+                    {p.name}
                   </MenuItem>
                 ))}
               </Select>
+              <FormHelperText>{errors.action?.message}</FormHelperText>
             </FormControl>
           )}
         />
       </BaseDialog>
     );
-  }
+  },
 );

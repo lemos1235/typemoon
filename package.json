@@ -1,20 +1,17 @@
 {
-  "name": "clash-verge",
+  "name": "moon",
   "version": "2.0.0",
   "license": "GPL-3.0-only",
   "scripts": {
     "dev": "cross-env RUST_BACKTRACE=1 tauri dev",
     "dev:diff": "cross-env RUST_BACKTRACE=1 tauri dev -f verge-dev",
-    "build": "cross-env NODE_OPTIONS='--max-old-space-size=4096' tauri build",
+    "build": "tauri build",
     "tauri": "tauri",
     "web:dev": "vite",
     "web:build": "tsc --noEmit && vite build",
     "web:serve": "vite preview",
+    "prettier": "prettier --write 'src/**/*.{ts,tsx,js,css,scss}'",
     "check": "node scripts/check.mjs",
-    "updater": "node scripts/updater.mjs",
-    "updater-fixed-webview2": "node scripts/updater-fixed-webview2.mjs",
-    "portable": "node scripts/portable.mjs",
-    "portable-fixed-webview2": "node scripts/portable-fixed-webview2.mjs",
     "prepare": "husky"
   },
   "dependencies": {
@@ -26,7 +23,7 @@
     "@juggle/resize-observer": "^3.4.0",
     "@mui/icons-material": "^6.1.6",
     "@mui/lab": "5.0.0-alpha.149",
-    "@mui/material": "^6.1.6",
+    "@mui/material": "^6.1.9",
     "@mui/x-data-grid": "^7.22.2",
     "@tauri-apps/api": "2.1.1",
     "@tauri-apps/plugin-clipboard-manager": "2.0.0",
@@ -49,8 +46,6 @@
     "js-yaml": "^4.1.0",
     "lodash-es": "^4.17.21",
     "lucide-react": "^0.460.0",
-    "monaco-editor": "^0.52.0",
-    "monaco-yaml": "^5.2.3",
     "nanoid": "^5.0.8",
     "peggy": "^4.1.1",
     "react": "^18.3.1",
@@ -59,7 +54,6 @@
     "react-hook-form": "^7.53.2",
     "react-i18next": "^15.1.1",
     "react-markdown": "^9.0.1",
-    "react-monaco-editor": "^0.56.2",
     "react-router-dom": "^6.28.0",
     "react-transition-group": "^4.4.5",
     "react-virtuoso": "^4.12.0",
@@ -82,6 +76,7 @@
     "@vitejs/plugin-react": "^4.3.3",
     "adm-zip": "^0.5.16",
     "cross-env": "^7.0.3",
+    "fs-extra": "^11.2.0",
     "https-proxy-agent": "^7.0.5",
     "husky": "^9.1.7",
     "meta-json-schema": "^1.18.10",
@@ -92,14 +87,16 @@
     "terser": "^5.36.0",
     "typescript": "^5.6.3",
     "vite": "^5.4.11",
-    "vite-plugin-monaco-editor": "^1.1.0",
     "vite-plugin-svgr": "^4.3.0"
   },
   "prettier": {
     "tabWidth": 2,
     "semi": true,
     "singleQuote": false,
-    "endOfLine": "lf"
+    "endOfLine": "lf",
+    "bracketSameLine": true,
+    "jsxBracketSameLine": true,
+    "htmlWhitespaceSensitivity": "ignore"
   },
   "type": "module",
   "packageManager": "pnpm@9.13.2"

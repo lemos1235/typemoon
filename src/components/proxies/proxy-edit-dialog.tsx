@@ -1,6 +1,13 @@
 import { BaseDialog } from "@/components/base/base-dialog";
-import { useMoon } from "@/hooks/use-moon";
-import { TextField } from "@mui/material";
+import { useMoon } from "@/provider/moon";
+import {
+  FormControl,
+  FormHelperText,
+  InputLabel,
+  MenuItem,
+  Select,
+  TextField,
+} from "@mui/material";
 import { useLockFn } from "ahooks";
 import { nanoid } from "nanoid";
 import { forwardRef, useImperativeHandle, useState } from "react";
@@ -33,7 +40,7 @@ export const ProxyEditDialog = forwardRef<ProxyEditDialogRef, Props>(
         uid: "",
         group_uid: "",
         name: "",
-        scheme: "socks5",
+        scheme: "",
         host: "",
         port: undefined,
         username: "",
@@ -72,7 +79,7 @@ export const ProxyEditDialog = forwardRef<ProxyEditDialogRef, Props>(
         await saveProxy(data);
         setOpen(false);
         setTimeout(() => formIns.reset(), 500);
-      })
+      }),
     );
 
     const handleClose = () => {
@@ -88,8 +95,24 @@ export const ProxyEditDialog = forwardRef<ProxyEditDialogRef, Props>(
         cancelBtn={"取消"}
         onClose={handleClose}
         onCancel={handleClose}
-        onOk={handleOk}
-      >
+        onOk={handleOk}>
+        <Controller
+          name="scheme"
+          control={control}
+          rules={{
+            required: "协议是必选项",
+          }}
+          render={({ field }) => (
+            <FormControl error={!!errors.scheme}>
+              <InputLabel>协议</InputLabel>
+              <Select {...field} label="协议">
+                <MenuItem value={"http"}>HTTP</MenuItem>
+                <MenuItem value={"socks5"}>SOCKS5</MenuItem>
+              </Select>
+              <FormHelperText>{errors.scheme?.message}</FormHelperText>
+            </FormControl>
+          )}
+        />
         <Controller
           name="host"
           control={control}
@@ -152,5 +175,5 @@ export const ProxyEditDialog = forwardRef<ProxyEditDialogRef, Props>(
         />
       </BaseDialog>
     );
-  }
+  },
 );

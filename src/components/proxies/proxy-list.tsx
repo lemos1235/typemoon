@@ -1,30 +1,32 @@
-import { Box, List, ListItem } from "@mui/material";
-import { Virtuoso } from "react-virtuoso";
 import { BaseEmpty } from "@/components/base";
+import { Box, List, ListItem } from "@mui/material";
 import ProxyItem from "./proxy-item";
 
 interface Props {
-  nodeList: IMoonProxy[],
+  nodeList: IMoonProxy[];
 }
 
 const ProxyList = (props: Props) => {
   const { nodeList } = props;
   return (
     <Box sx={{ overflowY: "auto" }}>
-      {
-        nodeList.length > 0 ?
-          <List>
-            {nodeList.map((node, index) => <ListItem key={index} sx={{ padding: "7px 10px", }}><ProxyItem node={node} /></ListItem>)}
-          </List>
-          :
-          <List>
-            <ListItem sx={{ padding: "7px 10px", }}>
-              <BaseEmpty />
+      {nodeList.length > 0 ? (
+        <List disablePadding>
+          {nodeList.map((node, index) => (
+            <ListItem key={index} sx={{ padding: "7px 10px" }}>
+              <ProxyItem node={node} />
             </ListItem>
-          </List>
-      }
+          ))}
+        </List>
+      ) : (
+        <List disablePadding>
+          <ListItem>
+            <BaseEmpty />
+          </ListItem>
+        </List>
+      )}
     </Box>
-  )
-}
+  );
+};
 
 export default ProxyList;

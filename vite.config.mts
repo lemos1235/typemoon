@@ -3,12 +3,6 @@ import path from "path";
 import svgr from "vite-plugin-svgr";
 import react from "@vitejs/plugin-react";
 import legacy from "@vitejs/plugin-legacy";
-import monacoEditorPlugin, {
-  type IMonacoEditorOpts,
-} from "vite-plugin-monaco-editor";
-const monacoEditorPluginDefault = (monacoEditorPlugin as any).default as (
-  options: IMonacoEditorOpts
-) => any;
 
 export default defineConfig({
   root: "src",
@@ -26,15 +20,6 @@ export default defineConfig({
         path.resolve("./src/polyfills/matchMedia.js"),
         path.resolve("./src/polyfills/WeakRef.js"),
         path.resolve("./src/polyfills/RegExp.js"),
-      ],
-    }),
-    monacoEditorPluginDefault({
-      languageWorkers: ["editorWorkerService", "typescript", "css"],
-      customWorkers: [
-        {
-          label: "yaml",
-          entry: "monaco-yaml/yaml.worker",
-        },
       ],
     }),
   ],

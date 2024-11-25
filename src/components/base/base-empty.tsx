@@ -1,6 +1,4 @@
 import { alpha, Box, Typography } from "@mui/material";
-import { InboxRounded } from "@mui/icons-material";
-import { ShadowCard } from "@/components/base/base-card";
 
 interface Props {
   text?: React.ReactNode;
@@ -12,7 +10,7 @@ export const BaseEmpty = (props: Props) => {
 
   return (
     <Box
-      sx={({ palette }) => ({
+      sx={(theme) => ({
         width: "100%",
         height: "100%",
         display: "flex",
@@ -20,8 +18,8 @@ export const BaseEmpty = (props: Props) => {
         alignItems: "center",
         justifyContent: "center",
         boxShadow: "0px 0px 5px #EEEEEE",
-        color: alpha(palette.text.secondary, 0.75),
-      })} >
+        color: alpha(theme.palette.text.secondary, 0.75),
+      })}>
       <Typography sx={{ fontSize: "1em" }}>{`${text}`}</Typography>
       {extra}
     </Box>

@@ -12,7 +12,6 @@ use tauri::{App, Manager};
 //#[cfg(not(target_os = "linux"))]
 // use window_shadows::set_shadow;
 use tauri_plugin_notification::NotificationExt;
-use tauri_plugin_window_state::{StateFlags, WindowExt};
 use url::Url;
 
 pub static VERSION: OnceCell<String> = OnceCell::new();
@@ -128,62 +127,58 @@ pub fn create_window() {
         return;
     }
 
-    let builder = tauri::WebviewWindowBuilder::new(
+    #[cfg(target_os = "windows")]
+    let _ = {
+        let app_handle = app_handle.clone();
+        std::thread::spawn(move || {
+            tauri::WebviewWindowBuilder::new(
+                &app_handle,
+                "main".to_string(),
+                tauri::WebviewUrl::App("index.html".into()),
+            )
+                .title("Moon")
+                .visible(false)
+                .inner_size(780.0, 500.0)
+                .min_inner_size(620.0, 400.0)
+                .center()
+                .decorations(false)
+                .maximizable(true)
+                .additional_browser_args("--enable-features=msWebView2EnableDraggableRegions --disable-features=OverscrollHistoryNavigation,msExperimentalScrolling")
+                .transparent(true)
+                .build()
+        }).join().unwrap()
+    }.unwrap();
+
+    #[cfg(target_os = "macos")]
+    let _ = tauri::WebviewWindowBuilder::new(
         &app_handle,
         "main".to_string(),
         tauri::WebviewUrl::App("index.html".into()),
     )
-        .title("Moon")
-        .visible(false)
-        .fullscreen(false)
-        .min_inner_size(800.0, 520.0);
-
-    #[cfg(target_os = "windows")]
-    let window = builder
-        .decorations(false)
-        .additional_browser_args("--enable-features=msWebView2EnableDraggableRegions --disable-features=OverscrollHistoryNavigation,msExperimentalScrolling")
-        .transparent(true)
-        .center()
-        .build().unwrap();
-
-    #[cfg(target_os = "macos")]
-    let window = builder
-        .decorations(true)
-        .hidden_title(true)
-        .title_bar_style(tauri::TitleBarStyle::Overlay)
-        .center()
-        .build().unwrap();
+    .decorations(true)
+    .hidden_title(true)
+    .title_bar_style(tauri::TitleBarStyle::Overlay)
+    .title("Moon")
+    .inner_size(800.0, 480.0)
+    .min_inner_size(620.0, 400.0)
+    .center()
+    .build()
+    .unwrap();
 
     #[cfg(target_os = "linux")]
-    let window = builder
-        .decorations(false)
-        .transparent(true)
-        .center()
-        .build().unwrap();
-
-    match window.restore_state(StateFlags::all()) {
-        Ok(_) => {
-            log::info!(target: "app", "window state restored successfully");
-        }
-        Err(e) => {
-            log::error!(target: "app", "failed to restore window state: {}", e);
-            #[cfg(target_os = "windows")]
-            window
-                .set_size(tauri::Size::Physical(tauri::PhysicalSize {
-                    width: 800,
-                    height: 520,
-                }))
-                .unwrap();
-
-            #[cfg(not(target_os = "windows"))]
-            window
-                .set_size(tauri::Size::Physical(tauri::PhysicalSize {
-                    width: 800,
-                    height: 526,
-                }))
-                .unwrap();
-        }
-    };
+    let _ = tauri::WebviewWindowBuilder::new(
+        &app_handle,
+        "main".to_string(),
+        tauri::WebviewUrl::App("index.html".into()),
+    )
+    .title("Moon")
+    .decorations(false)
+    .inner_size(780.0, 500.0)
+    .min_inner_size(620.0, 400.0)
+    .center()
+    .transparent(true)
+    .build()
+    .unwrap();
 }
 
 pub async fn resolve_scheme(param: String) -> Result<()> {
@@ -289,6 +284,7 @@ fn resolve_random_port_config() -> Result<()> {
 }
 
 #[cfg(target_os = "macos")]
+#[allow(dead_code)]
 pub async fn set_public_dns(dns_server: String) {
     use crate::core::handle;
     use crate::utils::dirs;

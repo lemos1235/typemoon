@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   width="1240"
+   height="1240"
+   viewBox="0 0 1240 1240"
+   version="1.1"
+   id="svg1"
+   sodipodi:docname="tray-icon.svg"
+   inkscape:version="1.4 (e7c3feb1, 2024-10-09)"
+   inkscape:export-filename="tray-icon.png"
+   inkscape:export-xdpi="19.819355"
+   inkscape:export-ydpi="19.819355"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs1" />
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:zoom="0.31925106"
+     inkscape:cx="872.35419"
+     inkscape:cy="681.282"
+     inkscape:window-width="1200"
+     inkscape:window-height="958"
+     inkscape:window-x="0"
+     inkscape:window-y="25"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="svg1" />
+  <rect
+     style="display:none;fill:#4d4d4d;stroke-width:0.903226"
+     id="rect1"
+     width="1120"
+     height="1120"
+     x="60"
+     y="60"
+     inkscape:label="bg"
+     ry="1120" />
+  <g
+     transform="matrix(1.1424715,0,0,1.1424715,-361.65345,-361.67868)"
+     id="g1">
+    <path
+       d="m 780.58261,460.01305 c -159.61809,29.89406 -291.20283,167.85646 -316.57977,327.9644 -26.24634,145.50651 36.63198,301.64165 155.40191,389.42085 122.30605,95.5008 300.16021,107.0755 435.69055,32.98 106.6589,-56.4444 184.6313,-164.5861 205.283,-283.33056 -3.0795,-26.34411 -29.2777,-6.28067 -37.924,5.49227 -96.434,84.63729 -245.60152,98.39149 -355.27654,32.96048 -81.31688,-46.8048 -141.38997,-132.38404 -152.88239,-225.36698 -2.17524,-54.70941 -4.50591,-112.0887 20.56103,-162.90338 13.42523,-36.48017 38.77898,-66.15945 59.36879,-98.32631 4.75481,-9.52721 -3.36227,-19.9856 -13.64258,-18.89077 z"
+       id="path1"
+       style="stroke-width:2.56521" />
+  </g>
+</svg>

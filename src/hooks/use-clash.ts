@@ -1,11 +1,11 @@
-import useSWR, { mutate } from "swr";
-import { useLockFn } from "ahooks";
 import { getAxios, getVersion } from "@/services/api";
 import {
   getClashInfo,
-  patchClashConfig,
   getRuntimeConfig,
+  patchClashConfig,
 } from "@/services/cmds";
+import { useLockFn } from "ahooks";
+import useSWR, { mutate } from "swr";
 
 export const useClash = () => {
   const { data: clash, mutate: mutateClash } = useSWR(

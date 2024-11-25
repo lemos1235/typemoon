@@ -1,11 +1,12 @@
-import { useRef, useState } from "react";
-import { RuleEditDialog, RuleEditDialogRef } from "./rule-edit-dialog";
-import { useMoon } from "@/hooks/use-moon";
-import { useLockFn } from "ahooks";
-import { ShadowCard } from "@/components/base/base-card";
-import { Box, Divider, Grid, IconButton, Stack } from "@mui/material";
-import { Edit3, Trash2 } from "lucide-react";
 import { BaseAlertDialog } from "@/components/base/base-alert-dialog";
+import { ShadowCard } from "@/components/base/base-card";
+import { useMoon } from "@/provider/moon";
+import { Box, Grid2, IconButton, Stack } from "@mui/material";
+import { useLockFn } from "ahooks";
+import { Edit3, Trash2 } from "lucide-react";
+import { useRef, useState } from "react";
+import BaseDivider from "../base/base-divider";
+import { RuleEditDialog, RuleEditDialogRef } from "./rule-edit-dialog";
 
 interface Props {
   rule: IMoonRule;
@@ -40,13 +41,15 @@ const RuleItem = (props: Props) => {
 
   let ruleProcess = rule.process;
   if (ruleProcess === "MATCH") {
-    ruleProcess = "默认";
+    ruleProcess = "全部";
   }
 
   let ruleAction;
-  let actionProxy = proxyList.find((p) => p.uid === rule.action);
+  let actionProxy = proxyList.find(
+    (p) => p.group_uid + ":" + p.uid === rule.action,
+  );
   if (actionProxy) {
-    ruleAction = (actionProxy as any).groupName + " - " + actionProxy.label;
+    ruleAction = actionProxy.name;
   } else {
     switch (rule.action) {
       case "DIRECT":
@@ -66,14 +69,12 @@ const RuleItem = (props: Props) => {
         <Stack
           direction="row"
           justifyContent="space-between"
-          alignItems="center"
-        >
-          <Box style={{ fontSize: "20px" }}>{ruleName}</Box>
+          alignItems="center">
+          <Box style={{ fontSize: "18px" }}>{ruleName}</Box>
           <Box>
             <IconButton
               onClick={() => setDeleteOpen(true)}
-              disabled={rule.process === "MATCH"}
-            >
+              disabled={rule.process === "MATCH"}>
               <Trash2 size={16} />
             </IconButton>
             <IconButton onClick={() => ruleEditDialogRef.current?.edit(rule)}>
@@ -81,9 +82,13 @@ const RuleItem = (props: Props) => {
             </IconButton>
           </Box>
         </Stack>
-        <Divider flexItem sx={{ marginTop: "10px", marginBottom: "10px" }} />
-        <Grid container rowSpacing={1} columnSpacing={4}>
-          <Grid item xs={6}>
+        <BaseDivider
+          flexItem
+          sx={{ marginTop: "10px", marginBottom: "10px" }}
+          style={{}}
+        />
+        <Grid2 container rowSpacing={1} columnSpacing={4}>
+          <Grid2 size={{ xs: 6 }}>
             <Box sx={{ display: "flex", alignItems: "center" }}>
               <span>程序：</span>
               <Box
@@ -94,17 +99,16 @@ const RuleItem = (props: Props) => {
                   overflow: "hidden",
                   textOverflow: "ellipsis",
                   whiteSpace: "nowrap",
-                }}
-              >
+                }}>
                 {ruleProcess}
               </Box>
             </Box>
-          </Grid>
-          <Grid item xs={6}>
+          </Grid2>
+          <Grid2 size={{ xs: 6 }}>
             <span>操作：</span>
             <span>{ruleAction}</span>
-          </Grid>
-        </Grid>
+          </Grid2>
+        </Grid2>
       </Stack>
       <BaseAlertDialog
         open={deleteOpen}
