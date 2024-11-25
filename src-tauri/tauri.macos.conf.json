@@ -1,6 +1,6 @@
 {
   "$schema": "../node_modules/@tauri-apps/cli/config.schema.json",
-  "identifier": "club.lemos.typemoon",
+  "identifier": "club.lemos.greenmoon",
   "bundle": {
     "targets": ["app", "dmg"],
     "resources": ["resources"],

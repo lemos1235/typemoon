@@ -1,5 +1,5 @@
 {
-  "name": "clash-verge",
+  "name": "moon",
   "version": "2.0.0",
   "license": "GPL-3.0-only",
   "scripts": {
@@ -82,6 +82,7 @@
     "@vitejs/plugin-react": "^4.3.3",
     "adm-zip": "^0.5.16",
     "cross-env": "^7.0.3",
+    "fs-extra": "^11.2.0",
     "https-proxy-agent": "^7.0.5",
     "husky": "^9.1.7",
     "meta-json-schema": "^1.18.10",

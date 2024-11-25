@@ -3,6 +3,60 @@
 version = 3
 
 [[package]]
+name = "Moon"
+version = "2.0.0"
+dependencies = [
+ "aes-gcm",
+ "anyhow",
+ "base64 0.22.1",
+ "boa_engine",
+ "chrono",
+ "deelevate",
+ "delay_timer",
+ "dirs 5.0.1",
+ "dunce",
+ "getrandom 0.2.15",
+ "log",
+ "log4rs",
+ "nanoid",
+ "network-interface",
+ "once_cell",
+ "open",
+ "parking_lot",
+ "percent-encoding",
+ "port_scanner",
+ "reqwest",
+ "reqwest_dav",
+ "runas",
+ "serde",
+ "serde_json",
+ "serde_yaml",
+ "sysinfo",
+ "sysproxy",
+ "tauri",
+ "tauri-build",
+ "tauri-plugin-autostart",
+ "tauri-plugin-clipboard-manager",
+ "tauri-plugin-deep-link",
+ "tauri-plugin-devtools",
+ "tauri-plugin-dialog",
+ "tauri-plugin-fs",
+ "tauri-plugin-global-shortcut",
+ "tauri-plugin-notification",
+ "tauri-plugin-process",
+ "tauri-plugin-shell",
+ "tauri-plugin-updater",
+ "tauri-plugin-window-state",
+ "tokio",
+ "url",
+ "users",
+ "warp",
+ "window-shadows",
+ "winreg 0.52.0",
+ "zip",
+]
+
+[[package]]
 name = "addr2line"
 version = "0.24.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -984,60 +1038,6 @@ checksum = "773f3b9af64447d2ce9850330c473515014aa235e6a783b02db81ff39e4a3dad"
 dependencies = [
  "crypto-common",
  "inout",
-]
-
-[[package]]
-name = "clash-verge"
-version = "2.0.0"
-dependencies = [
- "aes-gcm",
- "anyhow",
- "base64 0.22.1",
- "boa_engine",
- "chrono",
- "deelevate",
- "delay_timer",
- "dirs 5.0.1",
- "dunce",
- "getrandom 0.2.15",
- "log",
- "log4rs",
- "nanoid",
- "network-interface",
- "once_cell",
- "open",
- "parking_lot",
- "percent-encoding",
- "port_scanner",
- "reqwest",
- "reqwest_dav",
- "runas",
- "serde",
- "serde_json",
- "serde_yaml",
- "sysinfo",
- "sysproxy",
- "tauri",
- "tauri-build",
- "tauri-plugin-autostart",
- "tauri-plugin-clipboard-manager",
- "tauri-plugin-deep-link",
- "tauri-plugin-devtools",
- "tauri-plugin-dialog",
- "tauri-plugin-fs",
- "tauri-plugin-global-shortcut",
- "tauri-plugin-notification",
- "tauri-plugin-process",
- "tauri-plugin-shell",
- "tauri-plugin-updater",
- "tauri-plugin-window-state",
- "tokio",
- "url",
- "users",
- "warp",
- "window-shadows",
- "winreg 0.52.0",
- "zip",
 ]
 
 [[package]]

@@ -27,10 +27,11 @@ export const CustomRules = () => {
         <IconButton
           color="primary"
           disableRipple
+          sx={{ marginTop: "-30px" }}
           onClick={() => ruleEditDialogRef.current?.create()}
         >
           <Plus size={36} />
-          <span style={{ fontSize: "18px", marginLeft: "8px" }}>规则</span>
+          <span style={{ fontSize: "20px", marginLeft: "8px" }}>规则</span>
         </IconButton>
         <RuleEditDialog ref={ruleEditDialogRef} />
       </Box>

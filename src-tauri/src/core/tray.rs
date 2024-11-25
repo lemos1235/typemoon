@@ -390,7 +390,7 @@ fn create_tray_menu(
         "quit",
         t!("Quit", "退出", use_zh),
         true,
-        Some("CmdOrControl+Q"),
+        None::<&str>,
     )
         .unwrap();
 

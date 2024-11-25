@@ -89,7 +89,7 @@ export const RuleEditDialog = forwardRef<RuleEditDialogRef, Props>(
         await saveRule(data);
         setOpen(false);
         setTimeout(() => formIns.reset(), 500);
-      })
+      }),
     );
 
     const handleClose = () => {
@@ -178,7 +178,7 @@ export const RuleEditDialog = forwardRef<RuleEditDialogRef, Props>(
                   <ListSubheader>订阅节点</ListSubheader>
                 )}
                 {subscriptionProxyList.map((p) => (
-                  <MenuItem key={p.name} value={p.uid}>
+                  <MenuItem key={p.name} value={p.group_uid + ":" + p.uid}>
                     {(p as any).groupName + " - " + p.label}
                   </MenuItem>
                 ))}
@@ -188,5 +188,5 @@ export const RuleEditDialog = forwardRef<RuleEditDialogRef, Props>(
         />
       </BaseDialog>
     );
-  }
+  },
 );

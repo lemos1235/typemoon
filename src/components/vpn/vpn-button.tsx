@@ -1,7 +1,7 @@
 import iconTran from "@/assets/image/icon_tran.svg?react";
 import { useVerge } from "@/hooks/use-verge";
 import { runAtLeast } from "@/utils/async";
-import { CircularProgress, IconButton, SvgIcon } from "@mui/material";
+import { IconButton, styled, SvgIcon } from "@mui/material";
 import { useLockFn } from "ahooks";
 import { useState } from "react";
 
@@ -23,30 +23,29 @@ const VpnButton = (props: Props) => {
           console.log("stop vpn");
           await patchVerge({ enable_tun_mode: false });
         }
-      }, 1500);
+      }, 500);
     } finally {
       setLoading(false);
     }
   });
 
   return (
-    <IconButton
+    <AnimatedIconButton
       onClick={startOrStopVpn}
       disableRipple
       disableFocusRipple
       disableTouchRipple
+      disabled={loading}
+      color={verge?.enable_tun_mode ? "primary" : "default"}
     >
-      {loading ? (
-        <CircularProgress color="inherit" size={18} />
-      ) : (
-        <SvgIcon
-          component={iconTran}
-          color={verge?.enable_tun_mode ? "primary" : "disabled"}
-          inheritViewBox
-        />
-      )}
-    </IconButton>
+      <SvgIcon component={iconTran} inheritViewBox />
+    </AnimatedIconButton>
   );
 };
+
+// 设置淡入淡出的过渡动画
+const AnimatedIconButton = styled(IconButton)(({ theme }) => ({
+  transition: "color 0.3s ease",
+}));
 
 export default VpnButton;

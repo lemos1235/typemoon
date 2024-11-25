@@ -25,7 +25,7 @@
   },
   "productName": "Moon",
   "version": "2.0.0",
-  "identifier": "club.lemos.typemoon",
+  "identifier": "club.lemos.greenmoon",
   "app": {
     "security": {
       "capabilities": ["desktop-capability", "migrated"],

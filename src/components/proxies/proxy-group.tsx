@@ -45,10 +45,11 @@ export const LocalProxies = () => {
         <IconButton
           color="primary"
           disableRipple
+          sx={{ marginTop: "-30px" }}
           onClick={() => proxyEditDialogRef.current?.create()}
         >
           <Plus size={36} />
-          <span style={{ fontSize: "18px", marginLeft: "8px" }}>本地节点</span>
+          <span style={{ fontSize: "20px", marginLeft: "8px" }}>本地节点</span>
         </IconButton>
         <ProxyEditDialog ref={proxyEditDialogRef} />
       </Box>
@@ -81,7 +82,11 @@ const SubscriptionRefreshButton = (props: SubscriptionRefreshButtonProps) => {
   const { onClick, actived, loading } = props;
 
   return (
-    <IconButton color={actived ? "primary" : "default"} onClick={onClick}>
+    <IconButton
+      disableRipple
+      color={loading || actived ? "primary" : "default"}
+      onClick={onClick}
+    >
       <RefreshCcw
         style={{
           transition: "transform 1s ease",
@@ -123,7 +128,7 @@ const SubscriptionPopupMenu = (props: SubscriptionPopupMenuProps) => {
 
   return (
     <Box marginLeft={"4px"}>
-      <IconButton onClick={handleClick}>
+      <IconButton disableRipple onClick={handleClick}>
         <MoreVertical size={20} />
       </IconButton>
       <Menu anchorEl={anchorEl} open={open} onClose={handleClose}>
@@ -187,7 +192,9 @@ const SubscriptionTitle = (props: SubscriptionTitleProps) => {
       toggleAutoRefresh(group.uid, group.interval, fetchSubscription, !autoOn);
       setAutoOn(!autoOn);
     } else {
-      fetchSubscription();
+      setLoading(true);
+      await fetchSubscription();
+      setLoading(false);
     }
   });
 
@@ -201,7 +208,9 @@ const SubscriptionTitle = (props: SubscriptionTitleProps) => {
   });
 
   return (
-    <Box sx={{ padding: "0 0 0 15px", marginBottom: "-8px" }}>
+    <Box
+      sx={{ padding: "0 0 5px 15px", marginBottom: "-8px", fontWeight: "600" }}
+    >
       <Stack direction="row" justifyContent="space-between">
         <Stack direction="row" alignItems={"center"}>
           <span>{group.remark || group.name}</span>
@@ -239,7 +248,7 @@ const SubscriptionContent = (props: SubscriptionContentProps) => {
     //检查当前节点是否关联某个规则
     const isRelated =
       moon?.rule_list?.some((r) =>
-        group.proxy_list?.some((p) => p.uid === r.action),
+        group.proxy_list?.some((p) => p.group_uid + ":" + p.uid === r.action),
       ) ?? false;
     if (isRelated) {
       setAlertOpen(true);
@@ -301,10 +310,11 @@ export const SubscriptionProxies = () => {
         <IconButton
           color="primary"
           disableRipple
+          sx={{ marginTop: "-30px" }}
           onClick={() => proxyGroupEditDialogRef.current?.create()}
         >
           <Plus size={36} />
-          <span style={{ fontSize: "18px", marginLeft: "8px" }}>订阅节点</span>
+          <span style={{ fontSize: "20px", marginLeft: "8px" }}>订阅节点</span>
         </IconButton>
         <ProxyGroupEditDialog ref={proxyGroupEditDialogRef} />
       </Box>
@@ -321,9 +331,9 @@ export const SubscriptionProxies = () => {
           <Plus />
         </IconButton>
       </Stack>
-      <List>
+      <List disablePadding>
         {groups.map((group, index) => (
-          <ListItem key={index} sx={{ padding: "0" }}>
+          <ListItem key={index} sx={{ padding: "0 0 8px 0" }}>
             <SubscriptionContent group={group} />
           </ListItem>
         ))}

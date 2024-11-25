@@ -44,7 +44,9 @@ const RuleItem = (props: Props) => {
   }
 
   let ruleAction;
-  let actionProxy = proxyList.find((p) => p.uid === rule.action);
+  let actionProxy = proxyList.find(
+    (p) => p.group_uid + ":" + p.uid === rule.action,
+  );
   if (actionProxy) {
     ruleAction = (actionProxy as any).groupName + " - " + actionProxy.label;
   } else {

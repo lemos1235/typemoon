@@ -8,7 +8,7 @@ import useSWR from "swr";
 export const useMoon = () => {
   const { data: moon, mutate: mutateMoon } = useSWR(
     "getMoonConfig",
-    getMoonConfig
+    getMoonConfig,
   );
 
   const saveProxy = async (data: IMoonProxy) => {
@@ -84,7 +84,7 @@ export const useMoon = () => {
         proxy_list: group.proxy_list,
       };
       const newGroupList = oldGroupList.map((i) =>
-        i.uid === newGroup.uid ? newGroup : i
+        i.uid === newGroup.uid ? newGroup : i,
       );
       await patchMoonConfig({ proxy_group_list: newGroupList });
       await mutateMoon();
@@ -130,10 +130,10 @@ export const useMoon = () => {
       (newProxyGroupList ?? moon?.proxy_group_list)
         ?.reduce(
           (acc, g) => (g.proxy_list ? [...acc, ...g.proxy_list] : acc),
-          [] as IMoonProxy[]
+          [] as IMoonProxy[],
         )
         .map((proxy) => ({
-          name: proxy.uid,
+          name: proxy.group_uid + ":" + proxy.uid,
           type: proxy.scheme as any,
           server: proxy.host,
           port: proxy.port,

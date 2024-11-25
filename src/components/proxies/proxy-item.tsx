@@ -23,7 +23,9 @@ const ProxyItem = (props: Props) => {
   const openDelete = () => {
     //检查当前节点是否关联某个规则
     const isRelated =
-      moon?.rule_list?.some((r) => r.action === node.uid) ?? false;
+      moon?.rule_list?.some(
+        (r) => r.action === node.group_uid + ":" + node.uid,
+      ) ?? false;
     if (isRelated) {
       setAlertOpen(true);
     } else {
