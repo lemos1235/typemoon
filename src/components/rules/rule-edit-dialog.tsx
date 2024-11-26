@@ -1,4 +1,3 @@
-import { useMoon } from "@/hooks/use-moon";
 import {
   FormControl,
   InputLabel,
@@ -12,6 +11,7 @@ import { nanoid } from "nanoid";
 import { forwardRef, useImperativeHandle, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { BaseDialog } from "../base";
+import { useMoon } from "@/provider/moon";
 
 interface Props {}
 
@@ -170,7 +170,7 @@ export const RuleEditDialog = forwardRef<RuleEditDialogRef, Props>(
                   <ListSubheader>本地节点</ListSubheader>
                 )}
                 {localProxyList.map((p) => (
-                  <MenuItem key={p.name} value={p.uid}>
+                  <MenuItem key={p.name} value={p.group_uid + ":" + p.uid}>
                     {(p as any).groupName + " - " + p.label}
                   </MenuItem>
                 ))}
