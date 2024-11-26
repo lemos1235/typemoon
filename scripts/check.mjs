@@ -5,7 +5,7 @@ import { extract } from "tar";
 import path from "path";
 import AdmZip from "adm-zip";
 import fetch from "node-fetch";
-import proxyAgent from "https-proxy-agent";
+import { HttpsProxyAgent } from "https-proxy-agent";
 import { execSync } from "child_process";
 import { log_info, log_debug, log_error, log_success } from "./utils.mjs";
 import { glob } from "glob";
@@ -55,8 +55,6 @@ const SIDECAR_HOST = target
       .match(/(?<=host: ).+(?=\s*)/g)[0];
 
 /* ======= clash meta alpha======= */
-const META_ALPHA_VERSION_URL =
-  "https://github.com/MetaCubeX/mihomo/releases/download/Prerelease-Alpha/version.txt";
 const META_ALPHA_URL_PREFIX = `https://github.com/MetaCubeX/mihomo/releases/download/Prerelease-Alpha`;
 let META_ALPHA_VERSION;
 
@@ -73,33 +71,6 @@ const META_ALPHA_MAP = {
   "linux-riscv64": "mihomo-linux-riscv64",
   "linux-loong64": "mihomo-linux-loong64",
 };
-
-// Fetch the latest alpha release version from the version.txt file
-async function getLatestAlphaVersion() {
-  const options = {};
-
-  const httpProxy =
-    process.env.HTTP_PROXY ||
-    process.env.http_proxy ||
-    process.env.HTTPS_PROXY ||
-    process.env.https_proxy;
-
-  if (httpProxy) {
-    options.agent = proxyAgent(httpProxy);
-  }
-  try {
-    const response = await fetch(META_ALPHA_VERSION_URL, {
-      ...options,
-      method: "GET",
-    });
-    let v = await response.text();
-    META_ALPHA_VERSION = v.trim(); // Trim to remove extra whitespaces
-    log_info(`Latest alpha version: ${META_ALPHA_VERSION}`);
-  } catch (error) {
-    log_error("Error fetching latest alpha version:", error.message);
-    process.exit(1);
-  }
-}
 
 /* ======= clash meta stable ======= */
 const META_VERSION_URL =
@@ -132,7 +103,7 @@ async function getLatestReleaseVersion() {
     process.env.https_proxy;
 
   if (httpProxy) {
-    options.agent = proxyAgent(httpProxy);
+    options.agent = new HttpsProxyAgent(httpProxy);
   }
   try {
     const response = await fetch(META_VERSION_URL, {
@@ -332,7 +303,7 @@ async function resolveResource(binInfo) {
     process.env.https_proxy;
 
   if (httpProxy) {
-    options.agent = proxyAgent(httpProxy);
+    options.agent = new HttpsProxyAgent(httpProxy);
   }
 
   const response = await fetch(url, {
@@ -476,15 +447,15 @@ const tasks = [
   { name: "service", func: resolveService, retry: 5 },
   { name: "install", func: resolveInstall, retry: 5 },
   { name: "uninstall", func: resolveUninstall, retry: 5 },
-  { name: "mmdb", func: resolveMmdb, retry: 5 },
-  { name: "geosite", func: resolveGeosite, retry: 5 },
-  { name: "geoip", func: resolveGeoIP, retry: 5 },
-  {
-    name: "enableLoopback",
-    func: resolveEnableLoopback,
-    retry: 5,
-    winOnly: true,
-  },
+  // { name: "mmdb", func: resolveMmdb, retry: 5 },
+  // { name: "geosite", func: resolveGeosite, retry: 5 },
+  // { name: "geoip", func: resolveGeoIP, retry: 5 },
+  // {
+  //   name: "enableLoopback",
+  //   func: resolveEnableLoopback,
+  //   retry: 5,
+  //   winOnly: true,
+  // },
   {
     name: "service_chmod",
     func: resolveServicePermission,
@@ -531,5 +502,4 @@ async function runTask() {
   return runTask();
 }
 
-runTask();
 runTask();
