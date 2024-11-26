@@ -6,6 +6,7 @@ import { useRef, useState } from "react";
 import { useMoon } from "@/provider/moon";
 import useLockFn from "ahooks/lib/useLockFn";
 import { ProxyEditDialog, ProxyEditDialogRef } from "./proxy-edit-dialog";
+import { useTimer } from "@/provider/timer";
 
 interface Props {
   node: IMoonProxy;
@@ -19,9 +20,10 @@ const ProxyItem = (props: Props) => {
   const [deleteOpen, setDeleteOpen] = useState(false);
   const [alertOpen, setAlertOpen] = useState(false);
   const { moon, deleteProxy } = useMoon();
+  const { stopTimer } = useTimer();
 
   const openDelete = () => {
-    //检查当前节点是否关联某个规则
+    // 检查当前节点是否关联某个规则
     const isRelated =
       moon?.rule_list?.some(
         (r) => r.action === node.group_uid + ":" + node.uid,
@@ -34,8 +36,13 @@ const ProxyItem = (props: Props) => {
   };
 
   const handleDelete = useLockFn(async () => {
+    const isLastNode = moon?.proxy_group_list?.length === 1;
     await deleteProxy(node);
     setDeleteOpen(false);
+    if (isLastNode) {
+      // 停止定时任务
+      stopTimer(node.group_uid!);
+    }
   });
 
   return (

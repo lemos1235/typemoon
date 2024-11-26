@@ -255,7 +255,7 @@ const SubscriptionContent = (props: SubscriptionContentProps) => {
   const handleDelete = useLockFn(async () => {
     await deleteProxyGroup(group);
     setDeleteOpen(false);
-    //停止定时任务
+    // 停止定时任务
     stopTimer(group.uid);
   });
 
