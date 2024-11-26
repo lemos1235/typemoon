@@ -431,26 +431,26 @@ const resolveUninstall = () => {
   });
 };
 
-const resolveMmdb = () =>
-  resolveResource({
-    file: "Country.mmdb",
-    downloadURL: `https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/country.mmdb`,
-  });
-const resolveGeosite = () =>
-  resolveResource({
-    file: "geosite.dat",
-    downloadURL: `https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geosite.dat`,
-  });
-const resolveGeoIP = () =>
-  resolveResource({
-    file: "geoip.dat",
-    downloadURL: `https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geoip.dat`,
-  });
-const resolveEnableLoopback = () =>
-  resolveResource({
-    file: "enableLoopback.exe",
-    downloadURL: `https://github.com/Kuingsmile/uwp-tool/releases/download/latest/enableLoopback.exe`,
-  });
+// const resolveMmdb = () =>
+//   resolveResource({
+//     file: "Country.mmdb",
+//     downloadURL: `https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/country.mmdb`,
+//   });
+// const resolveGeosite = () =>
+//   resolveResource({
+//     file: "geosite.dat",
+//     downloadURL: `https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geosite.dat`,
+//   });
+// const resolveGeoIP = () =>
+//   resolveResource({
+//     file: "geoip.dat",
+//     downloadURL: `https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geoip.dat`,
+//   });
+// const resolveEnableLoopback = () =>
+//   resolveResource({
+//     file: "enableLoopback.exe",
+//     downloadURL: `https://github.com/Kuingsmile/uwp-tool/releases/download/latest/enableLoopback.exe`,
+//   });
 
 const resolveWinSysproxy = () =>
   resolveResource({
@@ -460,12 +460,12 @@ const resolveWinSysproxy = () =>
 
 const tasks = [
   // { name: "clash", func: resolveClash, retry: 5 },
-  {
-    name: "verge-mihomo-alpha",
-    func: () =>
-      getLatestAlphaVersion().then(() => resolveSidecar(clashMetaAlpha())),
-    retry: 5,
-  },
+  // {
+  //   name: "verge-mihomo-alpha",
+  //   func: () =>
+  //     getLatestAlphaVersion().then(() => resolveSidecar(clashMetaAlpha())),
+  //   retry: 5,
+  // },
   {
     name: "verge-mihomo",
     func: () =>

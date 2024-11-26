@@ -193,55 +193,56 @@ pub fn init_resources() -> Result<()> {
         let _ = fs::create_dir_all(&res_dir);
     }
 
-    #[cfg(target_os = "windows")]
-    let file_list = ["Country.mmdb", "geoip.dat", "geosite.dat"];
-    #[cfg(target_os = "macos")]
-    let file_list = ["Country.mmdb", "geoip.dat", "geosite.dat"];
-    #[cfg(target_os = "linux")]
-    let file_list: [&str; 0] = [];
+    // 不需要拷贝
+    // #[cfg(target_os = "windows")]
+    // let file_list = ["Country.mmdb", "geoip.dat", "geosite.dat"];
+    // #[cfg(target_os = "macos")]
+    // let file_list = ["Country.mmdb", "geoip.dat", "geosite.dat"];
+    // #[cfg(target_os = "linux")]
+    // let file_list: [&str; 0] = [];
 
-    // copy the resource file
-    // if the source file is newer than the destination file, copy it over
-    for file in file_list.iter() {
-        let src_path = res_dir.join(file);
-        let dest_path = app_dir.join(file);
-        let test_dest_path = test_dir.join(file);
-        log::debug!(target: "app", "src_path: {src_path:?}, dest_path: {dest_path:?}");
+    // // copy the resource file
+    // // if the source file is newer than the destination file, copy it over
+    // for file in file_list.iter() {
+    //     let src_path = res_dir.join(file);
+    //     let dest_path = app_dir.join(file);
+    //     let test_dest_path = test_dir.join(file);
+    //     log::debug!(target: "app", "src_path: {src_path:?}, dest_path: {dest_path:?}");
 
-        let handle_copy = |dest: &PathBuf| {
-            match fs::copy(&src_path, dest) {
-                Ok(_) => log::debug!(target: "app", "resources copied '{file}'"),
-                Err(err) => {
-                    log::error!(target: "app", "failed to copy resources '{file}' to '{dest:?}', {err}")
-                }
-            };
-        };
+    //     let handle_copy = |dest: &PathBuf| {
+    //         match fs::copy(&src_path, dest) {
+    //             Ok(_) => log::debug!(target: "app", "resources copied '{file}'"),
+    //             Err(err) => {
+    //                 log::error!(target: "app", "failed to copy resources '{file}' to '{dest:?}', {err}")
+    //             }
+    //         };
+    //     };
 
-        if src_path.exists() && !test_dest_path.exists() {
-            handle_copy(&test_dest_path);
-        }
-        if src_path.exists() && !dest_path.exists() {
-            handle_copy(&dest_path);
-            continue;
-        }
+    //     if src_path.exists() && !test_dest_path.exists() {
+    //         handle_copy(&test_dest_path);
+    //     }
+    //     if src_path.exists() && !dest_path.exists() {
+    //         handle_copy(&dest_path);
+    //         continue;
+    //     }
 
-        let src_modified = fs::metadata(&src_path).and_then(|m| m.modified());
-        let dest_modified = fs::metadata(&dest_path).and_then(|m| m.modified());
+    //     let src_modified = fs::metadata(&src_path).and_then(|m| m.modified());
+    //     let dest_modified = fs::metadata(&dest_path).and_then(|m| m.modified());
 
-        match (src_modified, dest_modified) {
-            (Ok(src_modified), Ok(dest_modified)) => {
-                if src_modified > dest_modified {
-                    handle_copy(&dest_path);
-                } else {
-                    log::debug!(target: "app", "skipping resource copy '{file}'");
-                }
-            }
-            _ => {
-                log::debug!(target: "app", "failed to get modified '{file}'");
-                handle_copy(&dest_path);
-            }
-        };
-    }
+    //     match (src_modified, dest_modified) {
+    //         (Ok(src_modified), Ok(dest_modified)) => {
+    //             if src_modified > dest_modified {
+    //                 handle_copy(&dest_path);
+    //             } else {
+    //                 log::debug!(target: "app", "skipping resource copy '{file}'");
+    //             }
+    //         }
+    //         _ => {
+    //             log::debug!(target: "app", "failed to get modified '{file}'");
+    //             handle_copy(&dest_path);
+    //         }
+    //     };
+    // }
 
     Ok(())
 }
