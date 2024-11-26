@@ -199,7 +199,7 @@ export const MoonProvider: React.FC<{ children: React.ReactNode }> = ({
         }
         let type = "PROCESS-NAME";
         if (!isNaN(Number(payload))) {
-          type = "PROCESS-PID";
+          type = "PID";
         } else if (payload.includes(".*")) {
           if (payload.includes("/") || payload.includes("\\")) {
             type = "PROCESS-PATH-REGEX";
