@@ -1,5 +1,5 @@
 import { BaseDialog } from "@/components/base/base-dialog";
-import { useMoon } from "@/hooks/use-moon";
+import { useMoon } from "@/provider/moon";
 import { TextField } from "@mui/material";
 import { useLockFn } from "ahooks";
 import { nanoid } from "nanoid";
@@ -72,7 +72,7 @@ export const ProxyEditDialog = forwardRef<ProxyEditDialogRef, Props>(
         await saveProxy(data);
         setOpen(false);
         setTimeout(() => formIns.reset(), 500);
-      })
+      }),
     );
 
     const handleClose = () => {
@@ -152,5 +152,5 @@ export const ProxyEditDialog = forwardRef<ProxyEditDialogRef, Props>(
         />
       </BaseDialog>
     );
-  }
+  },
 );

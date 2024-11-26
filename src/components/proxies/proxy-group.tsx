@@ -1,5 +1,5 @@
-import { useMoon } from "@/hooks/use-moon";
-import { useTimer } from "@/hooks/use-timer";
+import { useMoon } from "@/provider/moon";
+import { useTimer } from "@/provider/timer";
 import { refreshSubscription } from "@/services/sub";
 import {
   Box,
@@ -13,7 +13,6 @@ import {
 import { useLockFn } from "ahooks";
 import { MoreVertical, Plus, RefreshCcw } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
-import { Notice } from "../base";
 import { BaseAlertDialog } from "../base/base-alert-dialog";
 import { ProxyEditDialog, ProxyEditDialogRef } from "./proxy-edit-dialog";
 import {
@@ -171,8 +170,7 @@ const SubscriptionTitle = (props: SubscriptionTitleProps) => {
   }, []);
 
   useEffect(() => {
-    //订阅组信息
-    console.log("group", group);
+    //监听订阅组信息变化
     //切换定时器
     const groupInterval = group.interval ?? 0;
     console.log("groupInterval", groupInterval);
@@ -182,8 +180,8 @@ const SubscriptionTitle = (props: SubscriptionTitleProps) => {
   }, [group]);
 
   useEffect(() => {
-    //切换刷新状态
-    console.log("刷新状态");
+    //监听自动刷新状态变化
+    // console.log("更新自动刷新状态");
     setLoading(refreshings[group.uid]);
   }, [refreshings[group.uid]]);
 
@@ -198,14 +196,14 @@ const SubscriptionTitle = (props: SubscriptionTitleProps) => {
     }
   });
 
-  const fetchSubscription = useLockFn(async () => {
+  const fetchSubscription = async () => {
     try {
-      const newGroup = await refreshSubscription({ ...group });
+      const newGroup = await refreshSubscription(group.url!);
       await saveGroupProxies(newGroup);
     } catch (err: any) {
-      Notice.error("更新订阅失败");
+      // Notice.error("更新订阅失败");
     }
-  });
+  };
 
   return (
     <Box
@@ -244,6 +242,8 @@ const SubscriptionContent = (props: SubscriptionContentProps) => {
 
   const { moon, deleteProxyGroup } = useMoon();
 
+  const { stopTimer } = useTimer();
+
   const openDelete = () => {
     //检查当前节点是否关联某个规则
     const isRelated =
@@ -260,6 +260,8 @@ const SubscriptionContent = (props: SubscriptionContentProps) => {
   const handleDelete = useLockFn(async () => {
     await deleteProxyGroup(group);
     setDeleteOpen(false);
+    //停止定时任务
+    stopTimer(group.uid);
   });
 
   return (

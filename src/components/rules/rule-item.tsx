@@ -1,6 +1,6 @@
 import { useRef, useState } from "react";
 import { RuleEditDialog, RuleEditDialogRef } from "./rule-edit-dialog";
-import { useMoon } from "@/hooks/use-moon";
+import { useMoon } from "@/provider/moon";
 import { useLockFn } from "ahooks";
 import { ShadowCard } from "@/components/base/base-card";
 import { Box, Divider, Grid, IconButton, Stack } from "@mui/material";

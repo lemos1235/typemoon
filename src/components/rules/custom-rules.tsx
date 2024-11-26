@@ -1,4 +1,4 @@
-import { useMoon } from "@/hooks/use-moon";
+import { useMoon } from "@/provider/moon";
 import { RuleEditDialog, RuleEditDialogRef } from "./rule-edit-dialog";
 import { useRef } from "react";
 import { Box, IconButton, Stack } from "@mui/material";

@@ -3,7 +3,7 @@ import { Edit3, Trash2 } from "lucide-react";
 import { ShadowCard } from "../base/base-card";
 import { BaseAlertDialog } from "../base/base-alert-dialog";
 import { useRef, useState } from "react";
-import { useMoon } from "@/hooks/use-moon";
+import { useMoon } from "@/provider/moon";
 import useLockFn from "ahooks/lib/useLockFn";
 import { ProxyEditDialog, ProxyEditDialogRef } from "./proxy-edit-dialog";
 

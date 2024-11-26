@@ -3,17 +3,49 @@ import {
   patchClashConfig,
   patchMoonConfig,
 } from "@/services/cmds";
+import React, { createContext, useContext, useRef } from "react";
 import useSWR from "swr";
 
-export const useMoon = () => {
-  const { data: moon, mutate: mutateMoon } = useSWR(
+interface MoonContextType {
+  moon: IMoonConfig | undefined;
+  saveProxy: (data: IMoonProxy) => Promise<void>;
+  deleteProxy: (proxy: IMoonProxy) => Promise<void>;
+  saveProxyGroup: (data: IMoonProxyGroup) => Promise<void>;
+  saveGroupProxies: (data: IMoonProxyGroup) => Promise<void>;
+  deleteProxyGroup: (group: IMoonProxyGroup) => Promise<void>;
+  saveRule: (rule: IMoonRule) => Promise<void>;
+  deleteRule: (rule: IMoonRule) => Promise<void>;
+  patchMoonToClash: (data?: IMoonConfig) => Promise<void>;
+}
+
+// Context
+const MoonContext = createContext<MoonContextType | undefined>(undefined);
+
+// Hook
+export const useMoon = (): MoonContextType => {
+  const context = useContext(MoonContext);
+
+  if (!context) {
+    throw new Error("useMoon must be used within a MoonProvider");
+  }
+
+  return context;
+};
+
+// Provider
+export const MoonProvider: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => {
+  const { data: moonConfig, mutate: mutateMoonConfig } = useSWR(
     "getMoonConfig",
     getMoonConfig,
   );
 
+  const moonRef = useRef(moonConfig);
+
   const saveProxy = async (data: IMoonProxy) => {
     const proxy = { ...data };
-    const oldGroupList = moon?.proxy_group_list ?? [];
+    const oldGroupList = moonRef.current?.proxy_group_list ?? [];
     const groupIndex = oldGroupList.findIndex((g) => g.uid === proxy.group_uid);
     const newGroupList = [...oldGroupList];
     if (groupIndex === -1) {
@@ -35,13 +67,11 @@ export const useMoon = () => {
       }
       newGroupList[groupIndex] = { ...oldGroup, proxy_list: newProxyList };
     }
-    await patchMoonConfig({ proxy_group_list: newGroupList });
-    await mutateMoon();
-    patchMoonToClash({ proxy_group_list: newGroupList });
+    await patchMoon({ proxy_group_list: newGroupList });
   };
 
   const deleteProxy = async (proxy: IMoonProxy) => {
-    const oldGroupList = moon?.proxy_group_list ?? [];
+    const oldGroupList = moonRef.current?.proxy_group_list ?? [];
     const groupIndex = oldGroupList.findIndex((g) => g.uid === proxy.group_uid);
     const newGroupList = [...oldGroupList];
     if (groupIndex !== -1) {
@@ -54,14 +84,12 @@ export const useMoon = () => {
         newGroupList[groupIndex] = { ...oldGroup, proxy_list: proxyList };
       }
     }
-    await patchMoonConfig({ proxy_group_list: newGroupList });
-    await mutateMoon();
-    patchMoonToClash({ proxy_group_list: newGroupList });
+    await patchMoon({ proxy_group_list: newGroupList });
   };
 
   const saveProxyGroup = async (data: IMoonProxyGroup) => {
     const group = { ...data };
-    const oldGroupList = moon?.proxy_group_list ?? [];
+    const oldGroupList = moonRef.current?.proxy_group_list ?? [];
     const groupIndex = oldGroupList.findIndex((g) => g.uid === group.uid);
     const newGroupList = [...oldGroupList];
     if (groupIndex === -1) {
@@ -69,14 +97,12 @@ export const useMoon = () => {
     } else {
       newGroupList[groupIndex] = group;
     }
-    await patchMoonConfig({ proxy_group_list: newGroupList });
-    await mutateMoon();
-    patchMoonToClash({ proxy_group_list: newGroupList });
+    await patchMoon({ proxy_group_list: newGroupList });
   };
 
   const saveGroupProxies = async (data: IMoonProxyGroup) => {
     const group = { ...data };
-    const oldGroupList = moon?.proxy_group_list ?? [];
+    const oldGroupList = moonRef.current?.proxy_group_list ?? [];
     const oldGroup = oldGroupList.find((g) => g.uid === group.uid);
     if (oldGroup) {
       const newGroup: IMoonProxyGroup = {
@@ -86,22 +112,18 @@ export const useMoon = () => {
       const newGroupList = oldGroupList.map((i) =>
         i.uid === newGroup.uid ? newGroup : i,
       );
-      await patchMoonConfig({ proxy_group_list: newGroupList });
-      await mutateMoon();
-      patchMoonToClash({ proxy_group_list: newGroupList });
+      await patchMoon({ proxy_group_list: newGroupList });
     }
   };
 
   const deleteProxyGroup = async (group: IMoonProxyGroup) => {
-    const oldGroupList = moon?.proxy_group_list ?? [];
+    const oldGroupList = moonRef.current?.proxy_group_list ?? [];
     const newGroupList = oldGroupList.filter((g) => g.uid !== group.uid);
-    await patchMoonConfig({ proxy_group_list: newGroupList });
-    await mutateMoon();
-    patchMoonToClash({ proxy_group_list: newGroupList });
+    await patchMoon({ proxy_group_list: newGroupList });
   };
 
   const saveRule = async (rule: IMoonRule) => {
-    const oldRuleList = moon?.rule_list ?? [];
+    const oldRuleList = moonRef.current?.rule_list ?? [];
     const ruleIndex = oldRuleList.findIndex((g) => g.uid === rule.uid);
     const newRuleList = [...oldRuleList];
     if (ruleIndex === -1) {
@@ -109,25 +131,21 @@ export const useMoon = () => {
     } else {
       newRuleList[ruleIndex] = rule;
     }
-    await patchMoonConfig({ rule_list: newRuleList });
-    await mutateMoon();
-    patchMoonToClash({ rule_list: newRuleList });
+    await patchMoon({ rule_list: newRuleList });
   };
 
   const deleteRule = async (rule: IMoonRule) => {
-    const oldRuleList = moon?.rule_list ?? [];
+    const oldRuleList = moonRef.current?.rule_list ?? [];
     const newRuleList = oldRuleList.filter((g) => g.uid !== rule.uid);
-    await patchMoonConfig({ ...moon, rule_list: newRuleList });
-    await mutateMoon();
-    patchMoonToClash({ rule_list: newRuleList });
+    await patchMoon({ rule_list: newRuleList });
   };
 
   const patchMoonToClash = async ({
     proxy_group_list: newProxyGroupList,
     rule_list: newRuleList,
   }: IMoonConfig = {}) => {
-    const proxyList: IProxyConfig[] =
-      (newProxyGroupList ?? moon?.proxy_group_list)
+    const proxyList =
+      (newProxyGroupList ?? moonRef.current?.proxy_group_list)
         ?.reduce(
           (acc, g) => (g.proxy_list ? [...acc, ...g.proxy_list] : acc),
           [] as IMoonProxy[],
@@ -140,7 +158,7 @@ export const useMoon = () => {
           username: proxy.username,
           password: proxy.password,
         })) ?? [];
-    const ruleList = (newRuleList ?? moon?.rule_list)
+    const ruleList = (newRuleList ?? moonRef.current?.rule_list)
       ?.reduce((acc, item) => {
         if (item.process === "MATCH") {
           acc.push(item);
@@ -175,15 +193,28 @@ export const useMoon = () => {
     });
   };
 
-  return {
-    moon,
-    saveProxy,
-    deleteProxy,
-    saveProxyGroup,
-    saveGroupProxies,
-    deleteProxyGroup,
-    saveRule,
-    deleteRule,
-    patchMoonToClash,
+  const patchMoon = async (patch: IMoonConfig) => {
+    moonRef.current = { ...moonRef.current, ...patch };
+    await patchMoonConfig(patch);
+    await mutateMoonConfig();
+    patchMoonToClash({ ...patch });
   };
+
+  return (
+    <MoonContext.Provider
+      value={{
+        moon: moonConfig,
+        saveProxy,
+        deleteProxy,
+        saveProxyGroup,
+        saveGroupProxies,
+        deleteProxyGroup,
+        saveRule,
+        deleteRule,
+        patchMoonToClash,
+      }}
+    >
+      {children}
+    </MoonContext.Provider>
+  );
 };

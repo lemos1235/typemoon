@@ -12,13 +12,14 @@ import React from "react";
 import { createRoot } from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
 import { BaseErrorBoundary } from "./components/base";
+import { MoonProvider } from "./provider/moon";
+import { TimerProvider } from "./provider/timer";
 import Layout from "./pages/_layout";
 import {
   LoadingCacheProvider,
   ThemeModeProvider,
   UpdateStateProvider,
 } from "./services/states";
-import { TimerProvider } from "./hooks/use-timer";
 
 const mainElementId = "root";
 const container = document.getElementById(mainElementId);
@@ -50,13 +51,15 @@ const contexts = [
 createRoot(container).render(
   <React.StrictMode>
     <ComposeContextProvider contexts={contexts}>
-      <TimerProvider>
-        <BaseErrorBoundary>
-          <BrowserRouter>
-            <Layout />
-          </BrowserRouter>
-        </BaseErrorBoundary>
-      </TimerProvider>
+      <MoonProvider>
+        <TimerProvider>
+          <BaseErrorBoundary>
+            <BrowserRouter>
+              <Layout />
+            </BrowserRouter>
+          </BaseErrorBoundary>
+        </TimerProvider>
+      </MoonProvider>
     </ComposeContextProvider>
   </React.StrictMode>,
 );

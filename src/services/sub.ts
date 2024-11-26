@@ -20,17 +20,17 @@ export const getSubscription = async (url: string) => {
   return instance.get(url) as Promise<ISubroupInfo>;
 };
 
-export const refreshSubscription = async (data: IMoonProxyGroup) => {
+export const refreshSubscription = async (url: string) => {
   try {
-    const newData = { ...data };
     const sub: ISubroupInfo = await runAtLeast(
-      () => getSubscription(data.url!),
+      () => getSubscription(url),
       1000,
     );
     if (!sub) {
       throw new Error("response is null");
     }
     console.log("refreshSubscription date", new Date());
+    const newData = {} as IMoonProxyGroup;
     newData.uid = sub.id;
     newData.proxy_list = sub.proxyList.map((p) => {
       return {

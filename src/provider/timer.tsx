@@ -7,6 +7,12 @@ import React, {
   useState,
 } from "react";
 
+interface TimerState {
+  autoRefreshOn: boolean;
+  autoRefreshTimer: any;
+  lastTimerInterval: number;
+}
+
 interface TimerContextType {
   startTimer: (
     groupId: string,
@@ -29,9 +35,11 @@ interface TimerContextType {
   refreshings: Record<string, boolean>;
 }
 
+// Context
 const TimerContext: Context<TimerContextType | null> =
   createContext<TimerContextType | null>(null);
 
+// Hook
 export const useTimer = (): TimerContextType => {
   const context = useContext(TimerContext);
 
@@ -42,12 +50,7 @@ export const useTimer = (): TimerContextType => {
   return context;
 };
 
-interface TimerState {
-  autoRefreshOn: boolean;
-  autoRefreshTimer: any;
-  lastTimerInterval: number;
-}
-
+// Provider
 export const TimerProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
@@ -79,7 +82,7 @@ export const TimerProvider: React.FC<{ children: React.ReactNode }> = ({
       setRefreshings((prev) => ({ ...prev, [groupId]: true }));
       await fetchSubscription();
       setRefreshings((prev) => ({ ...prev, [groupId]: false }));
-      console.log("完刷新订阅");
+      console.log("完成刷新订阅");
     }, interval * 1000);
 
     console.log("创建新的定时器", newTimer, interval);
