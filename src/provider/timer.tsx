@@ -8,9 +8,10 @@ import React, {
 } from "react";
 
 interface TimerState {
-  autoRefreshOn: boolean;
+  isTimerRunning: boolean;
   autoRefreshTimer: any;
   lastTimerInterval: number;
+  lastAutoRefreshOn: boolean;
 }
 
 interface TimerContextType {
@@ -23,15 +24,16 @@ interface TimerContextType {
   changeTimer: (
     groupId: string,
     interval: number,
+    autoRefreshOn: boolean,
     fetchSubscription: () => Promise<void>,
   ) => void;
-  toggleAutoRefresh: (
+  toggleTimer: (
     groupId: string,
     interval: number,
+    autoRefreshOn: boolean,
     fetchSubscription: () => Promise<void>,
-    on: boolean,
   ) => void;
-  isAutoRefreshOn: (groupId: string) => boolean;
+  isTimerRunning: (groupId: string) => boolean;
   refreshings: Record<string, boolean>;
 }
 
@@ -91,9 +93,10 @@ export const TimerProvider: React.FC<{ children: React.ReactNode }> = ({
     timersRef.current = {
       ...timers,
       [groupId]: {
-        autoRefreshOn: true,
+        isTimerRunning: true,
         autoRefreshTimer: newTimer,
         lastTimerInterval: interval,
+        lastAutoRefreshOn: true,
       },
     };
   };
@@ -115,8 +118,9 @@ export const TimerProvider: React.FC<{ children: React.ReactNode }> = ({
       ...timers,
       [groupId]: {
         ...timers[groupId],
-        autoRefreshOn: false,
+        isTimerRunning: false,
         autoRefreshTimer: null,
+        lastAutoRefreshOn: false,
       },
     };
   };
@@ -125,16 +129,21 @@ export const TimerProvider: React.FC<{ children: React.ReactNode }> = ({
   const changeTimer = (
     groupId: string,
     interval: number,
+    autoRefreshOn: boolean,
     fetchSubscription: () => Promise<void>,
   ) => {
     const timers = timersRef.current;
     const currentTimer = timers[groupId];
 
     // 如果间隔未变化，则不需要重新启动定时器
-    if (interval === currentTimer?.lastTimerInterval) return;
+    if (
+      interval === currentTimer?.lastTimerInterval &&
+      autoRefreshOn === currentTimer?.lastAutoRefreshOn
+    )
+      return;
 
     console.log("修改定时器", currentTimer?.lastTimerInterval, interval);
-    if (interval > 0) {
+    if (interval > 0 && autoRefreshOn) {
       startTimer(groupId, interval, fetchSubscription);
     } else {
       stopTimer(groupId);
@@ -142,23 +151,23 @@ export const TimerProvider: React.FC<{ children: React.ReactNode }> = ({
   };
 
   // 切换自动刷新
-  const toggleAutoRefresh = (
+  const toggleTimer = (
     groupId: string,
     interval: number,
+    autoRefreshOn: boolean,
     fetchSubscription: () => Promise<void>,
-    on: boolean,
   ) => {
-    if (on) {
+    if (interval > 0 && autoRefreshOn) {
       startTimer(groupId, interval, fetchSubscription);
     } else {
       stopTimer(groupId);
     }
   };
 
-  // 检查是否启用自动刷新
-  const isAutoRefreshOn = (groupId: string) => {
+  // 检查定时器是否正在运行
+  const isTimerRunning = (groupId: string) => {
     const timers = timersRef.current;
-    return timers[groupId]?.autoRefreshOn;
+    return timers[groupId]?.isTimerRunning;
   };
 
   useEffect(() => {
@@ -175,8 +184,8 @@ export const TimerProvider: React.FC<{ children: React.ReactNode }> = ({
         startTimer,
         stopTimer,
         changeTimer,
-        toggleAutoRefresh,
-        isAutoRefreshOn,
+        toggleTimer,
+        isTimerRunning,
         refreshings,
       }}
     >

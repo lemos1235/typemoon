@@ -91,7 +91,7 @@ const Layout = () => {
       },
       palette: {
         mode: mode,
-        primary: { main: "#81C784" },
+        primary: { main: "#3CB371" },
       },
       components: {
         MuiDivider: {

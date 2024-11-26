@@ -66,6 +66,7 @@ export const saveSubscription = async (data: IMoonProxyGroup) => {
     newData.uid = sub.id;
     newData.name = data.remark?.trim() || sub.groupName;
     newData.interval = data.interval ?? sub.refreshInterval;
+    newData.auto_refresh = newData.interval ? newData.interval > 0 : false;
     newData.proxy_list = sub.proxyList.map((p) => {
       return {
         uid: p.id,

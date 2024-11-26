@@ -3,7 +3,7 @@ import {
   patchClashConfig,
   patchMoonConfig,
 } from "@/services/cmds";
-import React, { createContext, useContext, useRef } from "react";
+import React, { createContext, useContext, useEffect, useRef } from "react";
 import useSWR from "swr";
 
 interface MoonContextType {
@@ -12,6 +12,7 @@ interface MoonContextType {
   deleteProxy: (proxy: IMoonProxy) => Promise<void>;
   saveProxyGroup: (data: IMoonProxyGroup) => Promise<void>;
   saveGroupProxies: (data: IMoonProxyGroup) => Promise<void>;
+  saveGroupAutoRefresh: (data: IMoonProxyGroup) => Promise<void>;
   deleteProxyGroup: (group: IMoonProxyGroup) => Promise<void>;
   saveRule: (rule: IMoonRule) => Promise<void>;
   deleteRule: (rule: IMoonRule) => Promise<void>;
@@ -41,7 +42,11 @@ export const MoonProvider: React.FC<{ children: React.ReactNode }> = ({
     getMoonConfig,
   );
 
-  const moonRef = useRef(moonConfig);
+  const moonRef = useRef(undefined as IMoonConfig | undefined);
+
+  useEffect(() => {
+    moonRef.current = moonConfig;
+  }, [moonConfig]);
 
   const saveProxy = async (data: IMoonProxy) => {
     const proxy = { ...data };
@@ -100,7 +105,9 @@ export const MoonProvider: React.FC<{ children: React.ReactNode }> = ({
     await patchMoon({ proxy_group_list: newGroupList });
   };
 
-  const saveGroupProxies = async (data: IMoonProxyGroup) => {
+  const saveGroupProxies = async (
+    data: Pick<IMoonProxyGroup, "uid" | "proxy_list">,
+  ) => {
     const group = { ...data };
     const oldGroupList = moonRef.current?.proxy_group_list ?? [];
     const oldGroup = oldGroupList.find((g) => g.uid === group.uid);
@@ -108,6 +115,23 @@ export const MoonProvider: React.FC<{ children: React.ReactNode }> = ({
       const newGroup: IMoonProxyGroup = {
         ...oldGroup,
         proxy_list: group.proxy_list,
+      };
+      const newGroupList = oldGroupList.map((i) =>
+        i.uid === newGroup.uid ? newGroup : i,
+      );
+      await patchMoon({ proxy_group_list: newGroupList });
+    }
+  };
+
+  const saveGroupAutoRefresh = async (
+    group: Pick<IMoonProxyGroup, "uid" | "auto_refresh">,
+  ) => {
+    const oldGroupList = moonRef.current?.proxy_group_list ?? [];
+    const oldGroup = oldGroupList.find((g) => g.uid === group.uid);
+    if (oldGroup) {
+      const newGroup: IMoonProxyGroup = {
+        ...oldGroup,
+        auto_refresh: group.auto_refresh,
       };
       const newGroupList = oldGroupList.map((i) =>
         i.uid === newGroup.uid ? newGroup : i,
@@ -208,6 +232,7 @@ export const MoonProvider: React.FC<{ children: React.ReactNode }> = ({
         deleteProxy,
         saveProxyGroup,
         saveGroupProxies,
+        saveGroupAutoRefresh,
         deleteProxyGroup,
         saveRule,
         deleteRule,

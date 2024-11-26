@@ -15,6 +15,7 @@ pub struct IProxyGroup {
     pub name: Option<String>,
     pub url: Option<String>,
     pub interval: Option<u64>,
+    pub auto_refresh: Option<bool>,
     pub remark: Option<String>,
     pub proxy_list: Option<Vec<IProxy>>,
 }

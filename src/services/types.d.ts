@@ -774,6 +774,7 @@ interface IMoonProxyGroup {
   name?: string;
   url?: string;
   interval?: number;
+  auto_refresh?: boolean;
   remark?: string;
   proxy_list?: IMoonProxy[];
 }

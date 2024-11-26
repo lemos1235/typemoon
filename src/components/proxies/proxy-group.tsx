@@ -156,27 +156,22 @@ const SubscriptionTitle = (props: SubscriptionTitleProps) => {
 
   const [loading, setLoading] = useState(false);
 
-  const { saveGroupProxies } = useMoon();
+  const { saveGroupProxies, saveGroupAutoRefresh } = useMoon();
 
-  const { changeTimer, toggleAutoRefresh, isAutoRefreshOn, refreshings } =
-    useTimer();
-
-  const [autoOn, setAutoOn] = useState(false);
-
-  useEffect(() => {
-    //自动刷新
-    console.log("isAutoRefreshOn(group.uid)", isAutoRefreshOn(group.uid));
-    setAutoOn(isAutoRefreshOn(group.uid));
-  }, []);
+  const { changeTimer, refreshings } = useTimer();
 
   useEffect(() => {
     //监听订阅组信息变化
     //切换定时器
     const groupInterval = group.interval ?? 0;
+    const groupAutoRefreshOn = group.auto_refresh ?? false;
     console.log("groupInterval", groupInterval);
-    changeTimer(group.uid, groupInterval, fetchSubscription);
-    //切换自动刷新
-    setAutoOn(isAutoRefreshOn(group.uid));
+    changeTimer(
+      group.uid,
+      groupInterval,
+      groupAutoRefreshOn,
+      fetchSubscription,
+    );
   }, [group]);
 
   useEffect(() => {
@@ -187,8 +182,8 @@ const SubscriptionTitle = (props: SubscriptionTitleProps) => {
 
   const handleRefresh = useLockFn(async () => {
     if (group.interval && group.interval > 0) {
-      toggleAutoRefresh(group.uid, group.interval, fetchSubscription, !autoOn);
-      setAutoOn(!autoOn);
+      const autoRefresh = !group.auto_refresh;
+      saveGroupAutoRefresh({ uid: group.uid, auto_refresh: autoRefresh });
     } else {
       setLoading(true);
       await fetchSubscription();
@@ -217,7 +212,7 @@ const SubscriptionTitle = (props: SubscriptionTitleProps) => {
           {group.url && (
             <SubscriptionRefreshButton
               loading={loading}
-              actived={autoOn}
+              actived={group.auto_refresh ?? false}
               onClick={handleRefresh}
             />
           )}
