@@ -22,6 +22,7 @@ import { useLocation, useRoutes } from "react-router-dom";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 import { mutate, SWRConfig } from "swr";
 import { routers } from "./_routers";
+import VpnButton from "@/components/vpn/vpn-button";
 
 const appWindow = getCurrentWebviewWindow();
 export let portableFlag = false;
@@ -208,6 +209,10 @@ const Layout = () => {
                   </LayoutItem>
                 ))}
               </List>
+
+              <div className="the-down">
+                <VpnButton />
+              </div>
             </div>
 
             <div className="layout__right">

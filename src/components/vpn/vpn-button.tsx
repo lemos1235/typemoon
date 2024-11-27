@@ -1,8 +1,8 @@
-import iconTran from "@/assets/image/icon_tran.svg?react";
 import { useVerge } from "@/hooks/use-verge";
 import { runAtLeast } from "@/utils/async";
-import { IconButton, styled, SvgIcon } from "@mui/material";
+import { IconButton, styled } from "@mui/material";
 import { useLockFn } from "ahooks";
+import { Sparkles } from "lucide-react";
 import { useState } from "react";
 
 interface Props {}
@@ -38,7 +38,7 @@ const VpnButton = (props: Props) => {
       disabled={loading}
       color={verge?.enable_tun_mode ? "primary" : "default"}
     >
-      <SvgIcon component={iconTran} inheritViewBox />
+      <Sparkles />
     </AnimatedIconButton>
   );
 };
