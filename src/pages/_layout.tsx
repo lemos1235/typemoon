@@ -19,11 +19,12 @@ import { listen } from "@tauri-apps/api/event";
 import { getCurrentWebviewWindow } from "@tauri-apps/api/webviewWindow";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
-import React, { useEffect, useMemo } from "react";
+import React, { useEffect, useMemo, useRef } from "react";
 import { useLocation, useRoutes } from "react-router-dom";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 import { mutate, SWRConfig } from "swr";
 import { routers } from "./_routers";
+import { useVerge } from "@/hooks/use-verge";
 
 const appWindow = getCurrentWebviewWindow();
 export let portableFlag = false;
@@ -33,12 +34,26 @@ dayjs.extend(relativeTime);
 const OS = getSystem();
 
 const Layout = () => {
-  const mode = useThemeMode();
-  const setMode = useSetThemeMode();
-
   const location = useLocation();
   const routersEles = useRoutes(routers);
   if (!routersEles) return null;
+
+  const mode = useThemeMode();
+  const setMode = useSetThemeMode();
+  const { verge, patchVerge } = useVerge();
+  const { theme_mode } = verge ?? {};
+
+  useEffect(() => {
+    if (!theme_mode) {
+      return;
+    }
+    console.log("theme_mode:", theme_mode);
+    setMode(theme_mode === "system" ? "light" : theme_mode);
+  }, [theme_mode]);
+
+  const toggleMode = () => {
+    patchVerge({ theme_mode: mode === "dark" ? "light" : "dark" });
+  };
 
   useEffect(() => {
     window.addEventListener("keydown", (e) => {
@@ -85,12 +100,6 @@ const Layout = () => {
   }, []);
 
   // 主题
-
-  const toggleMode = () => {
-    console.log("2233");
-    setMode(mode === "dark" ? "light" : "dark");
-  };
-
   const theme = useMemo(() => {
     const isDark = mode === "dark";
     return createTheme({
@@ -145,6 +154,12 @@ const Layout = () => {
     });
   }, [mode]);
 
+  if (!mode) {
+    console.log("主题未加载");
+    return <div style={{ visibility: "hidden" }} />;
+  }
+
+  console.log("应用初始化");
   return (
     <SWRConfig value={{ errorRetryCount: 3 }}>
       <ThemeProvider theme={theme}>

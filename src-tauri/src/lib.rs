@@ -4,7 +4,6 @@ mod core;
 mod enhance;
 mod feat;
 mod utils;
-#[cfg(target_os = "macos")]
 use crate::core::hotkey;
 use crate::utils::{resolve, resolve::resolve_scheme, server};
 #[cfg(target_os = "macos")]
@@ -169,18 +168,30 @@ pub fn run() {
                         {
                             log_err!(hotkey::Hotkey::global().register("CMD+Q", "quit"));
                         }
+                        #[cfg(not(target_os = "macos"))]
+                        {
+                            log_err!(hotkey::Hotkey::global().register("Ctrl+F4", "quit"));
+                        };
                     }
                     tauri::WindowEvent::Focused(false) => {
                         #[cfg(target_os = "macos")]
                         {
                             log_err!(hotkey::Hotkey::global().unregister("CMD+Q"));
                         }
+                        #[cfg(not(target_os = "macos"))]
+                        {
+                            log_err!(hotkey::Hotkey::global().unregister("Ctrl+F4"));
+                        };
                     }
                     tauri::WindowEvent::Destroyed => {
                         #[cfg(target_os = "macos")]
                         {
                             log_err!(hotkey::Hotkey::global().unregister("CMD+Q"));
                         }
+                        #[cfg(not(target_os = "macos"))]
+                        {
+                            log_err!(hotkey::Hotkey::global().unregister("Ctrl+F4"));
+                        };
                     }
                     _ => {}
                 }

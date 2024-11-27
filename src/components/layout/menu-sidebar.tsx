@@ -22,7 +22,7 @@ export default function MenuSidebar(props: Props) {
   return (
     <List
       sx={({ palette: { mode } }) => ({
-        background: mode === "dark" ? "#282828" : "#fafafa",
+        background: mode === "dark" ? "#242424" : "#fafafa",
       })}
       className="menubar"
     >
