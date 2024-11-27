@@ -13,6 +13,7 @@ import {
 import { useLockFn } from "ahooks";
 import { MoreVertical, Plus, RefreshCcw } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
+import { Notice } from "../base";
 import { BaseAlertDialog } from "../base/base-alert-dialog";
 import { ProxyEditDialog, ProxyEditDialogRef } from "./proxy-edit-dialog";
 import {
@@ -196,7 +197,7 @@ const SubscriptionTitle = (props: SubscriptionTitleProps) => {
       const newGroup = await refreshSubscription(group.url!);
       await saveGroupProxies(newGroup);
     } catch (err: any) {
-      // Notice.error("更新订阅失败");
+      Notice.error("订阅更新失败");
     }
   };
 

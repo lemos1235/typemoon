@@ -47,7 +47,7 @@ export const refreshSubscription = async (url: string) => {
     });
     return newData;
   } catch (error) {
-    console.log("更新订阅失败", error);
+    console.log("订阅更新失败", error);
     throw error;
   }
 };
@@ -82,7 +82,7 @@ export const saveSubscription = async (data: IMoonProxyGroup) => {
     });
     return newData;
   } catch (error) {
-    console.log("保存订阅失败", error);
+    console.log("订阅保存失败", error);
     throw error;
   }
 };
