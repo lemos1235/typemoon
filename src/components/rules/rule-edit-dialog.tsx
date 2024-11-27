@@ -1,5 +1,6 @@
 import {
   FormControl,
+  FormHelperText,
   InputLabel,
   ListSubheader,
   MenuItem,
@@ -160,7 +161,7 @@ export const RuleEditDialog = forwardRef<RuleEditDialogRef, Props>(
             required: "操作是必选项",
           }}
           render={({ field }) => (
-            <FormControl>
+            <FormControl error={!!errors.action}>
               <InputLabel>操作</InputLabel>
               <Select {...field} label="操作" placeholder="请选择操作">
                 <ListSubheader>通用</ListSubheader>
@@ -183,6 +184,7 @@ export const RuleEditDialog = forwardRef<RuleEditDialogRef, Props>(
                   </MenuItem>
                 ))}
               </Select>
+              <FormHelperText>{errors.action?.message}</FormHelperText>
             </FormControl>
           )}
         />

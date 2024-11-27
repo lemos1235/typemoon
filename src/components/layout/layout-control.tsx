@@ -48,6 +48,7 @@ export const LayoutControl = () => {
         }}
       >
         <Button
+          disableTouchRipple
           size="small"
           sx={{ minWidth, svg: { transform: "scale(0.8)" } }}
           onClick={() => {
@@ -63,6 +64,7 @@ export const LayoutControl = () => {
         </Button>
 
         <Button
+          disableTouchRipple
           size="small"
           sx={{ minWidth, svg: { transform: "scale(0.8)" } }}
           onClick={() => appWindow.minimize()}
@@ -71,6 +73,7 @@ export const LayoutControl = () => {
         </Button>
 
         <Button
+          disableTouchRipple
           size="small"
           sx={{ minWidth, svg: { transform: "scale(0.8)" } }}
           onClick={() => {
@@ -91,6 +94,7 @@ export const LayoutControl = () => {
         </Button>
 
         <Button
+          disableTouchRipple
           size="small"
           sx={{
             minWidth,
