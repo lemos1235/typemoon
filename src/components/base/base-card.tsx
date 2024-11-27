@@ -10,14 +10,19 @@ export function ShadowCard(props: Props) {
   const { children, sx } = props;
   return (
     <Box
-      sx={{
-        borderRadius: "5px",
-        borderStyle: "solid",
-        borderColor: "#F0F0F0",
-        borderWidth: "0.5px",
-        boxShadow: "0px 0px 5px #EEEEEE",
-        ...sx,
-      }}
+      sx={[
+        {
+          borderRadius: "5px",
+          borderStyle: "solid",
+          borderWidth: "0.5px",
+        },
+        ({ palette: { mode } }) => ({
+          borderColor: mode === "dark" ? "#242424" : "#F0F0F0",
+          boxShadow: mode === "dark" ? "none" : "0px 0.6px 5px #EEEEEE",
+          background: mode === "dark" ? "#242424" : "#fff",
+        }),
+        ...(Array.isArray(sx) ? sx : [sx]),
+      ]}
     >
       {children}
     </Box>

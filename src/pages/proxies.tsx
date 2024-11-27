@@ -38,7 +38,7 @@ const ProxiesPage = () => {
             },
             ({ palette: { mode } }) => ({
               borderLeft:
-                mode === "dark" ? "4px solid #2c2c2c" : "1px solid #f1f5fc",
+                mode === "dark" ? "4px solid #2c2c2c" : "2px solid #f2f2f2",
             }),
           ]}
         >

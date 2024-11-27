@@ -2,6 +2,7 @@ import iconTran from "@/assets/image/icon_tran.svg?react";
 import { Notice } from "@/components/base";
 import { LayoutControl } from "@/components/layout/layout-control";
 import { LayoutItem } from "@/components/layout/layout-item";
+import VpnButton from "@/components/vpn/vpn-button";
 import { getAxios } from "@/services/api";
 import { getPortableFlag } from "@/services/cmds";
 import { useSetThemeMode, useThemeMode } from "@/services/states";
@@ -18,12 +19,11 @@ import { listen } from "@tauri-apps/api/event";
 import { getCurrentWebviewWindow } from "@tauri-apps/api/webviewWindow";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo } from "react";
 import { useLocation, useRoutes } from "react-router-dom";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 import { mutate, SWRConfig } from "swr";
 import { routers } from "./_routers";
-import VpnButton from "@/components/vpn/vpn-button";
 
 const appWindow = getCurrentWebviewWindow();
 export let portableFlag = false;
@@ -108,7 +108,8 @@ const Layout = () => {
         MuiDivider: {
           styleOverrides: {
             root: {
-              borderColor: "#EEEEEE",
+              borderColor: isDark ? "#1b1b1b" : "#EEEEEE",
+              borderWidth: "1.0px",
             },
           },
         },
@@ -131,6 +132,13 @@ const Layout = () => {
             size: "small",
             variant: "outlined",
             margin: "normal",
+          },
+        },
+        MuiDialog: {
+          styleOverrides: {
+            paper: {
+              backgroundColor: isDark ? "#000" : "#FFFFFF",
+            },
           },
         },
       },
@@ -176,7 +184,7 @@ const Layout = () => {
               <Box
                 className="the-bar"
                 sx={({ palette: { mode } }) => ({
-                  background: mode === "dark" ? "#313238" : "#ebebeb",
+                  background: mode === "dark" ? "#313131" : "#ebebeb",
                 })}
               >
                 <div
