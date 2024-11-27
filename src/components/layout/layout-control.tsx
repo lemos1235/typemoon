@@ -34,7 +34,13 @@ export const LayoutControl = () => {
   }, []);
 
   return (
-    <Box sx={{ color: "#808080" }}>
+    <Box
+      sx={({ palette: { mode } }) => {
+        return {
+          color: mode === "dark" ? "#fff" : "#808080",
+        };
+      }}
+    >
       <ButtonGroup
         variant="text"
         color="inherit"

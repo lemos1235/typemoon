@@ -3,7 +3,7 @@ import { useLocalStorage } from "foxact/use-local-storage";
 
 const [ThemeModeProvider, useThemeMode, useSetThemeMode] = createContextState<
   "light" | "dark"
->("light");
+>("dark");
 
 export const useEnableLog = () => useLocalStorage("enable-log", false);
 

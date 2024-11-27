@@ -1,5 +1,5 @@
 import React, { ReactNode } from "react";
-import { Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import { BaseErrorBoundary } from "./base-error-boundary";
 
 interface Props {
@@ -8,24 +8,24 @@ interface Props {
   full?: boolean;
 }
 
-export const BasePage: React.FC<Props> = props => {
+export const BasePage: React.FC<Props> = (props) => {
   const { contentStyle, full, children } = props;
 
   return (
     <BaseErrorBoundary>
       <div className="base-page">
-        <div
+        <Box
+          sx={({ palette: { mode } }) => ({
+            background: mode === "dark" ? "#1B1B1B" : "#fff",
+          })}
           className={full ? "base-container no-padding" : "base-container"}
-          style={{ backgroundColor: "#ffffff" }}>
-          <section
-            style={{
-              backgroundColor: "var(--background-color)",
-            }}>
+        >
+          <section>
             <div className="base-content" style={contentStyle}>
               {children}
             </div>
           </section>
-        </div>
+        </Box>
       </div>
     </BaseErrorBoundary>
   );

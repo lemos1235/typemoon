@@ -30,13 +30,17 @@ const ProxiesPage = () => {
           onSelected={(index) => setMenuIndex(index)}
         />
         <Box
-          sx={{
-            flex: 1,
-            background: "#fff",
-            height: "100%",
-            zIndex: 2,
-            borderLeft: "1px solid #f1f5fc",
-          }}
+          sx={[
+            {
+              flex: 1,
+              height: "100%",
+              zIndex: 2,
+            },
+            ({ palette: { mode } }) => ({
+              borderLeft:
+                mode === "dark" ? "4px solid #2c2c2c" : "1px solid #f1f5fc",
+            }),
+          ]}
         >
           {menuIndex === "local" && <LocalProxies />}
           {menuIndex === "subscription" && <SubscriptionProxies />}

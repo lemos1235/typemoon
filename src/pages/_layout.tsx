@@ -1,4 +1,4 @@
-import iconLight from "@/assets/image/icon_light.svg?react";
+import iconTran from "@/assets/image/icon_tran.svg?react";
 import { Notice } from "@/components/base";
 import { LayoutControl } from "@/components/layout/layout-control";
 import { LayoutItem } from "@/components/layout/layout-item";
@@ -7,6 +7,7 @@ import { getPortableFlag } from "@/services/cmds";
 import { useSetThemeMode, useThemeMode } from "@/services/states";
 import getSystem from "@/utils/get-system";
 import {
+  Box,
   createTheme,
   List,
   Paper,
@@ -17,7 +18,7 @@ import { listen } from "@tauri-apps/api/event";
 import { getCurrentWebviewWindow } from "@tauri-apps/api/webviewWindow";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
-import React, { useEffect, useMemo } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useLocation, useRoutes } from "react-router-dom";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 import { mutate, SWRConfig } from "swr";
@@ -34,8 +35,6 @@ const OS = getSystem();
 const Layout = () => {
   const mode = useThemeMode();
   const setMode = useSetThemeMode();
-  //直接固定为 light
-  setMode("light");
 
   const location = useLocation();
   const routersEles = useRoutes(routers);
@@ -85,7 +84,15 @@ const Layout = () => {
     }, 50);
   }, []);
 
+  // 主题
+
+  const toggleMode = () => {
+    console.log("2233");
+    setMode(mode === "dark" ? "light" : "dark");
+  };
+
   const theme = useMemo(() => {
+    const isDark = mode === "dark";
     return createTheme({
       breakpoints: {
         values: { xs: 0, sm: 650, md: 900, lg: 1200, xl: 1536 },
@@ -93,6 +100,9 @@ const Layout = () => {
       palette: {
         mode: mode,
         primary: { main: "#3CB371" },
+        background: {
+          paper: isDark ? "#2C2C2C" : "#FFFFFF",
+        },
       },
       components: {
         MuiDivider: {
@@ -125,7 +135,7 @@ const Layout = () => {
         },
       },
     });
-  }, []);
+  }, [mode]);
 
   return (
     <SWRConfig value={{ errorRetryCount: 3 }}>
@@ -155,7 +165,6 @@ const Layout = () => {
             OS === "linux"
               ? {
                   borderRadius: "8px",
-                  border: "2px solid var(--divider-color)",
                   width: "calc(100vw - 4px)",
                   height: "calc(100vh - 4px)",
                 }
@@ -164,28 +173,34 @@ const Layout = () => {
         >
           <div className="layout__top" style={{ backgroundColor: "#ebebeb" }}>
             {
-              <div className="the-bar">
+              <Box
+                className="the-bar"
+                sx={({ palette: { mode } }) => ({
+                  background: mode === "dark" ? "#313238" : "#ebebeb",
+                })}
+              >
                 <div
                   className="the-dragbar"
                   data-tauri-drag-region="true"
                   style={{ width: "100%" }}
                 ></div>
                 {OS !== "macos" && <LayoutControl />}
-              </div>
+              </Box>
             }
           </div>
           <div className="layout__main">
             <div className="layout__left">
               <div className="the-logo" data-tauri-drag-region="true">
-                <div
-                  style={{
+                <Box
+                  sx={{
                     height: "27px",
                     display: "flex",
                     justifyContent: "center",
                   }}
+                  onClick={toggleMode}
                 >
                   <SvgIcon
-                    component={iconLight}
+                    component={iconTran}
                     style={{
                       height: "36px",
                       width: "36px",
@@ -195,7 +210,7 @@ const Layout = () => {
                     }}
                     inheritViewBox
                   />
-                </div>
+                </Box>
               </div>
 
               <List className="the-menu">
