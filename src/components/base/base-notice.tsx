@@ -1,6 +1,13 @@
 import { createRoot } from "react-dom/client";
 import { ReactNode, useState, useEffect } from "react";
-import { Box, IconButton, Slide, Snackbar, Typography } from "@mui/material";
+import {
+  Box,
+  IconButton,
+  Slide,
+  Snackbar,
+  Typography,
+  useTheme,
+} from "@mui/material";
 import {
   CloseRounded,
   CheckCircleRounded,
@@ -20,9 +27,8 @@ interface InnerProps {
 const NoticeInner = (props: InnerProps) => {
   const { type, message, duration = 1500, onClose } = props;
   const [visible, setVisible] = useState(true);
-  const [isDark, setIsDark] = useState(false);
-  const { verge } = useVerge();
-  const { theme_mode } = verge ?? {};
+  const theme = useTheme();
+
   const onBtnClose = () => {
     setVisible(false);
     onClose();
@@ -30,26 +36,6 @@ const NoticeInner = (props: InnerProps) => {
   const onAutoClose = (_e: any, reason: string) => {
     if (reason !== "clickaway") onBtnClose();
   };
-
-  useEffect(() => {
-    const themeMode = ["light", "dark", "system"].includes(theme_mode!)
-      ? theme_mode!
-      : "light";
-
-    if (themeMode !== "system") {
-      setIsDark(themeMode === "dark");
-      return;
-    }
-
-    appWindow.theme().then((m) => m && setIsDark(m === "dark"));
-    const unlisten = appWindow.onThemeChanged((e) =>
-      setIsDark(e.payload === "dark"),
-    );
-
-    return () => {
-      unlisten.then((fn) => fn());
-    };
-  }, [theme_mode]);
 
   const msgElement =
     type === "info" ? (
@@ -75,13 +61,21 @@ const NoticeInner = (props: InnerProps) => {
       autoHideDuration={duration}
       onClose={onAutoClose}
       message={msgElement}
-      sx={{
-        maxWidth: 360,
-        ".MuiSnackbarContent-root": {
-          bgcolor: isDark ? "#50515C" : "#ffffff",
-          color: isDark ? "#ffffff" : "#000000",
+      sx={[
+        {
+          maxWidth: 360,
         },
-      }}
+        (theme) => ({
+          ".MuiSnackbarContent-root": {
+            bgcolor: "#ffffff",
+            color: "#000000",
+            ...theme.applyStyles("dark", {
+              bgcolor: "#50515C",
+              color: "#ffffff",
+            }),
+          },
+        }),
+      ]}
       TransitionComponent={(p) => <Slide {...p} direction="left" />}
       transitionDuration={200}
       action={
