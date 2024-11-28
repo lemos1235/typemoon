@@ -1,13 +1,13 @@
-import { Box, Divider, Grid, IconButton, Stack } from "@mui/material";
-import { Edit3, Trash2 } from "lucide-react";
-import { ShadowCard } from "../base/base-card";
-import { BaseAlertDialog } from "../base/base-alert-dialog";
-import { useRef, useState } from "react";
 import { useMoon } from "@/provider/moon";
-import useLockFn from "ahooks/lib/useLockFn";
-import { ProxyEditDialog, ProxyEditDialogRef } from "./proxy-edit-dialog";
 import { useTimer } from "@/provider/timer";
+import { Box, Grid2, IconButton, Stack } from "@mui/material";
+import useLockFn from "ahooks/lib/useLockFn";
+import { Edit3, Trash2 } from "lucide-react";
+import { useRef, useState } from "react";
+import { BaseAlertDialog } from "../base/base-alert-dialog";
+import { ShadowCard } from "../base/base-card";
 import BaseDivider from "../base/base-divider";
+import { ProxyEditDialog, ProxyEditDialogRef } from "./proxy-edit-dialog";
 
 interface Props {
   node: IMoonProxy;
@@ -68,24 +68,24 @@ const ProxyItem = (props: Props) => {
           flexItem
           sx={{ marginTop: "10px", marginBottom: "10px" }}
         />
-        <Grid container rowSpacing={1} columnSpacing={4}>
-          <Grid item xs={6}>
+        <Grid2 container rowSpacing={1} columnSpacing={4}>
+          <Grid2 size={{ xs: 6 }}>
             <span>地址：</span>
             <span>{node.host}</span>
-          </Grid>
-          <Grid item xs={6}>
+          </Grid2>
+          <Grid2 size={{ xs: 6 }}>
             <span>端口：</span>
             <span>{node.port}</span>
-          </Grid>
-          <Grid item xs={6}>
+          </Grid2>
+          <Grid2 size={{ xs: 6 }}>
             <span>协议：</span>
             <span>{node.scheme}</span>
-          </Grid>
-          <Grid item xs={6}>
+          </Grid2>
+          <Grid2 size={{ xs: 6 }}>
             <span>认证：</span>
             <span>{node.username ? "有" : "无"}</span>
-          </Grid>
-        </Grid>
+          </Grid2>
+        </Grid2>
       </Stack>
       <BaseAlertDialog
         open={deleteOpen}

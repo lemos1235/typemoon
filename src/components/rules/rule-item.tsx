@@ -1,12 +1,12 @@
-import { useRef, useState } from "react";
-import { RuleEditDialog, RuleEditDialogRef } from "./rule-edit-dialog";
-import { useMoon } from "@/provider/moon";
-import { useLockFn } from "ahooks";
-import { ShadowCard } from "@/components/base/base-card";
-import { Box, Divider, Grid, IconButton, Stack } from "@mui/material";
-import { Edit3, Trash2 } from "lucide-react";
 import { BaseAlertDialog } from "@/components/base/base-alert-dialog";
+import { ShadowCard } from "@/components/base/base-card";
+import { useMoon } from "@/provider/moon";
+import { Box, Grid2, IconButton, Stack } from "@mui/material";
+import { useLockFn } from "ahooks";
+import { Edit3, Trash2 } from "lucide-react";
+import { useRef, useState } from "react";
 import BaseDivider from "../base/base-divider";
+import { RuleEditDialog, RuleEditDialogRef } from "./rule-edit-dialog";
 
 interface Props {
   rule: IMoonRule;
@@ -89,8 +89,8 @@ const RuleItem = (props: Props) => {
           sx={{ marginTop: "10px", marginBottom: "10px" }}
           style={{}}
         />
-        <Grid container rowSpacing={1} columnSpacing={4}>
-          <Grid item xs={6}>
+        <Grid2 container rowSpacing={1} columnSpacing={4}>
+          <Grid2 size={{ xs: 6 }}>
             <Box sx={{ display: "flex", alignItems: "center" }}>
               <span>程序：</span>
               <Box
@@ -106,12 +106,12 @@ const RuleItem = (props: Props) => {
                 {ruleProcess}
               </Box>
             </Box>
-          </Grid>
-          <Grid item xs={6}>
+          </Grid2>
+          <Grid2 size={{ xs: 6 }}>
             <span>操作：</span>
             <span>{ruleAction}</span>
-          </Grid>
-        </Grid>
+          </Grid2>
+        </Grid2>
       </Stack>
       <BaseAlertDialog
         open={deleteOpen}
