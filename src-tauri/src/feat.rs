@@ -18,11 +18,14 @@ use tauri_plugin_clipboard_manager::ClipboardExt;
 use tauri_plugin_window_state::{AppHandleExt, StateFlags};
 
 // 打开面板
-pub fn open_or_close_dashboard() {
+pub fn open_dashboard() {
     if let Some(window) = handle::Handle::global().get_window() {
         // 如果窗口存在，则切换其显示状态
         if window.is_visible().unwrap_or(false) {
-            let _ = window.hide();
+            if window.is_minimized().unwrap_or(false) {
+                let _ = window.unminimize();
+            }
+            let _ = window.set_focus();
         } else {
             let _ = window.show();
             let _ = window.set_focus();

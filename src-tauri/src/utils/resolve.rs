@@ -141,6 +141,7 @@ pub fn create_window() {
             .visible(false)
             .inner_size(800.0, 520.0)
             .min_inner_size(620.0, 520.0)
+            .center()
             .decorations(false)
             .maximizable(true)
             .additional_browser_args("--enable-features=msWebView2EnableDraggableRegions --disable-features=OverscrollHistoryNavigation,msExperimentalScrolling")
@@ -160,6 +161,7 @@ pub fn create_window() {
     .title_bar_style(tauri::TitleBarStyle::Overlay)
     .inner_size(800.0, 550.0)
     .min_inner_size(620.0, 550.0)
+    .center()
     .build()
     .unwrap();
 
