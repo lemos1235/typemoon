@@ -74,17 +74,17 @@ export const LocalProxies = () => {
 
 interface SubscriptionRefreshButtonProps {
   onClick: () => void;
-  actived: boolean;
+  activated: boolean;
   loading: boolean;
 }
 
 const SubscriptionRefreshButton = (props: SubscriptionRefreshButtonProps) => {
-  const { onClick, actived, loading } = props;
+  const { onClick, activated: activated, loading } = props;
 
   return (
     <IconButton
       disableRipple
-      color={loading || actived ? "primary" : "default"}
+      color={loading || activated ? "primary" : "default"}
       onClick={onClick}
     >
       <RefreshCcw
@@ -184,7 +184,7 @@ const SubscriptionTitle = (props: SubscriptionTitleProps) => {
   const handleRefresh = useLockFn(async () => {
     if (group.interval && group.interval > 0) {
       const autoRefresh = !group.auto_refresh;
-      saveGroupAutoRefresh({ uid: group.uid, auto_refresh: autoRefresh });
+      await saveGroupAutoRefresh({ uid: group.uid, auto_refresh: autoRefresh });
     } else {
       setLoading(true);
       await fetchSubscription();
@@ -213,7 +213,7 @@ const SubscriptionTitle = (props: SubscriptionTitleProps) => {
           {group.url && (
             <SubscriptionRefreshButton
               loading={loading}
-              actived={group.auto_refresh ?? false}
+              activated={group.auto_refresh ?? false}
               onClick={handleRefresh}
             />
           )}

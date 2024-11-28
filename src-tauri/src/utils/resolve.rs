@@ -175,6 +175,7 @@ pub fn create_window() {
     .decorations(false)
     .inner_size(800.0, 520.0)
     .min_inner_size(620.0, 520.0)
+    .center()
     .transparent(true)
     .build()
     .unwrap();
