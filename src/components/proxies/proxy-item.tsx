@@ -37,7 +37,10 @@ const ProxyItem = (props: Props) => {
   };
 
   const handleDelete = useLockFn(async () => {
-    const isLastNode = moon?.proxy_group_list?.length === 1;
+    const groupNode = moon?.proxy_group_list?.find(
+      (g) => g.uid === node.group_uid,
+    );
+    const isLastNode = groupNode?.proxy_list?.length === 1;
     await deleteProxy(node);
     setDeleteOpen(false);
     if (isLastNode) {

@@ -1,21 +1,11 @@
-import { createRoot } from "react-dom/client";
-import { ReactNode, useState, useEffect } from "react";
 import {
-  Box,
-  IconButton,
-  Slide,
-  Snackbar,
-  Typography,
-  useTheme,
-} from "@mui/material";
-import {
-  CloseRounded,
   CheckCircleRounded,
+  CloseRounded,
   ErrorRounded,
 } from "@mui/icons-material";
-import { useVerge } from "@/hooks/use-verge";
-import { getCurrentWebviewWindow } from "@tauri-apps/api/webviewWindow";
-const appWindow = getCurrentWebviewWindow();
+import { Box, IconButton, Slide, Snackbar, Typography } from "@mui/material";
+import { ReactNode, useState } from "react";
+import { createRoot } from "react-dom/client";
 interface InnerProps {
   type: string;
   duration?: number;
@@ -27,7 +17,6 @@ interface InnerProps {
 const NoticeInner = (props: InnerProps) => {
   const { type, message, duration = 1500, onClose } = props;
   const [visible, setVisible] = useState(true);
-  const theme = useTheme();
 
   const onBtnClose = () => {
     setVisible(false);
@@ -66,14 +55,16 @@ const NoticeInner = (props: InnerProps) => {
           maxWidth: 360,
         },
         (theme) => ({
-          ".MuiSnackbarContent-root": {
+          "& .MuiSnackbarContent-root": {
             bgcolor: "#ffffff",
             color: "#000000",
-            ...theme.applyStyles("dark", {
+          },
+          ...theme.applyStyles("dark", {
+            "& .MuiSnackbarContent-root": {
               bgcolor: "#50515C",
               color: "#ffffff",
-            }),
-          },
+            },
+          }),
         }),
       ]}
       TransitionComponent={(p) => <Slide {...p} direction="left" />}

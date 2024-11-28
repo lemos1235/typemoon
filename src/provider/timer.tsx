@@ -139,8 +139,9 @@ export const TimerProvider: React.FC<{ children: React.ReactNode }> = ({
     if (
       interval === currentTimer?.lastTimerInterval &&
       autoRefreshOn === currentTimer?.lastAutoRefreshOn
-    )
+    ) {
       return;
+    }
 
     console.log("修改定时器", currentTimer?.lastTimerInterval, interval);
     if (interval > 0 && autoRefreshOn) {
