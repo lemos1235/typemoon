@@ -21,8 +21,11 @@ export default function MenuSidebar(props: Props) {
   const { menus, current, onSelected } = props;
   return (
     <List
-      sx={({ palette: { mode } }) => ({
-        background: mode === "dark" ? "#242424" : "#fafafa",
+      sx={(theme) => ({
+        background: "#fafafa",
+        ...theme.applyStyles("dark", {
+          background: "#242424",
+        }),
       })}
       className="menubar"
     >
@@ -40,14 +43,17 @@ export default function MenuSidebar(props: Props) {
                 paddingRight: 1,
                 marginRight: 1.25,
               },
-              ({ palette: { mode, primary, text } }) => {
-                const selectedBgcolor =
-                  mode === "dark"
-                    ? alpha(primary.main, 0.35)
-                    : alpha(primary.main, 0.15);
-                const selectedColor = text.primary;
-                const color =
-                  mode === "dark" ? alpha(text.primary, 0.7) : text.primary;
+              (theme) => {
+                const selectedBgcolor = alpha(theme.palette.primary.main, 0.15);
+                const selectedColor = theme.palette.text.primary;
+                const color = theme.palette.text.primary;
+
+                const darkSelectedBgcolor = alpha(
+                  theme.palette.primary.main,
+                  0.35,
+                );
+                const darkColor = alpha(theme.palette.text.primary, 0.7);
+                const darkSelectedColor = theme.palette.text.primary;
 
                 return {
                   "&.Mui-selected": { bgcolor: selectedBgcolor },
@@ -59,6 +65,17 @@ export default function MenuSidebar(props: Props) {
                     color: color,
                     fontWeight: "500",
                   },
+                  ...theme.applyStyles("dark", {
+                    "&.Mui-selected": { bgcolor: darkSelectedBgcolor },
+                    "&.Mui-selected:hover": { bgcolor: darkSelectedBgcolor },
+                    "&.Mui-selected .MuiListItemText-primary": {
+                      color: darkSelectedColor,
+                    },
+                    "& .MuiListItemText-primary": {
+                      color: darkColor,
+                      fontWeight: "500",
+                    },
+                  }),
                 };
               },
             ]}

@@ -5,6 +5,7 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
+  useTheme,
   type SxProps,
   type Theme,
 } from "@mui/material";
@@ -31,7 +32,7 @@ export interface DialogRef {
   close: () => void;
 }
 
-export const BaseDialog: React.FC<Props> = props => {
+export const BaseDialog: React.FC<Props> = (props) => {
   const {
     open,
     title,
@@ -44,6 +45,15 @@ export const BaseDialog: React.FC<Props> = props => {
     disableFooter,
     loading,
   } = props;
+
+  const theme = useTheme();
+
+  const dialogSx = {
+    backgroundColor: "#fff",
+    ...(theme.palette.mode === "dark" && {
+      backgroundColor: "#000",
+    }),
+  };
 
   return (
     <Dialog open={open} onClose={props.onClose}>
@@ -62,7 +72,8 @@ export const BaseDialog: React.FC<Props> = props => {
             <LoadingButton
               loading={loading}
               variant="contained"
-              onClick={props.onOk}>
+              onClick={props.onOk}
+            >
               {okBtn}
             </LoadingButton>
           )}

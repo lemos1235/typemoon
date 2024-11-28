@@ -5,7 +5,6 @@ import { LayoutItem } from "@/components/layout/layout-item";
 import VpnButton from "@/components/vpn/vpn-button";
 import { getAxios } from "@/services/api";
 import { getPortableFlag } from "@/services/cmds";
-import { useSetThemeMode, useThemeMode } from "@/services/states";
 import getSystem from "@/utils/get-system";
 import {
   Box,
@@ -14,17 +13,19 @@ import {
   Paper,
   SvgIcon,
   ThemeProvider,
+  useColorScheme,
 } from "@mui/material";
 import { listen } from "@tauri-apps/api/event";
 import { getCurrentWebviewWindow } from "@tauri-apps/api/webviewWindow";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
-import React, { useEffect, useMemo, useRef } from "react";
+import React, { useEffect } from "react";
 import { useLocation, useRoutes } from "react-router-dom";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 import { mutate, SWRConfig } from "swr";
 import { routers } from "./_routers";
-import { useVerge } from "@/hooks/use-verge";
+import { Titlebar } from "@/components/layout/titlebar";
+import { Navmenu } from "@/components/layout/navmenu";
 
 const appWindow = getCurrentWebviewWindow();
 export let portableFlag = false;
@@ -38,21 +39,13 @@ const Layout = () => {
   const routersEles = useRoutes(routers);
   if (!routersEles) return null;
 
-  const mode = useThemeMode();
-  const setMode = useSetThemeMode();
-  const { verge, patchVerge } = useVerge();
-  const { theme_mode } = verge ?? {};
-
-  useEffect(() => {
-    if (!theme_mode) {
-      return;
-    }
-    console.log("theme_mode:", theme_mode);
-    setMode(theme_mode === "system" ? "light" : theme_mode);
-  }, [theme_mode]);
+  const { mode, setMode } = useColorScheme();
+  if (!mode) {
+    return null;
+  }
 
   const toggleMode = () => {
-    patchVerge({ theme_mode: mode === "dark" ? "light" : "dark" });
+    setMode(mode === "light" ? "dark" : mode === "dark" ? "system" : "light");
   };
 
   useEffect(() => {
@@ -99,175 +92,45 @@ const Layout = () => {
     }, 50);
   }, []);
 
-  // 主题
-  const theme = useMemo(() => {
-    const isDark = mode === "dark";
-    return createTheme({
-      breakpoints: {
-        values: { xs: 0, sm: 650, md: 900, lg: 1200, xl: 1536 },
-      },
-      palette: {
-        mode: mode,
-        primary: { main: "#3CB371" },
-        background: {
-          paper: isDark ? "#2C2C2C" : "#FFFFFF",
-        },
-      },
-      components: {
-        MuiDivider: {
-          styleOverrides: {
-            root: {
-              borderColor: isDark ? "#1b1b1b" : "#EEEEEE",
-              borderWidth: "1.0px",
-            },
-          },
-        },
-        MuiTextField: {
-          defaultProps: {
-            fullWidth: true,
-            size: "small",
-            variant: "outlined",
-            margin: "normal",
-            autoComplete: "off",
-            autoCorrect: "off",
-            autoCapitalize: "off",
-            autoFocus: false,
-            spellCheck: false,
-          },
-        },
-        MuiFormControl: {
-          defaultProps: {
-            fullWidth: true,
-            size: "small",
-            variant: "outlined",
-            margin: "normal",
-          },
-        },
-        MuiDialog: {
-          styleOverrides: {
-            paper: {
-              backgroundColor: isDark ? "#000" : "#FFFFFF",
-            },
-          },
-        },
-      },
-    });
-  }, [mode]);
-
-  if (!mode) {
-    console.log("主题未加载");
-    return <div style={{ visibility: "hidden" }} />;
-  }
-
   console.log("应用初始化");
   return (
-    <SWRConfig value={{ errorRetryCount: 3 }}>
-      <ThemeProvider theme={theme}>
-        <Paper
-          square
-          elevation={0}
-          className={`${OS} layout`}
-          onContextMenu={(e) => {
-            // only prevent it on Windows
-            const validList = ["input", "textarea"];
-            const target = e.currentTarget;
-            if (
-              OS === "windows" &&
-              !(
-                validList.includes(target.tagName.toLowerCase()) ||
-                target.isContentEditable
-              )
-            ) {
-              e.preventDefault();
-            }
-          }}
-          sx={[
-            ({ palette }) => ({
-              bgcolor: palette.background.paper,
-            }),
-            OS === "linux"
-              ? {
-                  borderRadius: "8px",
-                  width: "calc(100vw - 4px)",
-                  height: "calc(100vh - 4px)",
-                }
-              : {},
-          ]}
-        >
-          <div className="layout__top" style={{ backgroundColor: "#ebebeb" }}>
-            {
-              <Box
-                className="the-bar"
-                sx={({ palette: { mode } }) => ({
-                  background: mode === "dark" ? "#313131" : "#ebebeb",
-                })}
-              >
-                <div
-                  className="the-dragbar"
-                  data-tauri-drag-region="true"
-                  style={{ width: "100%" }}
-                ></div>
-                {OS !== "macos" && <LayoutControl />}
-              </Box>
-            }
-          </div>
-          <div className="layout__main">
-            <div className="layout__left">
-              <div className="the-logo" data-tauri-drag-region="true">
-                <Box
-                  sx={{
-                    height: "27px",
-                    display: "flex",
-                    justifyContent: "center",
-                  }}
-                  onClick={toggleMode}
-                >
-                  <SvgIcon
-                    component={iconTran}
-                    style={{
-                      height: "36px",
-                      width: "36px",
-                      marginTop: "-3px",
-                      marginRight: "5px",
-                      marginLeft: "-3px",
-                    }}
-                    inheritViewBox
-                  />
-                </Box>
-              </div>
-
-              <List className="the-menu">
-                {routers.map((router) => (
-                  <LayoutItem
-                    key={router.label}
-                    to={router.path}
-                    icon={router.icon}
-                  >
-                    {router.label}
-                  </LayoutItem>
-                ))}
-              </List>
-
-              <div className="the-down">
-                <VpnButton />
-              </div>
-            </div>
-
-            <div className="layout__right">
-              <TransitionGroup className="the-content">
-                <CSSTransition
-                  key={location.pathname}
-                  timeout={300}
-                  classNames="page"
-                >
-                  {React.cloneElement(routersEles, { key: location.pathname })}
-                </CSSTransition>
-              </TransitionGroup>
-            </div>
-          </div>
-        </Paper>
-      </ThemeProvider>
-    </SWRConfig>
+    <Paper
+      square
+      elevation={0}
+      className={`${OS} layout`}
+      onContextMenu={(e) => {
+        // only prevent it on Windows
+        const validList = ["input", "textarea"];
+        const target = e.currentTarget;
+        if (
+          OS === "windows" &&
+          !(
+            validList.includes(target.tagName.toLowerCase()) ||
+            target.isContentEditable
+          )
+        ) {
+          e.preventDefault();
+        }
+      }}
+    >
+      <div className="layout__top" style={{ backgroundColor: "#ebebeb" }}>
+        <Titlebar system={OS} />
+      </div>
+      <Box className="layout__main">
+        <Navmenu />
+        <div className="layout__right">
+          <TransitionGroup className="the-content">
+            <CSSTransition
+              key={location.pathname}
+              timeout={300}
+              classNames="page"
+            >
+              {React.cloneElement(routersEles, { key: location.pathname })}
+            </CSSTransition>
+          </TransitionGroup>
+        </div>
+      </Box>
+    </Paper>
   );
 };
 

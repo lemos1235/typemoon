@@ -163,7 +163,7 @@ export const RuleEditDialog = forwardRef<RuleEditDialogRef, Props>(
           render={({ field }) => (
             <FormControl error={!!errors.action}>
               <InputLabel>操作</InputLabel>
-              <Select {...field} label="操作" placeholder="请选择操作">
+              <Select {...field} label="操作">
                 <ListSubheader>通用</ListSubheader>
                 <MenuItem value={"DIRECT"}>直连</MenuItem>
                 <MenuItem value={"REJECT"}>拒绝</MenuItem>

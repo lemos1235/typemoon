@@ -7,6 +7,7 @@ import { useMoon } from "@/provider/moon";
 import useLockFn from "ahooks/lib/useLockFn";
 import { ProxyEditDialog, ProxyEditDialogRef } from "./proxy-edit-dialog";
 import { useTimer } from "@/provider/timer";
+import BaseDivider from "../base/base-divider";
 
 interface Props {
   node: IMoonProxy;
@@ -63,7 +64,10 @@ const ProxyItem = (props: Props) => {
             </IconButton>
           </Box>
         </Stack>
-        <Divider flexItem sx={{ marginTop: "10px", marginBottom: "10px" }} />
+        <BaseDivider
+          flexItem
+          sx={{ marginTop: "10px", marginBottom: "10px" }}
+        />
         <Grid container rowSpacing={1} columnSpacing={4}>
           <Grid item xs={6}>
             <span>地址：</span>

@@ -1,5 +1,5 @@
+import { Box } from "@mui/material";
 import React, { ReactNode } from "react";
-import { Box, Typography } from "@mui/material";
 import { BaseErrorBoundary } from "./base-error-boundary";
 
 interface Props {
@@ -15,8 +15,11 @@ export const BasePage: React.FC<Props> = (props) => {
     <BaseErrorBoundary>
       <div className="base-page">
         <Box
-          sx={({ palette: { mode } }) => ({
-            background: mode === "dark" ? "#1B1B1B" : "#fff",
+          sx={(theme) => ({
+            background: "#fff",
+            ...theme.applyStyles("dark", {
+              background: "1B1B1B",
+            }),
           })}
           className={full ? "base-container no-padding" : "base-container"}
         >

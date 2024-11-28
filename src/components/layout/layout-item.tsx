@@ -1,5 +1,11 @@
 import { useVerge } from "@/hooks/use-verge";
-import { ListItem, ListItemButton, alpha, ListItemIcon, ListItemText } from "@mui/material";
+import {
+  ListItem,
+  ListItemButton,
+  alpha,
+  ListItemIcon,
+  ListItemText,
+} from "@mui/material";
 import { useResolvedPath, useMatch, useNavigate } from "react-router-dom";
 
 interface Props {
@@ -32,23 +38,29 @@ export const LayoutItem = (props: Props) => {
               fontWeight: "700",
             },
           },
-          ({ palette: { mode, primary } }) => {
-            const bgcolor =
-              mode === "light"
-                ? alpha(primary.main, 0.15)
-                : alpha(primary.main, 0.35);
-            const color = mode === "light" ? "#1f1f1f" : "#ffffff";
-
+          (theme) => {
+            const bgcolor = alpha(theme.palette.primary.main, 0.15);
+            const color = "#1f1f1f";
+            const darkBgColor = alpha(theme.palette.primary.main, 0.35);
+            const darkColor = "#ffffff";
             return {
               "&.Mui-selected": { bgcolor },
               "&.Mui-selected:hover": { bgcolor },
               "&.Mui-selected .MuiListItemText-primary": { color },
+              ...theme.applyStyles("dark", {
+                "&.Mui-selected": { darkBgColor },
+                "&.Mui-selected:hover": { darkBgColor },
+                "&.Mui-selected .MuiListItemText-primary": { darkColor },
+              }),
             };
           },
         ]}
-        onClick={() => navigate(to)}>
+        onClick={() => navigate(to)}
+      >
         {(menu_icon === "monochrome" || !menu_icon) && (
-          <ListItemIcon sx={{ color: "text.primary", justifyContent: "center" }}>
+          <ListItemIcon
+            sx={{ color: "text.primary", justifyContent: "center" }}
+          >
             {icon}
           </ListItemIcon>
         )}

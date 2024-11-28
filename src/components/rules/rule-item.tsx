@@ -6,6 +6,7 @@ import { ShadowCard } from "@/components/base/base-card";
 import { Box, Divider, Grid, IconButton, Stack } from "@mui/material";
 import { Edit3, Trash2 } from "lucide-react";
 import { BaseAlertDialog } from "@/components/base/base-alert-dialog";
+import BaseDivider from "../base/base-divider";
 
 interface Props {
   rule: IMoonRule;
@@ -83,7 +84,11 @@ const RuleItem = (props: Props) => {
             </IconButton>
           </Box>
         </Stack>
-        <Divider flexItem sx={{ marginTop: "10px", marginBottom: "10px" }} />
+        <BaseDivider
+          flexItem
+          sx={{ marginTop: "10px", marginBottom: "10px" }}
+          style={{}}
+        />
         <Grid container rowSpacing={1} columnSpacing={4}>
           <Grid item xs={6}>
             <Box sx={{ display: "flex", alignItems: "center" }}>

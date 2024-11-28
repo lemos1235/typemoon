@@ -16,10 +16,15 @@ export function ShadowCard(props: Props) {
           borderStyle: "solid",
           borderWidth: "0.5px",
         },
-        ({ palette: { mode } }) => ({
-          borderColor: mode === "dark" ? "#242424" : "#F0F0F0",
-          boxShadow: mode === "dark" ? "none" : "0px 0.6px 5px #EEEEEE",
-          background: mode === "dark" ? "#242424" : "#fff",
+        (theme) => ({
+          borderColor: "#F0F0F0",
+          boxShadow: "0px 0.6px 5px #EEEEEE",
+          background: "#fff",
+          ...theme.applyStyles("dark", {
+            borderColor: "#242424",
+            boxShadow: "none",
+            background: "#242424",
+          }),
         }),
         ...(Array.isArray(sx) ? sx : [sx]),
       ]}

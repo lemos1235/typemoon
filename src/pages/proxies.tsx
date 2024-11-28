@@ -36,9 +36,11 @@ const ProxiesPage = () => {
               height: "100%",
               zIndex: 2,
             },
-            ({ palette: { mode } }) => ({
-              borderLeft:
-                mode === "dark" ? "4px solid #2c2c2c" : "2px solid #f2f2f2",
+            (theme) => ({
+              borderLeft: "2px solid #f2f2f2",
+              ...theme.applyStyles("dark", {
+                borderLeft: "4px solid #2c2c2c",
+              }),
             }),
           ]}
         >

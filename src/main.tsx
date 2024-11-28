@@ -12,14 +12,10 @@ import React from "react";
 import { createRoot } from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
 import { BaseErrorBoundary } from "./components/base";
+import ToggleThemeLayout from "./pages/_theme";
 import { MoonProvider } from "./provider/moon";
 import { TimerProvider } from "./provider/timer";
-import Layout from "./pages/_layout";
-import {
-  LoadingCacheProvider,
-  ThemeModeProvider,
-  UpdateStateProvider,
-} from "./services/states";
+import { LoadingCacheProvider, UpdateStateProvider } from "./services/states";
 
 const mainElementId = "root";
 const container = document.getElementById(mainElementId);
@@ -42,11 +38,7 @@ document.addEventListener("keydown", (event) => {
   disabledShortcuts && event.preventDefault();
 });
 
-const contexts = [
-  <ThemeModeProvider />,
-  <LoadingCacheProvider />,
-  <UpdateStateProvider />,
-];
+const contexts = [<LoadingCacheProvider />, <UpdateStateProvider />];
 
 createRoot(container).render(
   <React.StrictMode>
@@ -55,7 +47,7 @@ createRoot(container).render(
         <TimerProvider>
           <BaseErrorBoundary>
             <BrowserRouter>
-              <Layout />
+              <ToggleThemeLayout />
             </BrowserRouter>
           </BaseErrorBoundary>
         </TimerProvider>

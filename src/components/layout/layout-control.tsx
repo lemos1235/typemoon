@@ -35,9 +35,12 @@ export const LayoutControl = () => {
 
   return (
     <Box
-      sx={({ palette: { mode } }) => {
+      sx={(theme) => {
         return {
-          color: mode === "dark" ? "#fff" : "#808080",
+          color: "#808080",
+          ...theme.applyStyles("dark", {
+            color: "#fff",
+          }),
         };
       }}
     >
