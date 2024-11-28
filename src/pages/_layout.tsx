@@ -1,20 +1,10 @@
-import iconTran from "@/assets/image/icon_tran.svg?react";
 import { Notice } from "@/components/base";
-import { LayoutControl } from "@/components/layout/layout-control";
-import { LayoutItem } from "@/components/layout/layout-item";
-import VpnButton from "@/components/vpn/vpn-button";
+import { Navmenu } from "@/components/layout/navmenu";
+import { Titlebar } from "@/components/layout/titlebar";
 import { getAxios } from "@/services/api";
 import { getPortableFlag } from "@/services/cmds";
 import getSystem from "@/utils/get-system";
-import {
-  Box,
-  createTheme,
-  List,
-  Paper,
-  SvgIcon,
-  ThemeProvider,
-  useColorScheme,
-} from "@mui/material";
+import { Box, Paper, useColorScheme } from "@mui/material";
 import { listen } from "@tauri-apps/api/event";
 import { getCurrentWebviewWindow } from "@tauri-apps/api/webviewWindow";
 import dayjs from "dayjs";
@@ -22,10 +12,8 @@ import relativeTime from "dayjs/plugin/relativeTime";
 import React, { useEffect } from "react";
 import { useLocation, useRoutes } from "react-router-dom";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
-import { mutate, SWRConfig } from "swr";
+import { mutate } from "swr";
 import { routers } from "./_routers";
-import { Titlebar } from "@/components/layout/titlebar";
-import { Navmenu } from "@/components/layout/navmenu";
 
 const appWindow = getCurrentWebviewWindow();
 export let portableFlag = false;

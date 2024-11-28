@@ -1,10 +1,9 @@
 import { useMoon } from "@/provider/moon";
-import { RuleEditDialog, RuleEditDialogRef } from "./rule-edit-dialog";
-import { useRef } from "react";
 import { Box, IconButton, Stack } from "@mui/material";
 import { Plus } from "lucide-react";
+import { useRef } from "react";
+import { RuleEditDialog, RuleEditDialogRef } from "./rule-edit-dialog";
 import RuleList from "./rule-list";
-import VpnButton from "../vpn/vpn-button";
 
 // 自定义规则
 export const CustomRules = () => {

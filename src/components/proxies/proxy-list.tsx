@@ -1,6 +1,5 @@
-import { Box, List, ListItem } from "@mui/material";
-import { Virtuoso } from "react-virtuoso";
 import { BaseEmpty } from "@/components/base";
+import { Box, List, ListItem } from "@mui/material";
 import ProxyItem from "./proxy-item";
 
 interface Props {

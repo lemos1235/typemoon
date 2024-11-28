@@ -1,12 +1,6 @@
 import { useVerge } from "@/hooks/use-verge";
-import {
-  ListItem,
-  ListItemButton,
-  alpha,
-  ListItemIcon,
-  ListItemText,
-} from "@mui/material";
-import { useResolvedPath, useMatch, useNavigate } from "react-router-dom";
+import { alpha, ListItem, ListItemButton, ListItemIcon } from "@mui/material";
+import { useMatch, useNavigate, useResolvedPath } from "react-router-dom";
 
 interface Props {
   to: string;

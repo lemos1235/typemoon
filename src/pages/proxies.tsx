@@ -1,11 +1,11 @@
 import { BasePage } from "@/components/base";
 import MenuSidebar from "@/components/layout/menu-sidebar";
-import { Box } from "@mui/material";
-import { useState } from "react";
 import {
   LocalProxies,
   SubscriptionProxies,
 } from "@/components/proxies/proxy-group";
+import { Box } from "@mui/material";
+import { useState } from "react";
 
 const ProxiesPage = () => {
   const [menuIndex, setMenuIndex] = useState("subscription");
