@@ -137,16 +137,16 @@ pub fn create_window() {
                 "main".to_string(),
                 tauri::WebviewUrl::App("index.html".into()),
             )
-            .title("Moon")
-            .visible(false)
-            .inner_size(800.0, 520.0)
-            .min_inner_size(620.0, 520.0)
-            .center()
-            .decorations(false)
-            .maximizable(true)
-            .additional_browser_args("--enable-features=msWebView2EnableDraggableRegions --disable-features=OverscrollHistoryNavigation,msExperimentalScrolling")
-            .transparent(true)
-            .build()
+                .title("Moon")
+                .visible(false)
+                .inner_size(800.0, 520.0)
+                .min_inner_size(620.0, 520.0)
+                .center()
+                .decorations(false)
+                .maximizable(true)
+                .additional_browser_args("--enable-features=msWebView2EnableDraggableRegions --disable-features=OverscrollHistoryNavigation,msExperimentalScrolling")
+                .transparent(true)
+                .build()
         }).join().unwrap()
     }.unwrap();
 
@@ -156,14 +156,15 @@ pub fn create_window() {
         "main".to_string(),
         tauri::WebviewUrl::App("index.html".into()),
     )
-    .decorations(true)
-    .hidden_title(true)
-    .title_bar_style(tauri::TitleBarStyle::Overlay)
-    .inner_size(800.0, 550.0)
-    .min_inner_size(620.0, 550.0)
-    .center()
-    .build()
-    .unwrap();
+        .decorations(true)
+        .hidden_title(true)
+        .title_bar_style(tauri::TitleBarStyle::Overlay)
+        .title("Moon")
+        .inner_size(800.0, 500.0)
+        .min_inner_size(620.0, 500.0)
+        .center()
+        .build()
+        .unwrap();
 
     #[cfg(target_os = "linux")]
     let window = tauri::WebviewWindowBuilder::new(
@@ -171,14 +172,14 @@ pub fn create_window() {
         "main".to_string(),
         tauri::WebviewUrl::App("index.html".into()),
     )
-    .title("Moon")
-    .decorations(false)
-    .inner_size(800.0, 520.0)
-    .min_inner_size(620.0, 520.0)
-    .center()
-    .transparent(true)
-    .build()
-    .unwrap();
+        .title("Moon")
+        .decorations(false)
+        .inner_size(800.0, 520.0)
+        .min_inner_size(620.0, 520.0)
+        .center()
+        .transparent(true)
+        .build()
+        .unwrap();
 
     log_err!(window.restore_state(StateFlags::all()));
 }
@@ -286,6 +287,7 @@ fn resolve_random_port_config() -> Result<()> {
 }
 
 #[cfg(target_os = "macos")]
+#[allow(dead_code)]
 pub async fn set_public_dns(dns_server: String) {
     use crate::core::handle;
     use crate::utils::dirs;

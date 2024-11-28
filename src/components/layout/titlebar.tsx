@@ -13,7 +13,7 @@ export function Titlebar(props: Props) {
       sx={(theme) => ({
         background: "#ebebeb",
         ...theme.applyStyles("dark", {
-          background: "#313131",
+          background: "#323232",
         }),
       })}
     >

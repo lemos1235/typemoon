@@ -130,7 +130,7 @@ export const ProxyGroupEditDialog = forwardRef<ProxyGroupEditDialogRef, Props>(
               type="number"
               {...field}
               label={"自动刷新"}
-              placeholder="选填，单位秒；值为 0 不自动刷新"
+              placeholder="选填，单位秒；0秒表示手动刷新"
               error={!!errors.interval}
               helperText={errors.interval?.message}
             />

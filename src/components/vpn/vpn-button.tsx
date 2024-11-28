@@ -1,6 +1,6 @@
 import { useVerge } from "@/hooks/use-verge";
 import { runAtLeast } from "@/utils/async";
-import { IconButton, styled } from "@mui/material";
+import { Box, IconButton, styled } from "@mui/material";
 import { useLockFn } from "ahooks";
 import { Sparkles } from "lucide-react";
 import { useState } from "react";
@@ -30,16 +30,23 @@ const VpnButton = (props: Props) => {
   });
 
   return (
-    <AnimatedIconButton
-      onClick={startOrStopVpn}
-      disableRipple
-      disableFocusRipple
-      disableTouchRipple
-      disabled={loading}
-      color={verge?.enable_tun_mode ? "primary" : "default"}
+    <Box
+      sx={(theme) => ({
+        color: "#212121",
+        ...theme.applyStyles("dark", { color: "#fff" }),
+      })}
     >
-      <Sparkles />
-    </AnimatedIconButton>
+      <AnimatedIconButton
+        onClick={startOrStopVpn}
+        disableRipple
+        disableFocusRipple
+        disableTouchRipple
+        disabled={loading}
+        color={verge?.enable_tun_mode ? "primary" : "inherit"}
+      >
+        <Sparkles />
+      </AnimatedIconButton>
+    </Box>
   );
 };
 

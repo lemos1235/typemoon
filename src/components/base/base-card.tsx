@@ -21,9 +21,9 @@ export function ShadowCard(props: Props) {
           boxShadow: "0px 0.6px 5px #EEEEEE",
           background: "#fff",
           ...theme.applyStyles("dark", {
-            borderColor: "#242424",
             boxShadow: "none",
-            background: "#242424",
+            background: "#282828",
+            borderColor: "#282828",
           }),
         }),
         ...(Array.isArray(sx) ? sx : [sx]),

@@ -1,6 +1,6 @@
 {
   "$schema": "../node_modules/@tauri-apps/cli/config.schema.json",
-  "identifier": "club.lemos.greenmoon",
+  "identifier": "club.lemos.bluemoon",
   "bundle": {
     "targets": ["deb", "rpm"],
     "linux": {

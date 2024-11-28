@@ -18,7 +18,7 @@ export const BasePage: React.FC<Props> = (props) => {
           sx={(theme) => ({
             background: "#FFFFFF",
             ...theme.applyStyles("dark", {
-              background: "#121212",
+              background: "#1c1c1c",
             }),
           })}
           className={full ? "base-container no-padding" : "base-container"}

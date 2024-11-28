@@ -13,20 +13,20 @@ export function Navmenu() {
 
   return (
     <Box
+      className="the-navmenu"
       sx={(theme) => ({
         background: "#FFFFFF",
         ...theme.applyStyles("dark", {
           background: "#2C2C2C",
         }),
       })}
-      className="layout__left"
     >
       <div className="the-logo" data-tauri-drag-region="true">
         <Box
           sx={{
-            height: "27px",
             display: "flex",
             justifyContent: "center",
+            alignItems: "center",
           }}
           onClick={toggleMode}
         >
@@ -35,9 +35,6 @@ export function Navmenu() {
             style={{
               height: "36px",
               width: "36px",
-              marginTop: "-3px",
-              marginRight: "5px",
-              marginLeft: "-3px",
             }}
             inheritViewBox
           />

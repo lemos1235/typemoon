@@ -91,7 +91,9 @@ const Layout = () => {
           <Titlebar system={OS} />
         </div>
         <Box className="layout__main">
-          <Navmenu />
+          <div className="layout__left">
+            <Navmenu />
+          </div>
           <div className="layout__right">
             <TransitionGroup className="the-content">
               <CSSTransition
