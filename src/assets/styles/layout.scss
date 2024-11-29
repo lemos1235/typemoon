@@ -10,7 +10,6 @@
 
     .the-bar {
       width: 100%;
-      height: 28px;
       display: flex;
       justify-content: end;
       box-sizing: border-box;
@@ -50,6 +49,7 @@
 
     .the-logo {
       position: relative;
+      margin-top: 20px;
       margin-bottom: 12px;
       flex: 1;
       display: flex;
@@ -125,19 +125,16 @@
 .windows,
 .unknown {
   &.layout {
-    .layout__left .the-logo {
-      margin-top: 10px;
-      margin-left: 10px;
-      padding-top: 10px;
-      padding-bottom: 20px;
+    .layout__top .the-bar {
+      height: 24px;
     }
   }
 }
 
 .macos {
   &.layout {
-    .the-logo {
-      margin-top: 20px;
+    .layout__top .the-bar {
+      height: 28px;
     }
   }
 }

@@ -12,7 +12,6 @@ use tauri::{App, Manager};
 //#[cfg(not(target_os = "linux"))]
 // use window_shadows::set_shadow;
 use tauri_plugin_notification::NotificationExt;
-use tauri_plugin_window_state::{StateFlags, WindowExt};
 use url::Url;
 
 pub static VERSION: OnceCell<String> = OnceCell::new();
@@ -129,7 +128,7 @@ pub fn create_window() {
     }
 
     #[cfg(target_os = "windows")]
-    let window = {
+    let _ = {
         let app_handle = app_handle.clone();
         std::thread::spawn(move || {
             tauri::WebviewWindowBuilder::new(
@@ -140,7 +139,7 @@ pub fn create_window() {
                 .title("Moon")
                 .visible(false)
                 .inner_size(800.0, 520.0)
-                .min_inner_size(620.0, 520.0)
+                .min_inner_size(620.0, 400.0)
                 .center()
                 .decorations(false)
                 .maximizable(true)
@@ -151,37 +150,35 @@ pub fn create_window() {
     }.unwrap();
 
     #[cfg(target_os = "macos")]
-    let window = tauri::WebviewWindowBuilder::new(
+    let _ = tauri::WebviewWindowBuilder::new(
         &app_handle,
         "main".to_string(),
         tauri::WebviewUrl::App("index.html".into()),
     )
-        .decorations(true)
-        .hidden_title(true)
-        .title_bar_style(tauri::TitleBarStyle::Overlay)
-        .title("Moon")
-        .inner_size(800.0, 500.0)
-        .min_inner_size(620.0, 500.0)
-        .center()
-        .build()
-        .unwrap();
+    .decorations(true)
+    .hidden_title(true)
+    .title_bar_style(tauri::TitleBarStyle::Overlay)
+    .title("Moon")
+    .inner_size(800.0, 480.0)
+    .min_inner_size(620.0, 400.0)
+    .center()
+    .build()
+    .unwrap();
 
     #[cfg(target_os = "linux")]
-    let window = tauri::WebviewWindowBuilder::new(
+    let _ = tauri::WebviewWindowBuilder::new(
         &app_handle,
         "main".to_string(),
         tauri::WebviewUrl::App("index.html".into()),
     )
-        .title("Moon")
-        .decorations(false)
-        .inner_size(800.0, 520.0)
-        .min_inner_size(620.0, 520.0)
-        .center()
-        .transparent(true)
-        .build()
-        .unwrap();
-
-    log_err!(window.restore_state(StateFlags::all()));
+    .title("Moon")
+    .decorations(false)
+    .inner_size(800.0, 520.0)
+    .min_inner_size(620.0, 400.0)
+    .center()
+    .transparent(true)
+    .build()
+    .unwrap();
 }
 
 pub async fn resolve_scheme(param: String) -> Result<()> {

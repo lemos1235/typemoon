@@ -31,8 +31,8 @@ export function Navmenu() {
           <SvgIcon
             component={iconTran}
             style={{
-              height: "36px",
-              width: "36px",
+              height: "34px",
+              width: "34px",
             }}
             inheritViewBox
           />
