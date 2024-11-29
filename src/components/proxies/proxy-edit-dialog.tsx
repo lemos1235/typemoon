@@ -88,8 +88,7 @@ export const ProxyEditDialog = forwardRef<ProxyEditDialogRef, Props>(
         cancelBtn={"取消"}
         onClose={handleClose}
         onCancel={handleClose}
-        onOk={handleOk}
-      >
+        onOk={handleOk}>
         <Controller
           name="host"
           control={control}

@@ -88,7 +88,7 @@ class DelayManager {
     nameList: string[],
     group: string,
     timeout: number,
-    concurrency = 36
+    concurrency = 36,
   ) {
     const names = nameList.filter(Boolean);
     // 设置正在延迟测试中

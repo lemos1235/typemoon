@@ -19,8 +19,7 @@ export function Navmenu() {
         ...theme.applyStyles("dark", {
           background: "#2C2C2C",
         }),
-      })}
-    >
+      })}>
       <div className="the-logo" data-tauri-drag-region="true">
         <Box
           sx={{
@@ -28,8 +27,7 @@ export function Navmenu() {
             justifyContent: "center",
             alignItems: "center",
           }}
-          onClick={toggleMode}
-        >
+          onClick={toggleMode}>
           <SvgIcon
             component={iconTran}
             style={{

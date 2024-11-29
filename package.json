@@ -10,6 +10,7 @@
     "web:dev": "vite",
     "web:build": "tsc --noEmit && vite build",
     "web:serve": "vite preview",
+    "prettier": "prettier --write 'src/**/*.{ts,tsx,js,css,scss}'",
     "check": "node scripts/check.mjs",
     "updater": "node scripts/updater.mjs",
     "updater-fixed-webview2": "node scripts/updater-fixed-webview2.mjs",
@@ -100,7 +101,10 @@
     "tabWidth": 2,
     "semi": true,
     "singleQuote": false,
-    "endOfLine": "lf"
+    "endOfLine": "lf",
+    "bracketSameLine": true,
+    "jsxBracketSameLine": true,
+    "htmlWhitespaceSensitivity": "ignore"
   },
   "type": "module",
   "packageManager": "pnpm@9.13.2"

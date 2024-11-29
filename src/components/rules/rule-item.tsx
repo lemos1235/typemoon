@@ -69,14 +69,12 @@ const RuleItem = (props: Props) => {
         <Stack
           direction="row"
           justifyContent="space-between"
-          alignItems="center"
-        >
+          alignItems="center">
           <Box style={{ fontSize: "20px" }}>{ruleName}</Box>
           <Box>
             <IconButton
               onClick={() => setDeleteOpen(true)}
-              disabled={rule.process === "MATCH"}
-            >
+              disabled={rule.process === "MATCH"}>
               <Trash2 size={16} />
             </IconButton>
             <IconButton onClick={() => ruleEditDialogRef.current?.edit(rule)}>
@@ -101,8 +99,7 @@ const RuleItem = (props: Props) => {
                   overflow: "hidden",
                   textOverflow: "ellipsis",
                   whiteSpace: "nowrap",
-                }}
-              >
+                }}>
                 {ruleProcess}
               </Box>
             </Box>

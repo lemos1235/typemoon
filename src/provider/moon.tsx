@@ -237,8 +237,7 @@ export const MoonProvider: React.FC<{ children: React.ReactNode }> = ({
         saveRule,
         deleteRule,
         patchMoonToClash,
-      }}
-    >
+      }}>
       {children}
     </MoonContext.Provider>
   );

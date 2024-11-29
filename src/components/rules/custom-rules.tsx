@@ -21,14 +21,12 @@ export const CustomRules = () => {
           alignItems: "center",
           justifyContent: "center",
           height: "100%",
-        }}
-      >
+        }}>
         <IconButton
           color="primary"
           disableRipple
           sx={{ marginTop: "-30px" }}
-          onClick={() => ruleEditDialogRef.current?.create()}
-        >
+          onClick={() => ruleEditDialogRef.current?.create()}>
           <Plus size={36} />
           <span style={{ fontSize: "20px", marginLeft: "8px" }}>规则</span>
         </IconButton>
@@ -42,8 +40,7 @@ export const CustomRules = () => {
       <Stack direction="row" justifyContent="flex-end" marginBottom={"-8px"}>
         <IconButton
           color="primary"
-          onClick={() => ruleEditDialogRef.current?.create()}
-        >
+          onClick={() => ruleEditDialogRef.current?.create()}>
           <Plus />
         </IconButton>
       </Stack>

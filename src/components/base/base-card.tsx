@@ -27,8 +27,7 @@ export function ShadowCard(props: Props) {
           }),
         }),
         ...(Array.isArray(sx) ? sx : [sx]),
-      ]}
-    >
+      ]}>
       {children}
     </Box>
   );

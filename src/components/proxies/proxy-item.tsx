@@ -55,8 +55,7 @@ const ProxyItem = (props: Props) => {
         <Stack
           direction="row"
           justifyContent="space-between"
-          alignItems="center"
-        >
+          alignItems="center">
           <Box style={{ fontSize: "20px" }}>{node.label}</Box>
           <Box>
             <IconButton onClick={() => openDelete()}>

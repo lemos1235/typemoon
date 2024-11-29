@@ -42,8 +42,7 @@ export const LayoutControl = () => {
             color: "#fff",
           }),
         };
-      }}
-    >
+      }}>
       <ButtonGroup
         variant="text"
         color="inherit"
@@ -54,8 +53,7 @@ export const LayoutControl = () => {
             borderRadius: "0px",
             borderRight: "0px",
           },
-        }}
-      >
+        }}>
         <Button
           disableTouchRipple
           size="small"
@@ -63,8 +61,7 @@ export const LayoutControl = () => {
           onClick={() => {
             appWindow.setAlwaysOnTop(!isPined);
             setIsPined((isPined) => !isPined);
-          }}
-        >
+          }}>
           {isPined ? (
             <PushPinRounded fontSize="small" />
           ) : (
@@ -76,8 +73,7 @@ export const LayoutControl = () => {
           disableTouchRipple
           size="small"
           sx={{ minWidth, svg: { transform: "scale(0.8)" } }}
-          onClick={() => appWindow.minimize()}
-        >
+          onClick={() => appWindow.minimize()}>
           <HorizontalRuleRounded fontSize="small" />
         </Button>
 
@@ -88,8 +84,7 @@ export const LayoutControl = () => {
           onClick={() => {
             setIsMaximized((isMaximized) => !isMaximized);
             appWindow.toggleMaximize();
-          }}
-        >
+          }}>
           {isMaximized ? (
             <FilterNoneRounded
               fontSize="small"
@@ -110,8 +105,7 @@ export const LayoutControl = () => {
             svg: { transform: "scale(0.8)" },
             ":hover": { bgcolor: "#ff000090" },
           }}
-          onClick={() => appWindow.close()}
-        >
+          onClick={() => appWindow.close()}>
           <CloseRounded fontSize="small" />
         </Button>
       </ButtonGroup>

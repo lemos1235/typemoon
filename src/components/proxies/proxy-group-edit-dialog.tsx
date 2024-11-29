@@ -90,8 +90,7 @@ export const ProxyGroupEditDialog = forwardRef<ProxyGroupEditDialogRef, Props>(
         cancelBtn={"取消"}
         onClose={handleClose}
         onCancel={handleClose}
-        onOk={handleOk}
-      >
+        onOk={handleOk}>
         <Controller
           name="url"
           control={control}

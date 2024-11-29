@@ -27,13 +27,11 @@ export default function MenuSidebar(props: Props) {
           background: "#242424",
         }),
       })}
-      className="menubar"
-    >
+      className="menubar">
       {menus.map((item, index) => (
         <ListItem
           key={index}
-          sx={{ py: 0.5, maxWidth: 250, mx: "auto", padding: "4px 0px" }}
-        >
+          sx={{ py: 0.5, maxWidth: 250, mx: "auto", padding: "4px 0px" }}>
           <ListItemButton
             sx={[
               {
@@ -80,8 +78,7 @@ export default function MenuSidebar(props: Props) {
               },
             ]}
             selected={item.index == current}
-            onClick={() => onSelected(item.index)}
-          >
+            onClick={() => onSelected(item.index)}>
             <ListItemText
               sx={{
                 textAlign: "center",

@@ -36,8 +36,7 @@ const NoticeInner = (props: InnerProps) => {
 
         <Typography
           component="span"
-          sx={{ ml: 1, wordWrap: "break-word", width: "calc(100% - 35px)" }}
-        >
+          sx={{ ml: 1, wordWrap: "break-word", width: "calc(100% - 35px)" }}>
           {message}
         </Typography>
       </Box>

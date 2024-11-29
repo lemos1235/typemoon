@@ -19,8 +19,7 @@ export const BaseEmpty = (props: Props) => {
         justifyContent: "center",
         boxShadow: "0px 0px 5px #EEEEEE",
         color: alpha(theme.palette.text.secondary, 0.75),
-      })}
-    >
+      })}>
       <Typography sx={{ fontSize: "1em" }}>{`${text}`}</Typography>
       {extra}
     </Box>

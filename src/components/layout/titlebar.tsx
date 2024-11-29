@@ -15,13 +15,11 @@ export function Titlebar(props: Props) {
         ...theme.applyStyles("dark", {
           background: "#323232",
         }),
-      })}
-    >
+      })}>
       <div
         className="the-dragbar"
         data-tauri-drag-region="true"
-        style={{ width: "100%" }}
-      ></div>
+        style={{ width: "100%" }}></div>
       {OS !== "macos" && <LayoutControl />}
     </Box>
   );

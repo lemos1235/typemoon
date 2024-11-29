@@ -188,8 +188,7 @@ export const TimerProvider: React.FC<{ children: React.ReactNode }> = ({
         toggleTimer,
         isTimerRunning,
         refreshings,
-      }}
-    >
+      }}>
       {children}
     </TimerContext.Provider>
   );

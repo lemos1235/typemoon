@@ -34,16 +34,14 @@ const VpnButton = (props: Props) => {
       sx={(theme) => ({
         color: "#212121",
         ...theme.applyStyles("dark", { color: "#fff" }),
-      })}
-    >
+      })}>
       <AnimatedIconButton
         onClick={startOrStopVpn}
         disableRipple
         disableFocusRipple
         disableTouchRipple
         disabled={loading}
-        color={verge?.enable_tun_mode ? "primary" : "inherit"}
-      >
+        color={verge?.enable_tun_mode ? "primary" : "inherit"}>
         <Sparkles />
       </AnimatedIconButton>
     </Box>

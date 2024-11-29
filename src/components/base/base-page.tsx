@@ -21,8 +21,7 @@ export const BasePage: React.FC<Props> = (props) => {
               background: "#1c1c1c",
             }),
           })}
-          className={full ? "base-container no-padding" : "base-container"}
-        >
+          className={full ? "base-container no-padding" : "base-container"}>
           <section>
             <div className="base-content" style={contentStyle}>
               {children}

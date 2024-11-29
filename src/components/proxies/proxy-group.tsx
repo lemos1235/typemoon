@@ -40,14 +40,12 @@ export const LocalProxies = () => {
           alignItems: "center",
           justifyContent: "center",
           height: "100%",
-        }}
-      >
+        }}>
         <IconButton
           color="primary"
           disableRipple
           sx={{ marginTop: "-30px" }}
-          onClick={() => proxyEditDialogRef.current?.create()}
-        >
+          onClick={() => proxyEditDialogRef.current?.create()}>
           <Plus size={36} />
           <span style={{ fontSize: "20px", marginLeft: "8px" }}>本地节点</span>
         </IconButton>
@@ -61,8 +59,7 @@ export const LocalProxies = () => {
       <Stack direction="row" justifyContent="flex-end" marginBottom={"-8px"}>
         <IconButton
           color="primary"
-          onClick={() => proxyEditDialogRef.current?.create()}
-        >
+          onClick={() => proxyEditDialogRef.current?.create()}>
           <Plus />
         </IconButton>
       </Stack>
@@ -85,8 +82,7 @@ const SubscriptionRefreshButton = (props: SubscriptionRefreshButtonProps) => {
     <IconButton
       disableRipple
       color={loading || activated ? "primary" : "default"}
-      onClick={onClick}
-    >
+      onClick={onClick}>
       <RefreshCcw
         style={{
           transition: "transform 1s ease",
@@ -137,8 +133,7 @@ const SubscriptionPopupMenu = (props: SubscriptionPopupMenuProps) => {
         </MenuItem>
         <MenuItem
           sx={{ width: "80px", fontSize: "14px" }}
-          onClick={handleDelete}
-        >
+          onClick={handleDelete}>
           删除
         </MenuItem>
       </Menu>
@@ -203,8 +198,7 @@ const SubscriptionTitle = (props: SubscriptionTitleProps) => {
 
   return (
     <Box
-      sx={{ padding: "0 0 5px 15px", marginBottom: "-8px", fontWeight: "600" }}
-    >
+      sx={{ padding: "0 0 5px 15px", marginBottom: "-8px", fontWeight: "500" }}>
       <Stack direction="row" justifyContent="space-between">
         <Stack direction="row" alignItems={"center"}>
           <span>{group.remark || group.name}</span>
@@ -303,14 +297,12 @@ export const SubscriptionProxies = () => {
           alignItems: "center",
           justifyContent: "center",
           height: "100%",
-        }}
-      >
+        }}>
         <IconButton
           color="primary"
           disableRipple
           sx={{ marginTop: "-30px" }}
-          onClick={() => proxyGroupEditDialogRef.current?.create()}
-        >
+          onClick={() => proxyGroupEditDialogRef.current?.create()}>
           <Plus size={36} />
           <span style={{ fontSize: "20px", marginLeft: "8px" }}>订阅节点</span>
         </IconButton>
@@ -324,8 +316,7 @@ export const SubscriptionProxies = () => {
       <Stack direction="row" justifyContent="flex-end" marginBottom={"-8px"}>
         <IconButton
           color="primary"
-          onClick={() => proxyGroupEditDialogRef.current?.create()}
-        >
+          onClick={() => proxyGroupEditDialogRef.current?.create()}>
           <Plus />
         </IconButton>
       </Stack>

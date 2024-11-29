@@ -85,8 +85,7 @@ const Layout = () => {
           ) {
             e.preventDefault();
           }
-        }}
-      >
+        }}>
         <div className="layout__top" style={{ backgroundColor: "#ebebeb" }}>
           <Titlebar system={OS} />
         </div>
@@ -99,8 +98,7 @@ const Layout = () => {
               <CSSTransition
                 key={location.pathname}
                 timeout={300}
-                classNames="page"
-              >
+                classNames="page">
                 {React.cloneElement(routersEles, { key: location.pathname })}
               </CSSTransition>
             </TransitionGroup>

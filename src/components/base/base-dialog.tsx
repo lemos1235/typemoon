@@ -72,8 +72,7 @@ export const BaseDialog: React.FC<Props> = (props) => {
             <LoadingButton
               loading={loading}
               variant="contained"
-              onClick={props.onOk}
-            >
+              onClick={props.onOk}>
               {okBtn}
             </LoadingButton>
           )}

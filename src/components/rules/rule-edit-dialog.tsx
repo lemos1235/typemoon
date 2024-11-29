@@ -106,8 +106,7 @@ export const RuleEditDialog = forwardRef<RuleEditDialogRef, Props>(
         cancelBtn={"取消"}
         onClose={handleClose}
         onCancel={handleClose}
-        onOk={handleOk}
-      >
+        onOk={handleOk}>
         <Controller
           name="name"
           control={control}

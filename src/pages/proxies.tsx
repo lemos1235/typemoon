@@ -42,8 +42,7 @@ const ProxiesPage = () => {
                 borderLeft: "4px solid #2c2c2c",
               }),
             }),
-          ]}
-        >
+          ]}>
           {menuIndex === "local" && <LocalProxies />}
           {menuIndex === "subscription" && <SubscriptionProxies />}
         </Box>
