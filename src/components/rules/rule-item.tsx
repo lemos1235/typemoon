@@ -41,7 +41,7 @@ const RuleItem = (props: Props) => {
 
   let ruleProcess = rule.process;
   if (ruleProcess === "MATCH") {
-    ruleProcess = "默认";
+    ruleProcess = "全部";
   }
 
   let ruleAction;
@@ -49,7 +49,7 @@ const RuleItem = (props: Props) => {
     (p) => p.group_uid + ":" + p.uid === rule.action,
   );
   if (actionProxy) {
-    ruleAction = (actionProxy as any).groupName + " - " + actionProxy.label;
+    ruleAction = actionProxy.name;
   } else {
     switch (rule.action) {
       case "DIRECT":
@@ -70,7 +70,7 @@ const RuleItem = (props: Props) => {
           direction="row"
           justifyContent="space-between"
           alignItems="center">
-          <Box style={{ fontSize: "20px" }}>{ruleName}</Box>
+          <Box style={{ fontSize: "18px" }}>{ruleName}</Box>
           <Box>
             <IconButton
               onClick={() => setDeleteOpen(true)}

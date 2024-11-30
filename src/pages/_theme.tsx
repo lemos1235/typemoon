@@ -3,14 +3,25 @@ import Layout from "./_layout";
 
 export default function ToggleThemeLayout() {
   const theme = createTheme({
+    // cssVariables: {
+    //   colorSchemeSelector: 'class'
+    // },
     colorSchemes: {
-      dark: true,
+      dark: {
+        palette: {
+          mode: "dark",
+          primary: { main: "#3CB371" },
+        },
+      },
+      light: {
+        palette: {
+          mode: "light",
+          primary: { main: "#3CB371" },
+        },
+      },
     },
     breakpoints: {
       values: { xs: 0, sm: 650, md: 900, lg: 1200, xl: 1536 },
-    },
-    palette: {
-      primary: { main: "#3CB371" },
     },
     components: {
       MuiDivider: {

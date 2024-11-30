@@ -2,7 +2,7 @@ import { useVerge } from "@/hooks/use-verge";
 import { runAtLeast } from "@/utils/async";
 import { Box, IconButton, styled } from "@mui/material";
 import { useLockFn } from "ahooks";
-import { Sparkles } from "lucide-react";
+import { LoaderCircle, Plane, PlaneTakeoff } from "lucide-react";
 import { useState } from "react";
 
 interface Props {}
@@ -32,7 +32,7 @@ const VpnButton = (props: Props) => {
   return (
     <Box
       sx={(theme) => ({
-        color: "#212121",
+        color: "#959595",
         ...theme.applyStyles("dark", { color: "#fff" }),
       })}>
       <AnimatedIconButton
@@ -42,7 +42,7 @@ const VpnButton = (props: Props) => {
         disableTouchRipple
         disabled={loading}
         color={verge?.enable_tun_mode ? "primary" : "inherit"}>
-        <Sparkles />
+        <LoaderCircle />
       </AnimatedIconButton>
     </Box>
   );

@@ -1,15 +1,14 @@
-import { ReactNode } from "react";
+import { LoadingButton } from "@mui/lab";
 import {
   Button,
   Dialog,
   DialogActions,
   DialogContent,
   DialogTitle,
-  useTheme,
   type SxProps,
   type Theme,
 } from "@mui/material";
-import { LoadingButton } from "@mui/lab";
+import { ReactNode } from "react";
 
 interface Props {
   title?: ReactNode;
@@ -45,15 +44,6 @@ export const BaseDialog: React.FC<Props> = (props) => {
     disableFooter,
     loading,
   } = props;
-
-  const theme = useTheme();
-
-  const dialogSx = {
-    backgroundColor: "#fff",
-    ...(theme.palette.mode === "dark" && {
-      backgroundColor: "#000",
-    }),
-  };
 
   return (
     <Dialog open={open} onClose={props.onClose}>

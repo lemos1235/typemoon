@@ -6,12 +6,12 @@ use std::path::PathBuf;
 use tauri::Manager;
 
 #[cfg(not(feature = "verge-dev"))]
-pub static APP_ID: &str = "club.lemos.bluemoon";
+pub static APP_ID: &str = "club.lemos.typemoon";
 #[cfg(not(feature = "verge-dev"))]
 pub static BACKUP_DIR: &str = "clash-verge-rev-backup";
 
 #[cfg(feature = "verge-dev")]
-pub static APP_ID: &str = "club.lemos.bluemoon.dev";
+pub static APP_ID: &str = "club.lemos.typemoon.dev";
 #[cfg(feature = "verge-dev")]
 pub static BACKUP_DIR: &str = "clash-verge-rev-backup-dev";
 

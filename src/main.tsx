@@ -14,7 +14,6 @@ import { BrowserRouter } from "react-router-dom";
 import { BaseErrorBoundary } from "./components/base";
 import ToggleThemeLayout from "./pages/_theme";
 import { MoonProvider } from "./provider/moon";
-import { TimerProvider } from "./provider/timer";
 import { LoadingCacheProvider, UpdateStateProvider } from "./services/states";
 
 const mainElementId = "root";
@@ -44,13 +43,11 @@ createRoot(container).render(
   <React.StrictMode>
     <ComposeContextProvider contexts={contexts}>
       <MoonProvider>
-        <TimerProvider>
-          <BaseErrorBoundary>
-            <BrowserRouter>
-              <ToggleThemeLayout />
-            </BrowserRouter>
-          </BaseErrorBoundary>
-        </TimerProvider>
+        <BaseErrorBoundary>
+          <BrowserRouter>
+            <ToggleThemeLayout />
+          </BrowserRouter>
+        </BaseErrorBoundary>
       </MoonProvider>
     </ComposeContextProvider>
   </React.StrictMode>,

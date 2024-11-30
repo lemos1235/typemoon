@@ -138,7 +138,7 @@ export const RuleEditDialog = forwardRef<RuleEditDialogRef, Props>(
           render={({ field }) => {
             if (field.value === "MATCH") {
               return (
-                <TextField {...field} value={"默认"} label={"程序"} disabled />
+                <TextField {...field} value={"全部"} label={"程序"} disabled />
               );
             } else {
               return (
@@ -170,16 +170,10 @@ export const RuleEditDialog = forwardRef<RuleEditDialogRef, Props>(
                   <ListSubheader>本地节点</ListSubheader>
                 )}
                 {localProxyList.map((p) => (
-                  <MenuItem key={p.name} value={p.group_uid + ":" + p.uid}>
-                    {(p as any).groupName + " - " + p.label}
-                  </MenuItem>
-                ))}
-                {subscriptionProxyList.length > 0 && (
-                  <ListSubheader>订阅节点</ListSubheader>
-                )}
-                {subscriptionProxyList.map((p) => (
-                  <MenuItem key={p.name} value={p.group_uid + ":" + p.uid}>
-                    {(p as any).groupName + " - " + p.label}
+                  <MenuItem
+                    key={p.group_uid + ":" + p.uid}
+                    value={p.group_uid + ":" + p.uid}>
+                    {p.name}
                   </MenuItem>
                 ))}
               </Select>

@@ -1,5 +1,4 @@
 import { useMoon } from "@/provider/moon";
-import { useTimer } from "@/provider/timer";
 import { Box, Grid2, IconButton, Stack } from "@mui/material";
 import useLockFn from "ahooks/lib/useLockFn";
 import { Edit3, Trash2 } from "lucide-react";
@@ -21,7 +20,6 @@ const ProxyItem = (props: Props) => {
   const [deleteOpen, setDeleteOpen] = useState(false);
   const [alertOpen, setAlertOpen] = useState(false);
   const { moon, deleteProxy } = useMoon();
-  const { stopTimer } = useTimer();
 
   const openDelete = () => {
     // 检查当前节点是否关联某个规则
@@ -37,16 +35,8 @@ const ProxyItem = (props: Props) => {
   };
 
   const handleDelete = useLockFn(async () => {
-    const groupNode = moon?.proxy_group_list?.find(
-      (g) => g.uid === node.group_uid,
-    );
-    const isLastNode = groupNode?.proxy_list?.length === 1;
     await deleteProxy(node);
     setDeleteOpen(false);
-    if (isLastNode) {
-      // 停止定时任务
-      stopTimer(node.group_uid!);
-    }
   });
 
   return (
@@ -56,7 +46,7 @@ const ProxyItem = (props: Props) => {
           direction="row"
           justifyContent="space-between"
           alignItems="center">
-          <Box style={{ fontSize: "20px" }}>{node.label}</Box>
+          <Box style={{ fontSize: "18px" }}>{node.name}</Box>
           <Box>
             <IconButton onClick={() => openDelete()}>
               <Trash2 size={16} />
