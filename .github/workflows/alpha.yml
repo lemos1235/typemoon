@@ -85,7 +85,7 @@ jobs:
           APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
         with:
           tagName: alpha
-          releaseName: "Clash Verge Rev Alpha"
+          releaseName: "Moon Alpha"
           releaseBody: "More new features are now supported."
           releaseDraft: false
           prerelease: true
@@ -211,7 +211,7 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           tag_name: alpha
-          name: "Clash Verge Rev Alpha"
+          name: "Moon Alpha"
           body: "More new features are now supported."
           prerelease: true
           token: ${{ secrets.GITHUB_TOKEN }}
@@ -281,15 +281,15 @@ jobs:
 
       - name: Rename
         run: |
-          Rename-Item '.\src-tauri\target\${{ matrix.target }}\release\bundle\nsis\Clash Verge_${{steps.build.outputs.appVersion}}_${{ matrix.arch }}-setup.exe' 'Clash Verge_${{steps.build.outputs.appVersion}}_${{ matrix.arch }}_fixed_webview2-setup.exe'
-          Rename-Item '.\src-tauri\target\${{ matrix.target }}\release\bundle\nsis\Clash Verge_${{steps.build.outputs.appVersion}}_${{ matrix.arch }}-setup.nsis.zip' 'Clash Verge_${{steps.build.outputs.appVersion}}_${{ matrix.arch }}_fixed_webview2-setup.nsis.zip'
-          Rename-Item '.\src-tauri\target\${{ matrix.target }}\release\bundle\nsis\Clash Verge_${{steps.build.outputs.appVersion}}_${{ matrix.arch }}-setup.nsis.zip.sig' 'Clash Verge_${{steps.build.outputs.appVersion}}_${{ matrix.arch }}_fixed_webview2-setup.nsis.zip.sig'
+          Rename-Item '.\src-tauri\target\${{ matrix.target }}\release\bundle\nsis\Moon_${{steps.build.outputs.appVersion}}_${{ matrix.arch }}-setup.exe' 'Moon_${{steps.build.outputs.appVersion}}_${{ matrix.arch }}_fixed_webview2-setup.exe'
+          Rename-Item '.\src-tauri\target\${{ matrix.target }}\release\bundle\nsis\Moon_${{steps.build.outputs.appVersion}}_${{ matrix.arch }}-setup.nsis.zip' 'Moon_${{steps.build.outputs.appVersion}}_${{ matrix.arch }}_fixed_webview2-setup.nsis.zip'
+          Rename-Item '.\src-tauri\target\${{ matrix.target }}\release\bundle\nsis\Moon_${{steps.build.outputs.appVersion}}_${{ matrix.arch }}-setup.nsis.zip.sig' 'Moon_${{steps.build.outputs.appVersion}}_${{ matrix.arch }}_fixed_webview2-setup.nsis.zip.sig'
 
       - name: Upload Release
         uses: softprops/action-gh-release@v2
         with:
           tag_name: alpha
-          name: "Clash Verge Rev Alpha"
+          name: "Moon Alpha"
           body: "More new features are now supported."
           prerelease: true
           token: ${{ secrets.GITHUB_TOKEN }}
@@ -320,43 +320,11 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - run: |
-          cat > release.txt << 'EOF'
-          ## 我应该下载哪个版本？
-
-          ### MacOS
-          - MacOS intel芯片: x64.dmg
-          - MacOS apple M芯片: aarch64.dmg
-
-          ### Linux
-          - Linux 64位: amd64.deb/amd64.rpm
-          - Linux arm64 architecture: arm64.deb/aarch64.rpm
-          - Linux armv7架构: armhf.deb/armhfp.rpm
-
-          ### Windows (Win7 用户请查看下面FAQ中的解决方案)
-          #### 正常版本(推荐)
-          - 64位: x64-setup.exe
-          - arm64架构: arm64-setup.exe
-          #### 便携版问题很多不再提供
-          #### 内置Webview2版(体积较大，仅在企业版系统或无法安装webview2时使用)
-          - 64位: x64_fixed_webview2-setup.exe
-          - arm64架构: arm64_fixed_webview2-setup.exe
-
-          ### FAQ
-
-          - [常见问题](https://clash-verge-rev.github.io/faq/windows.html)
-
-          ### 稳定机场VPN推荐
-          - [狗狗加速](https://verge.dginv.click/#/register?code=oaxsAGo6)
-
-          Created at  ${{ env.BUILDTIME }}.
-          EOF
-
       - name: Upload Release
         uses: softprops/action-gh-release@v2
         with:
           tag_name: alpha
-          name: "Clash Verge Rev Alpha"
+          name: "Moon Alpha"
           body_path: release.txt
           prerelease: true
           token: ${{ secrets.GITHUB_TOKEN }}
