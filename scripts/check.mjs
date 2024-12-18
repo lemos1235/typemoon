@@ -56,8 +56,8 @@ const SIDECAR_HOST = target
 
 /* ======= clash meta stable ======= */
 const META_VERSION_URL =
-  "https://github.com/MetaCubeX/mihomo/releases/latest/download/version.txt";
-const META_URL_PREFIX = `https://github.com/MetaCubeX/mihomo/releases/download`;
+  "https://github.com/lemos1235/Meta/releases/latest/download/version.txt";
+const META_URL_PREFIX = `https://github.com/lemos1235/Meta/releases/download`;
 let META_VERSION;
 
 const META_MAP = {

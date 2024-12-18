@@ -3,6 +3,7 @@
   "version": "2.0.0",
   "license": "GPL-3.0-only",
   "scripts": {
+    "check": "node scripts/check.mjs",
     "dev": "cross-env RUST_BACKTRACE=1 tauri dev",
     "dev:diff": "cross-env RUST_BACKTRACE=1 tauri dev -f verge-dev",
     "build": "tauri build",
@@ -10,9 +11,7 @@
     "web:dev": "vite",
     "web:build": "tsc --noEmit && vite build",
     "web:serve": "vite preview",
-    "prettier": "prettier --write 'src/**/*.{ts,tsx,js,css,scss}'",
-    "check": "node scripts/check.mjs",
-    "prepare": "husky"
+    "prettier": "prettier --write 'src/**/*.{ts,tsx,js,css,scss}'"
   },
   "dependencies": {
     "@dnd-kit/core": "^6.1.0",
