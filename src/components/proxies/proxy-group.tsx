@@ -39,7 +39,11 @@ export const LocalProxies = () => {
 
   return (
     <Box sx={{ height: "100%", overflowY: "auto" }}>
-      <Stack direction="row" justifyContent="flex-end" marginBottom={"-8px"}>
+      <Stack
+        direction="row"
+        justifyContent="flex-end"
+        marginBottom={"-8px"}
+        marginRight={"3px"}>
         <IconButton
           color="primary"
           onClick={() => proxyEditDialogRef.current?.create()}>

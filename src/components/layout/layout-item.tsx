@@ -55,7 +55,7 @@ export const LayoutItem = (props: Props) => {
             sx={{
               color: "text.primary",
               justifyContent: "center",
-              minWidth: "38px",
+              minWidth: "0",
             }}>
             {icon}
           </ListItemIcon>

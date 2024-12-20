@@ -1,5 +1,19 @@
 {
   "$schema": "../node_modules/@tauri-apps/cli/config.schema.json",
+  "productName": "Moon",
+  "version": "2.0.1",
+  "identifier": "club.lemos.typemoon",
+  "app": {
+    "security": {
+      "capabilities": ["desktop-capability", "migrated"],
+      "assetProtocol": {
+        "scope": ["$APPDATA/**", "$RESOURCE/../**", "**"],
+        "enable": true
+      },
+      "csp": null
+    },
+    "windows": []
+  },
   "bundle": {
     "active": true,
     "shortDescription": "Moon",
@@ -22,19 +36,5 @@
     "frontendDist": "../dist",
     "beforeDevCommand": "pnpm run web:dev",
     "devUrl": "http://localhost:3000/"
-  },
-  "productName": "Moon",
-  "version": "2.0.0",
-  "identifier": "club.lemos.typemoon",
-  "app": {
-    "security": {
-      "capabilities": ["desktop-capability", "migrated"],
-      "assetProtocol": {
-        "scope": ["$APPDATA/**", "$RESOURCE/../**", "**"],
-        "enable": true
-      },
-      "csp": null
-    },
-    "windows": []
   }
 }

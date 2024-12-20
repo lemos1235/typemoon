@@ -28,12 +28,13 @@
   }
 
   &__left {
-    flex: 1 0 60px;
+    flex: 1 0 72px;
     display: flex;
     height: 100%;
     width: 100%;
 
     .the-navmenu {
+      width: 100%;
       display: flex;
       padding: 0px 0px 8px;
       flex-direction: column;
