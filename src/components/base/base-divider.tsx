@@ -1,8 +1,8 @@
 import { Divider, styled } from "@mui/material";
 
 const BaseDivider = styled(Divider)(({ theme }) => ({
-  borderColor: "#EEEEEE",
-  ...theme.applyStyles("dark", { borderColor: "#1b1b1b" }),
+  borderColor: "#f8f8f8",
+  ...theme.applyStyles("dark", { borderColor: "#212121" }),
 }));
 
 export default BaseDivider;

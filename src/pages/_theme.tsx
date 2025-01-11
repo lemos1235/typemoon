@@ -10,13 +10,13 @@ export default function ToggleThemeLayout() {
       dark: {
         palette: {
           mode: "dark",
-          primary: { main: "#3CB371" },
+          primary: { main: "#4CD4BF" },
         },
       },
       light: {
         palette: {
           mode: "light",
-          primary: { main: "#3CB371" },
+          primary: { main: "#4CD4BF" },
         },
       },
     },
@@ -56,7 +56,7 @@ export default function ToggleThemeLayout() {
   });
 
   return (
-    <ThemeProvider theme={theme}>
+    <ThemeProvider defaultMode="light" theme={theme}>
       <Layout />
     </ThemeProvider>
   );

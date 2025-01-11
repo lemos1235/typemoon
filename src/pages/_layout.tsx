@@ -1,18 +1,18 @@
 import { Notice } from "@/components/base";
-import { Navmenu } from "@/components/layout/navmenu";
-import { Titlebar } from "@/components/layout/titlebar";
 import { getAxios } from "@/services/api";
 import getSystem from "@/utils/get-system";
-import { Box, Paper, useColorScheme } from "@mui/material";
+import { Box, Paper, Tab, Tabs, useColorScheme } from "@mui/material";
 import { listen } from "@tauri-apps/api/event";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
-import React, { useEffect } from "react";
-import { useLocation, useRoutes } from "react-router-dom";
-import { CSSTransition, TransitionGroup } from "react-transition-group";
+import React, { useEffect, useState } from "react";
 import { getCurrentWebviewWindow } from "@tauri-apps/api/webviewWindow";
 import { mutate, SWRConfig } from "swr";
-import { routers } from "./_routers";
+import { LayoutControl } from "@/components/layout/layout-control";
+import ProxiesPage from "./proxies";
+import RulesPage from "./rules";
+import VpnButton from "@/components/vpn/vpn-button";
+import { LayoutBrand } from "@/components/layout/layout-brand";
 
 dayjs.extend(relativeTime);
 
@@ -21,14 +21,12 @@ const OS = getSystem();
 const appWindow = getCurrentWebviewWindow();
 
 const Layout = () => {
-  const location = useLocation();
-  const routersEles = useRoutes(routers);
-  if (!routersEles) return null;
-
   const { mode } = useColorScheme();
   if (!mode) {
     return null;
   }
+
+  const [tabValue, setTabValue] = useState(0);
 
   useEffect(() => {
     listen("verge://refresh-clash-config", async () => {
@@ -86,24 +84,57 @@ const Layout = () => {
             e.preventDefault();
           }
         }}>
+        {/* 标题栏 */}
         <div className="layout__top" style={{ backgroundColor: "#ebebeb" }}>
-          <Titlebar system={OS} />
+          <Box
+            className="the-bar"
+            sx={(theme) => ({
+              background: "#fff",
+              ...theme.applyStyles("dark", {
+                background: "#323232",
+              }),
+            })}>
+            <div className="the-brand">{OS !== "macos" && <LayoutBrand />}</div>
+            <div
+              className="the-dragbar"
+              data-tauri-drag-region="true"
+              style={{ width: "100%" }}>
+              <Tabs
+                value={tabValue}
+                onChange={(event: React.SyntheticEvent, newValue: number) => {
+                  setTabValue(newValue);
+                }}>
+                <Tab disableRipple sx={{ fontWeight: "bold" }} label="节点" />
+                <Tab disableRipple sx={{ fontWeight: "bold" }} label="规则" />
+              </Tabs>
+            </div>
+            <div className="the-controls">
+              {OS !== "macos" && <LayoutControl />}
+            </div>
+          </Box>
         </div>
-        <Box className="layout__main">
-          <div className="layout__left">
-            <Navmenu />
-          </div>
-          <div className="layout__right">
-            <TransitionGroup className="the-content">
-              <CSSTransition
-                key={location.pathname}
-                timeout={300}
-                classNames="page">
-                {React.cloneElement(routersEles, { key: location.pathname })}
-              </CSSTransition>
-            </TransitionGroup>
-          </div>
-        </Box>
+        {/* 主内容 */}
+        <div className="layout__main">
+          <Box className={`tab-content ${tabValue === 0 ? "active" : ""}`}>
+            <ProxiesPage />
+          </Box>
+          <Box className={`tab-content ${tabValue === 1 ? "active" : ""}`}>
+            <RulesPage />
+          </Box>
+        </div>
+        {/* 底部状态兼操作栏 */}
+        <div className="layout__bottom">
+          <Box
+            className="the-bottombar"
+            sx={(theme) => ({
+              background: "#fff",
+              ...theme.applyStyles("dark", {
+                background: "#323232",
+              }),
+            })}>
+            <VpnButton />
+          </Box>
+        </div>
       </Paper>
     </SWRConfig>
   );

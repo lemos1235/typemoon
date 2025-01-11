@@ -9,7 +9,6 @@ if (!window.ResizeObserver) {
 
 import React from "react";
 import { createRoot } from "react-dom/client";
-import { BrowserRouter } from "react-router-dom";
 import { BaseErrorBoundary } from "./components/base";
 import ToggleThemeLayout from "./pages/_theme";
 import { MoonProvider } from "./provider/moon";
@@ -39,9 +38,7 @@ createRoot(container).render(
   <React.StrictMode>
     <MoonProvider>
       <BaseErrorBoundary>
-        <BrowserRouter>
-          <ToggleThemeLayout />
-        </BrowserRouter>
+        <ToggleThemeLayout />
       </BaseErrorBoundary>
     </MoonProvider>
   </React.StrictMode>,

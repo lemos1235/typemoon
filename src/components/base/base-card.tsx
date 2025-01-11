@@ -15,10 +15,11 @@ export function ShadowCard(props: Props) {
           borderRadius: "5px",
           borderStyle: "solid",
           borderWidth: "0.5px",
+          zIndex: 10,
         },
         (theme) => ({
           borderColor: "#F0F0F0",
-          boxShadow: "0px 0.6px 5px #EEEEEE",
+          boxShadow: "0px 2.6px 5px #EEEEEE",
           background: "#fff",
           ...theme.applyStyles("dark", {
             boxShadow: "none",

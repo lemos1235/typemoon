@@ -36,10 +36,12 @@ export const CustomRules = () => {
   }
 
   return (
-    <Box sx={{ height: "100%", overflowY: "auto" }}>
+    <Box sx={{ height: "100%", overflowY: "auto", padding: "0 3px" }}>
       <Stack direction="row" justifyContent="flex-end" marginBottom={"-8px"}>
         <IconButton
           color="primary"
+          disableRipple
+          sx={{ paddingRight: "10px" }}
           onClick={() => ruleEditDialogRef.current?.create()}>
           <Plus />
         </IconButton>
