@@ -77,7 +77,7 @@ export const LayoutControl = () => {
           <HorizontalRuleRounded fontSize="small" />
         </Button>
 
-        <Button
+        {/* <Button
           disableTouchRipple
           size="small"
           sx={{ minWidth, svg: { transform: "scale(0.8)" } }}
@@ -95,7 +95,7 @@ export const LayoutControl = () => {
           ) : (
             <CropSquareRounded fontSize="small" />
           )}
-        </Button>
+        </Button> */}
 
         <Button
           disableTouchRipple

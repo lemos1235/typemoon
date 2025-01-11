@@ -1,6 +1,7 @@
 import { useVerge } from "@/hooks/use-verge";
 import { runAtLeast } from "@/utils/async";
-import { Box, IconButton, styled } from "@mui/material";
+import LoadingButton from "@mui/lab/LoadingButton";
+import { Box, Button, IconButton, styled } from "@mui/material";
 import { useLockFn } from "ahooks";
 import { ArrowDownToDot, LoaderCircle } from "lucide-react";
 import { useState } from "react";
@@ -41,11 +42,26 @@ const VpnButton = (props: Props) => {
         disableFocusRipple
         disableTouchRipple
         disabled={loading}
-        style={{
-          transform: verge?.enable_tun_mode ? "rotate(900deg)" : "rotate(0deg)",
-        }}
         color={verge?.enable_tun_mode ? "primary" : "inherit"}>
-        {loading ? <LoaderCircle /> : <ArrowDownToDot />}
+        {loading ? (
+          <LoadingButton
+            loadingPosition="end"
+            loading
+            loadingIndicator={
+              verge?.enable_tun_mode ? "停止中..." : "加速中..."
+            }
+            variant="outlined">
+            {verge?.enable_tun_mode ? "停止中..." : "加速中..."}
+          </LoadingButton>
+        ) : verge?.enable_tun_mode ? (
+          <Button variant="contained" color="primary">
+            停止
+          </Button>
+        ) : (
+          <Button variant="contained" color="primary">
+            立即启用
+          </Button>
+        )}
       </AnimatedIconButton>
     </Box>
   );

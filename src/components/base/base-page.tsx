@@ -16,9 +16,9 @@ export const BasePage: React.FC<Props> = (props) => {
       <div className="base-page">
         <Box
           sx={(theme) => ({
-            background: "#FFFFFF",
+            background: "#f8f8f8",
             ...theme.applyStyles("dark", {
-              background: "#1c1c1c",
+              background: "#212121",
             }),
           })}
           className={full ? "base-container no-padding" : "base-container"}>
