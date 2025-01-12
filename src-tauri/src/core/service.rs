@@ -35,29 +35,26 @@ pub async fn reinstall_service() -> Result<()> {
     use std::os::windows::process::CommandExt;
 
     let binary_path = dirs::service_path()?;
-    let install_path = binary_path.with_file_name("install-service.exe");
-    let uninstall_path = binary_path.with_file_name("uninstall-service.exe");
+    let install_path = binary_path.with_file_name("prepare-service.exe");
 
     if !install_path.exists() {
         bail!(format!("installer not found: {install_path:?}"));
     }
 
-    if !uninstall_path.exists() {
-        bail!(format!("uninstaller not found: {uninstall_path:?}"));
-    }
-
     let token = Token::with_current_process()?;
     let level = token.privilege_level()?;
     let _ = match level {
-        PrivilegeLevel::NotPrivileged => RunasCommand::new(uninstall_path).show(false).status()?,
-        _ => StdCommand::new(uninstall_path)
+        PrivilegeLevel::NotPrivileged => RunasCommand::new(install_path.clone()).arg("uninstall").show(false).status()?,
+        _ => StdCommand::new(install_path.clone())
+            .arg("uninstall")
             .creation_flags(0x08000000)
             .status()?,
     };
 
     let status = match level {
-        PrivilegeLevel::NotPrivileged => RunasCommand::new(install_path).show(false).status()?,
-        _ => StdCommand::new(install_path)
+        PrivilegeLevel::NotPrivileged => RunasCommand::new(install_path.clone()).arg("install").show(false).status()?,
+        _ => StdCommand::new(install_path.clone())
+            .arg("install")
             .creation_flags(0x08000000)
             .status()?,
     };
@@ -77,38 +74,33 @@ pub async fn reinstall_service() -> Result<()> {
     log::info!(target:"app", "reinstall service");
     use users::get_effective_uid;
 
-    let install_path = tauri::utils::platform::current_exe()?.with_file_name("install-service");
-
-    let uninstall_path = tauri::utils::platform::current_exe()?.with_file_name("uninstall-service");
+    let install_path = tauri::utils::platform::current_exe()?.with_file_name("prepare-service");
 
     if !install_path.exists() {
         bail!(format!("installer not found: {install_path:?}"));
     }
 
-    if !uninstall_path.exists() {
-        bail!(format!("uninstaller not found: {uninstall_path:?}"));
-    }
-
     let install_shell: String = install_path.to_string_lossy().replace(" ", "\\ ");
-    let uninstall_shell: String = uninstall_path.to_string_lossy().replace(" ", "\\ ");
 
     let elevator = crate::utils::help::linux_elevator();
     let status = match get_effective_uid() {
-        0 => StdCommand::new(uninstall_shell).status()?,
+        0 => StdCommand::new(&install_shell).arg("uninstall").status()?,
         _ => StdCommand::new(elevator.clone())
             .arg("sh")
             .arg("-c")
-            .arg(uninstall_shell)
+            .arg(&install_shell)
+            .arg("uninstall")
             .status()?,
     };
     log::info!(target:"app", "status code:{}", status.code().unwrap());
 
     let status = match get_effective_uid() {
-        0 => StdCommand::new(install_shell).status()?,
+        0 => StdCommand::new(&install_shell).arg("install").status()?,
         _ => StdCommand::new(elevator.clone())
             .arg("sh")
             .arg("-c")
-            .arg(install_shell)
+            .arg(&install_shell)
+            .arg("install")
             .status()?,
     };
 
@@ -127,21 +119,15 @@ pub async fn reinstall_service() -> Result<()> {
     log::info!(target:"app", "reinstall service");
 
     let binary_path = dirs::service_path()?;
-    let install_path = binary_path.with_file_name("install-service");
-    let uninstall_path = binary_path.with_file_name("uninstall-service");
+    let install_path = binary_path.with_file_name("prepare-service");
 
     if !install_path.exists() {
         bail!(format!("installer not found: {install_path:?}"));
     }
 
-    if !uninstall_path.exists() {
-        bail!(format!("uninstaller not found: {uninstall_path:?}"));
-    }
-
     let install_shell: String = install_path.to_string_lossy().into_owned();
-    let uninstall_shell: String = uninstall_path.to_string_lossy().into_owned();
     let command = format!(
-        r#"do shell script "sudo '{uninstall_shell}' && sudo '{install_shell}'" with administrator privileges"#
+        r#"do shell script "sudo '{install_shell}' uninstall && sudo '{install_shell}' install" with administrator privileges"#
     );
 
     log::debug!(target: "app", "command: {}", command);

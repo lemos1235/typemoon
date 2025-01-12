@@ -305,11 +305,7 @@ const resolvePlugin = async () => {
 
 // service chmod
 const resolveServicePermission = async () => {
-  const serviceExecutables = [
-    "clash-verge-service*",
-    "install-service*",
-    "uninstall-service*",
-  ];
+  const serviceExecutables = ["clash-verge-service*", "prepare-service*"];
   const resDir = path.join(cwd, "src-tauri/resources");
   for (let f of serviceExecutables) {
     // 使用glob模块来处理通配符
@@ -326,7 +322,7 @@ const resolveServicePermission = async () => {
 /**
  * main
  */
-const SERVICE_URL = `https://github.com/clash-verge-rev/clash-verge-service/releases/download/${SIDECAR_HOST}`;
+const SERVICE_URL = `https://github.com/lemos1235/clash-verge-service/releases/download/${SIDECAR_HOST}`;
 
 const resolveService = () => {
   let ext = platform === "win32" ? ".exe" : "";
@@ -341,18 +337,8 @@ const resolveInstall = () => {
   let ext = platform === "win32" ? ".exe" : "";
   let suffix = platform === "linux" ? "-" + SIDECAR_HOST : "";
   resolveResource({
-    file: "install-service" + suffix + ext,
-    downloadURL: `${SERVICE_URL}/install-service${ext}`,
-  });
-};
-
-const resolveUninstall = () => {
-  let ext = platform === "win32" ? ".exe" : "";
-  let suffix = platform === "linux" ? "-" + SIDECAR_HOST : "";
-
-  resolveResource({
-    file: "uninstall-service" + suffix + ext,
-    downloadURL: `${SERVICE_URL}/uninstall-service${ext}`,
+    file: "prepare-service" + suffix + ext,
+    downloadURL: `${SERVICE_URL}/prepare-service${ext}`,
   });
 };
 
@@ -393,7 +379,6 @@ const tasks = [
   { name: "plugin", func: resolvePlugin, retry: 5, winOnly: true },
   { name: "service", func: resolveService, retry: 5 },
   { name: "install", func: resolveInstall, retry: 5 },
-  { name: "uninstall", func: resolveUninstall, retry: 5 },
   // { name: "mmdb", func: resolveMmdb, retry: 5 },
   // { name: "geosite", func: resolveGeosite, retry: 5 },
   // { name: "geoip", func: resolveGeoIP, retry: 5 },
@@ -432,10 +417,10 @@ const tasks = [
 async function runTask() {
   const task = tasks.shift();
   if (!task) return;
-  if (task.winOnly && platform !== "win32") return runTask();
-  if (task.linuxOnly && platform !== "linux") return runTask();
   if (task.unixOnly && platform === "win32") return runTask();
+  if (task.winOnly && platform !== "win32") return runTask();
   if (task.macosOnly && platform !== "darwin") return runTask();
+  if (task.linuxOnly && platform !== "linux") return runTask();
 
   for (let i = 0; i < task.retry; i++) {
     try {

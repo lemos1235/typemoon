@@ -1,2 +1,2 @@
 #!/bin/bash
-/usr/bin/uninstall-service
+/usr/bin/prepare-service uninstall
