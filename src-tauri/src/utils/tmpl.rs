@@ -14,10 +14,10 @@ rules: []
 pub const ITEM_MERGE: &str = "# Profile Enhancement Merge Template for Clash Verge
 
 profile:
-  store-selected: true
+  store-selected: false
 
 dns:
-  use-system-hosts: false
+  use-system-hosts: true
 ";
 
 pub const ITEM_MERGE_EMPTY: &str = "# Profile Enhancement Merge Template for Clash Verge

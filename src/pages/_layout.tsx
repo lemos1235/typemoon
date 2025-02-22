@@ -104,8 +104,16 @@ const Layout = () => {
                 onChange={(event: React.SyntheticEvent, newValue: number) => {
                   setTabValue(newValue);
                 }}>
-                <Tab disableRipple sx={{ fontWeight: "bold" }} label="节点" />
-                <Tab disableRipple sx={{ fontWeight: "bold" }} label="规则" />
+                <Tab
+                  disableRipple
+                  sx={{ fontWeight: "bold", fontSize: "16px" }}
+                  label="节点"
+                />
+                <Tab
+                  disableRipple
+                  sx={{ fontWeight: "bold", fontSize: "16px" }}
+                  label="规则"
+                />
               </Tabs>
             </div>
             <div className="the-controls">
